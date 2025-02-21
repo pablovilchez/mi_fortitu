@@ -1,7 +1,10 @@
-part of 'auth_cubit.dart';
+part of 'auth_bloc.dart';
 
-abstract class AuthState {
+abstract class AuthState extends Equatable {
   const AuthState();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class AuthInitial extends AuthState {
@@ -14,14 +17,21 @@ class AuthLoading extends AuthState {
 
 class AuthError extends AuthState {
   final String message;
-
   const AuthError(this.message);
 }
 
-class AuthSuccess extends AuthState {
-  const AuthSuccess();
+class AuthNotAuthenticated extends AuthState {
+  const AuthNotAuthenticated();
 }
 
-class Authenticated extends AuthState {
-  const Authenticated();
+class AuthAuthenticated extends AuthState {
+  const AuthAuthenticated();
+}
+
+class AuthApproved extends AuthState {
+  const AuthApproved();
+}
+
+class AuthPendingApproval extends AuthState {
+  const AuthPendingApproval();
 }

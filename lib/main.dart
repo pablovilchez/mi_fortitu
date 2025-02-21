@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mi_fortitu/core/router/app_router.dart';
-import 'package:mi_fortitu/features/auth/presentation/bloc/auth_cubit.dart';
+import 'package:mi_fortitu/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -24,7 +24,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(),
+      create: (context) => AuthBloc(),
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         routerConfig: appRouter,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mi_fortitu/features/auth/presentation/bloc/auth_cubit.dart';
+import 'package:mi_fortitu/features/auth/presentation/bloc/auth_bloc.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -12,6 +12,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController(text: 'pablovilchez.r@gmail.com');
+  final TextEditingController _displayNameController = TextEditingController(text: 'Pol');
   final TextEditingController _passwordController = TextEditingController(text: 'Abcd1234');
   final TextEditingController _confirmPasswordController = TextEditingController(text: 'Abcd1234');
 
@@ -22,10 +23,10 @@ class _LoginScreenState extends State<RegisterScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          child: BlocConsumer<AuthCubit, AuthState>(
+          child: BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
-              if (state is AuthSuccess) {
-                context.go('/login');
+              if (state is AuthPendingApproval) {
+                context.go('/waitlist');
               } else if (state is AuthError) {
                 ScaffoldMessenger.of(
                   context,
@@ -34,13 +35,21 @@ class _LoginScreenState extends State<RegisterScreen> {
             },
             builder: (context, state) {
               final bool isLoading = state is AuthLoading;
+              final bool isIntraLoggedIn =
+                  context.read<AuthBloc>().isIntraLoggedIn;
     
               return Column(
                 children: [
                   TextField(
                     controller: _emailController,
-                    decoration: InputDecoration(labelText: 'Email'),
+                    decoration: InputDecoration(labelText: 'Email / Account'),
                   ),
+
+                  TextField(
+                    controller: _displayNameController,
+                    decoration: InputDecoration(labelText: 'Display Name'),
+                  ),
+
                   TextField(
                     controller: _passwordController,
                     decoration: InputDecoration(labelText: 'Password'),
@@ -53,18 +62,38 @@ class _LoginScreenState extends State<RegisterScreen> {
                     ),
                     obscureText: true,
                   ),
+
+                  SizedBox(height: 16),
+                  
+                  isIntraLoggedIn
+                    ? ElevatedButton(
+                      onPressed: null, // TODO: Implement revoke 42 API
+                      child: Text(
+                        'Revoke 42 API',
+                        style: TextStyle(color: Colors.lightGreen),
+                      ),
+                    )
+                    : ElevatedButton(
+                      onPressed: null, // TODO: Implement authorize 42 API
+                      child: Text(
+                        'Authorize 42 API',
+                        style: TextStyle(color: Colors.redAccent),
+                      ),
+                    ),
+
+                SizedBox(height: 16),
+
                   ElevatedButton(
                     onPressed:
-                        isLoading
-                            ? null
-                            : () {
+                        isLoading ? null : () {
                               if (_passwordController.text ==
                                   _confirmPasswordController.text) {
-                                context.read<AuthCubit>().register(
+                                context.read<AuthBloc>().add(
+                                  AuthRegister(
                                   _emailController.text,
                                   _passwordController.text,
                                   'name'
-                                );
+                                ));
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(

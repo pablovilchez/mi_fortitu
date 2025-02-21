@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mi_fortitu/features/auth/presentation/bloc/auth_cubit.dart';
+import 'package:mi_fortitu/features/auth/presentation/bloc/auth_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,8 +11,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController(text: 'pablovilchez.r@gmail.com');
-  final TextEditingController _passwordController = TextEditingController(text: 'Abcd1234');
+  final TextEditingController _emailController = TextEditingController(
+    text: 'pablovilchez.r@gmail.com',
+  );
+  final TextEditingController _passwordController = TextEditingController(
+    text: 'Abcd1234',
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +24,12 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(title: Text('Login Screen')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: BlocConsumer<AuthCubit, AuthState>(
+        child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
-            if (state is AuthSuccess) {
-              FocusScope.of(context).unfocus();
+            if (state is AuthApproved) {
               context.go('/home');
+            } else if (state is AuthPendingApproval) {
+              context.go('/waitlist');
             } else if (state is AuthError) {
               ScaffoldMessenger.of(
                 context,
@@ -33,28 +38,48 @@ class _LoginScreenState extends State<LoginScreen> {
           },
           builder: (context, state) {
             final bool isLoading = state is AuthLoading;
-        
+            final bool isIntraLoggedIn =
+                context.read<AuthBloc>().isIntraLoggedIn;
+
             return Column(
               children: [
                 TextField(
                   controller: _emailController,
                   decoration: InputDecoration(labelText: 'Email'),
                 ),
-    
+
                 TextField(
                   controller: _passwordController,
                   decoration: InputDecoration(labelText: 'Password'),
                   obscureText: true,
                 ),
-    
+
+                SizedBox(height: 16),
+
+                isIntraLoggedIn
+                    ? ElevatedButton(
+                      onPressed: null,
+                      child: Text(
+                        '42 API authorized',
+                        style: TextStyle(color: Colors.lightGreen),
+                      ),
+                    )
+                    : ElevatedButton(
+                      onPressed: null, // TODO: Implement authorize 42 API
+                      child: Text(
+                        'Authorize 42 API',
+                        style: TextStyle(color: Colors.redAccent),
+                      ),
+                    ),
+
+                SizedBox(height: 16),
+
                 ElevatedButton(
                   onPressed:
-                      isLoading
-                          ? null
-                          : () {
-                            context.read<AuthCubit>().login(
-                              _emailController.text,
-                              _passwordController.text,
+                      isLoading ? null : () {
+                          context.read<AuthBloc>().add(
+                              AuthLogin(_emailController.text,
+                              _passwordController.text),
                             );
                           },
                   child: Text('Login'),

@@ -18,6 +18,16 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
+  Future<Either<Failure, Unit>> authCheck() async {
+    try {
+      await _supabaseDatasource.checkAuth();
+      return Right(unit);
+    } catch (e) {
+      return Left(AuthFailure(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, Unit>> authRegister(String email, String password, String displayName) async {
     try {
       await _supabaseDatasource.register(email, password);
@@ -53,6 +63,16 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<Either<Failure, IntraUser>> getIntraUserProfile(String login) {
     // TODO: implement getIntraUserProfile
     throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, bool>> checkApproval() async {
+    try {
+      final result = await _supabaseDatasource.checkApproval();
+      return Right(result);
+    } catch (e) {
+      return Left(AuthFailure(e.toString()));
+    }
   }
   
 }

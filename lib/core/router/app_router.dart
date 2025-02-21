@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mi_fortitu/features/auth/presentation/screens/login_screen.dart';
-import 'package:mi_fortitu/features/auth/presentation/screens/register_screen.dart';
-import 'package:mi_fortitu/features/auth/presentation/screens/splash_screen.dart';
+import 'package:mi_fortitu/features/auth/presentation/screens/screens.dart';
+
 
 final appRouter = GoRouter(
   initialLocation: '/splash',
@@ -28,6 +27,10 @@ final appRouter = GoRouter(
               body: Center(child: Text('Home Screen')),
             ),
           ),
+    ),
+    GoRoute(
+      path: '/waitlist',
+      pageBuilder: (context, state) => MaterialPage(child: WaitlistScreen()),
     ),
     GoRoute(
       path: '/login-callback',
