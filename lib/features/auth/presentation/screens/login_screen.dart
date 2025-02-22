@@ -59,27 +59,31 @@ class _LoginScreenState extends State<LoginScreen> {
                 isIntraLoggedIn
                     ? ElevatedButton(
                       onPressed: null,
-                      child: Text(
-                        '42 API authorized',
-                        style: TextStyle(color: Colors.lightGreen),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green.shade200,
                       ),
+                      child: Text('Authorized (withraw)'),
                     )
                     : ElevatedButton(
-                      onPressed: null, // TODO: Implement authorize 42 API
-                      child: Text(
-                        'Authorize 42 API',
-                        style: TextStyle(color: Colors.redAccent),
+                      onPressed: () {}, // TODO: Implement authorize 42 API
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red.shade200,
                       ),
+                      child: Text('Intra Authorize'),
                     ),
 
                 SizedBox(height: 16),
 
                 ElevatedButton(
                   onPressed:
-                      isLoading ? null : () {
-                          context.read<AuthBloc>().add(
-                              AuthLogin(_emailController.text,
-                              _passwordController.text),
+                      isLoading
+                          ? null
+                          : () {
+                            context.read<AuthBloc>().add(
+                              AuthLogin(
+                                _emailController.text,
+                                _passwordController.text,
+                              ),
                             );
                           },
                   child: Text('Login'),

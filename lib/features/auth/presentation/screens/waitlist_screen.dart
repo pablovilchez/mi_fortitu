@@ -34,7 +34,7 @@ class WaitlistScreen extends StatelessWidget {
             SizedBox(height: 40),
             ElevatedButton(
               onPressed: () => context.go('/login'),
-              child: Text('Go back'),
+              child: Text('Log out?'),
             ),
           ],
         ),

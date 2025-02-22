@@ -21,7 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onLogin(AuthLogin event, Emitter<AuthState> emit) async {
     emit(const AuthLoading());
 
-    final result = await LoginUsecase(
+    final result = await LoginAuthUsecase(
       authRepository,
     ).call(event.email, event.password);
 
@@ -34,9 +34,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onRegister(AuthRegister event, Emitter<AuthState> emit) async {
     emit(const AuthLoading());
 
-    final result = await RegisterUsecase(
+    final result = await SignInUsecase(
       authRepository,
-    ).call(event.email, event.password, event.displayName);
+    ).call(event.email, event.password);
 
     result.fold(
       (failure) => emit(AuthError(failure.message)),

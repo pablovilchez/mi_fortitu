@@ -7,6 +7,4 @@ class AuthUserModel extends AuthUser {
     required super.accessToken,
     required super.refreshToken,
   });
-
-
 }

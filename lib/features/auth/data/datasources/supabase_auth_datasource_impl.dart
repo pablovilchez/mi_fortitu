@@ -65,11 +65,11 @@ class SupabaseAuthDatasourceImpl {
     }
   }
 
-  Future<void> logout() async {
+  Future<void> signOut() async {
     try {
       await _supabase.auth.signOut();
     } catch (e) {
-      throw Exception('Logout error: $e');
+      throw Exception('Signout error: $e');
     }
   }
 
@@ -88,7 +88,7 @@ class SupabaseAuthDatasourceImpl {
     try {
       final response =
           await _supabase.from('profiles').select().single();
-      return response['is_approved'] as bool;
+      return response['is_approved'];
     } catch (e) {
       throw Exception('Error checking approval: $e');
     }

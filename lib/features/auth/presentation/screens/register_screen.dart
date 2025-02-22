@@ -12,7 +12,6 @@ class RegisterScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController(text: 'pablovilchez.r@gmail.com');
-  final TextEditingController _displayNameController = TextEditingController(text: 'Pol');
   final TextEditingController _passwordController = TextEditingController(text: 'Abcd1234');
   final TextEditingController _confirmPasswordController = TextEditingController(text: 'Abcd1234');
 
@@ -43,11 +42,6 @@ class _LoginScreenState extends State<RegisterScreen> {
                   TextField(
                     controller: _emailController,
                     decoration: InputDecoration(labelText: 'Email / Account'),
-                  ),
-
-                  TextField(
-                    controller: _displayNameController,
-                    decoration: InputDecoration(labelText: 'Display Name'),
                   ),
 
                   TextField(
