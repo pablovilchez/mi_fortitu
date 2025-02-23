@@ -3,11 +3,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class SecureStorageHelper {
   static const _storage = FlutterSecureStorage();
 
-  // Keys for Supabase tokens
+  // Supabase names
   static const _supabaseAccessTokenKey = 'supabase_access_token';
   static const _supabaseRefreshTokenKey = 'supabase_refresh_token';
 
-  // Keys for Intra 42 tokens
+  // Intra 42 names
+  static const _intra42ClientId = 'intra42_client_id';
+  static const _intra42ClientSecret = 'intra42_client_secret';
   static const _intra42AccessTokenKey = 'intra42_access_token';
   static const _intra42RefreshTokenKey = 'intra42_refresh_token';
 
@@ -48,14 +50,23 @@ class SecureStorageHelper {
   }
 
   // Methods for Intra 42 tokens
-  static Future<Map<String, String?>> getIntra42Tokens() async {
-    return {
-      'accessToken': await _getToken(_intra42AccessTokenKey),
-      'refreshToken': await _getToken(_intra42RefreshTokenKey),
-    };
+  static Future<String?> getIntraAccessToken() async {
+    return await _getToken(_intra42AccessTokenKey);
   }
 
-  static Future<void> saveIntra42Tokens(
+  static Future<String?> getIntraRefreshToken() async {
+    return await _getToken(_intra42RefreshTokenKey);
+  }
+
+  static Future<String?> getIntraClientId() async {
+    return await _getToken(_intra42ClientId);
+  }
+
+  static Future<String?> getIntraClientSecret() async {
+    return await _getToken(_intra42ClientSecret);
+  }
+
+  static Future<void> saveIntraTokens(
     String accessToken,
     String refreshToken,
   ) async {
@@ -63,7 +74,15 @@ class SecureStorageHelper {
     await _saveToken(_intra42RefreshTokenKey, refreshToken);
   }
 
-  static Future<void> deleteIntra42Tokens() async {
+  static Future<void> saveIntraCredentials(
+    String clientId,
+    String clientSecret,
+  ) async {
+    await _saveToken(_intra42ClientId, clientId);
+    await _saveToken(_intra42ClientSecret, clientSecret);
+  }
+
+  static Future<void> deleteIntraTokens() async {
     await _deleteToken(_intra42AccessTokenKey);
     await _deleteToken(_intra42RefreshTokenKey);
   }
