@@ -86,6 +86,31 @@ class SupaLoginRepository {
     }
   }
 
+  /// Attempts to check if the user is authenticated.
+  ///
+  /// Returns a [Future] that completes with an [Either]:
+  ///
+  /// * [Failure] if an error occurs.
+  /// * [Unit] if successful.
+  Future<Either<Failure, Unit>> checkCredentials() async {
+    try {
+      final session = _supabase.auth.currentSession;
+      if (session == null) {
+        throw Exception('User not authenticated');
+      }
+
+      await _supabase.auth.refreshSession();
+      final user = _supabase.auth.currentUser;
+      if (user == null) {
+        throw Exception('Cannot identify user');
+      }
+
+      return Right(unit);
+    } catch (e) {
+      return Left(AuthFailure(e.toString()));
+    }
+  }
+
   /// Attempts to get the role of the current user.
   ///
   /// Returns a [Future] that completes with an [Either]:
