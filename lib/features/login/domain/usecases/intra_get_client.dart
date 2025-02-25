@@ -10,6 +10,7 @@ class IntraGetClient {
 
   Future<Either<Failure, IntraLogin>> call() async {
     final intraLogin = await repository.createClient();
+
     return intraLogin;
   }
 }

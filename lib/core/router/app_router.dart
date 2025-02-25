@@ -16,4 +16,11 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) => MaterialPage(child: LoginScreen()),
     ),
   ],
+  redirect: (BuildContext context, GoRouterState state) {
+    if (state.uri.toString().contains('/login-callback')) {
+      return '/login';
+    } else {
+      return null;
+    }
+  }
 );

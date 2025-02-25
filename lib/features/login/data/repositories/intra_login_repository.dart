@@ -63,10 +63,19 @@ class IntraLoginRepository {
   }
 
   Future<void> _redirect(Uri authorizationUrl) async {
-    if (await canLaunchUrl(authorizationUrl)) {
-      await launchUrl(authorizationUrl);
-    } else {
+    final bool canLaunch = await canLaunchUrl(authorizationUrl);
+
+    if (!canLaunch) {
       throw Exception('Could not launch $authorizationUrl');
+    }
+
+    final bool launched = await launchUrl(
+      authorizationUrl,
+      mode: LaunchMode.externalApplication,
+    );
+
+    if (!launched) {
+      throw Exception('Could not launch URL: $authorizationUrl');
     }
   }
 
