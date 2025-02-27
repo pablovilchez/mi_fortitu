@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-
 import 'package:mi_fortitu/features/login/data/models/supa_login_model.dart';
 import 'package:mi_fortitu/features/login/domain/failures.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -56,7 +55,7 @@ class SupaLoginRepository {
       }
       return Right(SupaLoginModel.fromAuthResponse(response));
     } catch (e) {
-      return Left(AuthFailure(e.toString()));
+      return Left(RegisterFailure(e.toString()));
     }
   }
 
@@ -82,7 +81,7 @@ class SupaLoginRepository {
       }
       return Right(unit);
     } catch (e) {
-      return Left(AuthFailure(e.toString()));
+      return Left(DatabaseFailure(e.toString()));
     }
   }
 
@@ -107,7 +106,7 @@ class SupaLoginRepository {
 
       return Right(unit);
     } catch (e) {
-      return Left(AuthFailure(e.toString()));
+      return Left(NoCredentialsFailure(e.toString()));
     }
   }
 
@@ -121,7 +120,11 @@ class SupaLoginRepository {
     try {
       final response = await _supabase.from('profiles').select().single();
       if (response.isEmpty) {
-        throw Exception('User not found');
+        await addProfile(
+          _supabase.auth.currentUser!.id,
+          _supabase.auth.currentUser!.email ?? 'undefined',
+        );
+        return Right('waitlist');
       }
       return Right(response['role'] as String);
     } catch (e) {

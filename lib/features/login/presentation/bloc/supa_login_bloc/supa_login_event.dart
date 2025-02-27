@@ -13,16 +13,22 @@ class SupaAuthEvent extends SupaLoginEvent {
 class SupaRegisterEvent extends SupaLoginEvent {
   final String email;
   final String password;
-  final String confirmPassword;
+  final String loginName;
 
   SupaRegisterEvent({
     required this.email,
     required this.password,
-    required this.confirmPassword,
+    required this.loginName,
   });
 }
 
-class SupaCheckLoginEvent extends SupaLoginEvent {}
+class SupaInitCheckEvent extends SupaLoginEvent {}
+
+class SupaErrorEvent extends SupaLoginEvent {
+  final String message;
+
+  SupaErrorEvent(this.message);
+}
 
 class SupaCheckRolEvent extends SupaLoginEvent {}
 

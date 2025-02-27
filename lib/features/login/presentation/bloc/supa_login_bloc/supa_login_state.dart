@@ -9,8 +9,16 @@ final class SupaLoginLoading extends SupaLoginState {}
 
 final class SupaLoginSuccess extends SupaLoginState {}
 
-final class SupaLoginFailure extends SupaLoginState {}
+final class SupaLoginFailure extends SupaLoginState {
+  final String message;
+
+  SupaLoginFailure(this.message);
+}
 
 final class SupaLoginError extends SupaLoginState {}
 
 final class SupaLoginRegister extends SupaLoginState {}
+
+final class SupaLoginWaitlist extends SupaLoginState {}
+
+final class SupaLoginHome extends SupaLoginState {}
