@@ -1,35 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:mi_fortitu/features/login/presentation/widgets/intra_button.dart';
-import 'package:mi_fortitu/features/login/presentation/widgets/supa_form.dart';
-
-import '../../../../core/utils/snackbar_helper.dart';
-import '../bloc/supa_login_bloc/supa_login_bloc.dart';
+import 'package:mi_fortitu/core/utils/snackbar_helper.dart';
+import 'package:mi_fortitu/features/login/presentation/bloc/login_bloc/login_bloc.dart';
+import 'package:mi_fortitu/features/login/presentation/widgets/login_text_fields.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SupaLoginBloc, SupaLoginState>(
+    return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
-        if (state is SupaLoginSuccess) {
+        if (state is LoginSuccess) {
           context.go('/home');
-        } else if (state is SupaLoginWaitlist) {
+        } else if (state is WaitlistState) {
           context.go('/waitlist');
-        } else if (state is SupaLoginFailure) {
+        } else if (state is RequestError) {
           SnackbarHelper.showSnackbar(context, state.message, isError: true);
         }
       },
-      child: Scaffold(
-        body: Center(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [SupaForm(), const SizedBox(height: 60), IntraButton()],
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          body: Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(0xFF9072F3), Color(0xFFE0E0E0)],
+              ),
+            ),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 90),
+                  Image.asset('assets/images/logo_mi_fortitu.png', height: 200),
+                  const Text(
+                    'v 0.1.0',
+                    style: TextStyle(color: Colors.deepPurple),
+                  ),
+                  const SizedBox(height: 50),
+                  const LoginForm(),
+                  const SizedBox(height: 40),
+                ],
+              ),
             ),
           ),
         ),

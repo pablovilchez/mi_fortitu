@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mi_fortitu/core/themes/main_theme.dart';
 import 'package:mi_fortitu/features/login/presentation/bloc/intra_login_cubit/intra_login_cubit.dart';
-import 'package:mi_fortitu/features/login/presentation/bloc/supa_login_bloc/supa_login_bloc.dart';
+import 'package:mi_fortitu/features/login/presentation/bloc/login_bloc/login_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:mi_fortitu/core/router/app_router.dart';
@@ -36,7 +36,7 @@ class MainApp extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => SupaLoginBloc()),
+        BlocProvider(create: (_) => LoginBloc()),
         BlocProvider(create: (_) => IntraLoginCubit()),
       ],
       child: MaterialApp.router(

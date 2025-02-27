@@ -19,10 +19,6 @@ final appRouter = GoRouter(
       path: '/waitlist',
       pageBuilder: (context, state) => MaterialPage(child: WaitlistScreen()),
     ),
-    GoRoute(
-      path: '/splash',
-      pageBuilder: (context, state) => MaterialPage(child: SplashScreen()),
-    ),
   ],
   redirect: (BuildContext context, GoRouterState state) {
     if (state.uri.toString().contains('/intra-callback')) {
