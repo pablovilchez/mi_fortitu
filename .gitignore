@@ -16,7 +16,7 @@ migrate_working_dir/
 .env
 
 # Testing
-/test/
+test/resources/*.json
 
 # IntelliJ related
 *.iml

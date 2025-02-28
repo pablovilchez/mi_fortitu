@@ -29,8 +29,10 @@ class MainApp extends StatelessWidget {
     // TextTheme textTheme = createTextTheme(context, "Philosopher", "Philosopher");
     // MaterialTheme theme = MaterialTheme(textTheme);
 
-    return BlocProvider(
-      create: (_) => LoginBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => LoginBloc()),
+      ],
       child: MaterialApp.router(
         // theme: brigthness == Brightness.light ? theme.light() : theme.dark(),
         // theme: MainTheme.theme,
