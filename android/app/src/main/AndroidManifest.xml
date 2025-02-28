@@ -31,7 +31,7 @@
                 <!-- Accepts URIs that begin with YOUR_SCHEME://YOUR_HOST -->
                 <data
                 android:scheme="io.supabase.flutterquickstart"
-                android:host="intra-callback" />
+                android:host="login-callback" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

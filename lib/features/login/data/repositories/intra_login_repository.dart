@@ -19,7 +19,7 @@ class IntraLoginRepository {
   ///
   /// * [Failure] if an error occurs.
   /// * [IntraLoginModel] if successful.
-  Future<Either<Failure, IntraLoginModel>> createClient() async {
+  Future<Either<Failure, IntraLoginModel>> getIntraClient() async {
     try {
       late oauth2.Client client;
       final clientId = dotenv.env['INTRA_CLIENT_ID'];

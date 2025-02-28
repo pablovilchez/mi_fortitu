@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class WaitlistScreen extends StatelessWidget {
   const WaitlistScreen({super.key});
@@ -27,14 +26,17 @@ class WaitlistScreen extends StatelessWidget {
             ),
             SizedBox(height: 40),
             Text(
-              'You will be notified\nif you become a tester.',
+              'Finally, write me on slack!',
               style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () => context.go('/login'),
-              child: Text('Log out?'),
+            SizedBox(height: 10),
+            Text('@pvilchez', style: Theme.of(context).textTheme.titleLarge),
+            SizedBox(height: 30),
+            Text(
+              'Tell me your email, and the reason why\nyou want to join the test version.',
+              style: Theme.of(context).textTheme.bodyLarge,
+              textAlign: TextAlign.center,
             ),
           ],
         ),

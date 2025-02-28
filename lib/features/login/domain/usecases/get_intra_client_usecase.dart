@@ -5,10 +5,10 @@ import 'package:mi_fortitu/features/login/domain/failures.dart';
 
 import 'package:mi_fortitu/features/login/data/repositories/intra_login_repository.dart';
 
-class IntraGetClient {
+class GetIntraClientUsecase {
   final repository = IntraLoginRepository();
 
   Future<Either<Failure, IntraLogin>> call() async {
-    return await repository.createClient();
+    return await repository.getIntraClient();
   }
 }

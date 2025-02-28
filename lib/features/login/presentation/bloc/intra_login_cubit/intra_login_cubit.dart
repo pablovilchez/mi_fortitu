@@ -2,13 +2,14 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import 'package:mi_fortitu/features/login/domain/usecases/intra_get_client.dart';
 import 'package:mi_fortitu/core/utils/secure_storage_helper.dart';
+
+import '../../../domain/usecases/get_intra_client_usecase.dart';
 
 part 'intra_login_state.dart';
 
 class IntraLoginCubit extends Cubit<IntraLoginState> {
-  final intraGetClient = IntraGetClient();
+  final intraGetClient = GetIntraClientUsecase();
 
   IntraLoginCubit() : super(IntraLoginInitial()) {
     checkLoginStatus();

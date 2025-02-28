@@ -1,13 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mi_fortitu/features/login/domain/usecases/check_credentials_usecase.dart';
-import 'package:mi_fortitu/features/login/domain/usecases/get_role_usecase.dart';
-import 'package:mi_fortitu/features/login/domain/usecases/login_usecase.dart';
-
-import 'package:mi_fortitu/features/login/domain/usecases/register_usecase.dart';
+import 'package:mi_fortitu/features/login/domain/usecases/usecases.dart';
 
 part 'login_event.dart';
-
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
@@ -20,71 +15,84 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<ToggleFormEvent>(_onToggleForm);
   }
 
-  Future<void> _onLanding(LandingEvent event,
-      Emitter<LoginState> emit) async {
+  Future<void> _onLanding(LandingEvent event, Emitter<LoginState> emit) async {
     emit(LoadingState());
 
-    final result = await CheckCredentialsUsecase().call();
-    result.fold(
-      (failure) => emit(LoginFormState()),
-      (supaLogin) => emit(LoginSuccess()),
-    );
-  }
-
-  Future<void> _onRequestLogin(RequestLoginEvent event,
-      Emitter<LoginState> emit) async {
-    emit(LoadingState());
-    final result = await LoginUsecase().call(
-      event.email,
-      event.password,
-    );
-    result.fold(
-      (failure) => emit(RequestError(failure.message)),
-      (supaLogin) => add(CheckIntraAuthEvent()),
-    );
-  }
-
-  Future<void> _onRequestRegister(RequestRegisterEvent event,
-      Emitter<LoginState> emit) async {
-    emit(LoadingState());
-    final result = await RegisterUsecase().call(
-      event.email,
-      event.password,
-    );
-    result.fold(
-      (failure) => emit(RequestError(failure.message)),
-      (supaLogin) => emit(RegisterSuccess()),
-    );
-  }
-
-  Future<void> _onCheckIntraAuth(CheckIntraAuthEvent event,
-      Emitter<LoginState> emit) async {
-    emit(LoadingState());
-    final result = await CheckCredentialsUsecase().call();
+    final result = await CheckProfileCredentialsUsecase().call();
     result.fold(
       (failure) => emit(LoginFormState()),
       (supaLogin) => add(CheckRolEvent()),
     );
   }
 
-  Future<void> _onCheckRol(CheckRolEvent event,
-      Emitter<LoginState> emit) async {
+  Future<void> _onRequestLogin(
+    RequestLoginEvent event,
+    Emitter<LoginState> emit,
+  ) async {
+    emit(LoadingState());
+    final result = await LoginUsecase().call(event.email, event.password);
+    result.fold(
+      (failure) {
+        emit(LoginError(failure.message));
+        emit(LoginFormState());
+      },
+      (supaLogin) {
+        add(CheckRolEvent());
+      },
+    );
+  }
+
+  Future<void> _onRequestRegister(
+    RequestRegisterEvent event,
+    Emitter<LoginState> emit,
+  ) async {
+    emit(LoadingState());
+    final result = await RegisterUsecase().call(event.email, event.password);
+    result.fold((failure) {
+      emit(RegisterError(failure.message));
+      emit(RegisterFormState());
+    }, (supaLogin) {
+      emit(RegisterSuccess());
+      emit(LoginFormState());
+    });
+  }
+
+  Future<void> _onCheckRol(
+    CheckRolEvent event,
+    Emitter<LoginState> emit,
+  ) async {
     final role = await GetRoleUseCase().call();
     role.fold(
-      (failure) => add(AddProfileEvent()),
+      (failure) => emit(LoginError(failure.message)),
       (role) {
         if (role == 'waitlist') {
           emit(WaitlistState());
-        } else {
+        } else if (role == 'npc') {
           emit(LoginSuccess());
+        } else {
+          add(CheckIntraAuthEvent());
         }
       },
     );
   }
 
-  Future<void> _onToggleForm(ToggleFormEvent event,
-      Emitter<LoginState> emit) async {
-    if (state is LoginFormState || state is RequestError) {
+  Future<void> _onCheckIntraAuth(
+    CheckIntraAuthEvent event,
+    Emitter<LoginState> emit,
+  ) async {
+    emit(LoadingState());
+    final result = await GetIntraClientUsecase().call();
+    result.fold(
+      (failure) => emit(LoginError(failure.message)),
+      (supaLogin) => emit(LoginSuccess()),
+    );
+  }
+
+  Future<void> _onToggleForm(
+    ToggleFormEvent event,
+    Emitter<LoginState> emit,
+  ) async {
+    if (state is LoginFormState) {
       emit(RegisterFormState());
     } else {
       emit(LoginFormState());

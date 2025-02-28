@@ -15,6 +15,9 @@ migrate_working_dir/
 # Config files
 .env
 
+# Testing
+/test/
+
 # IntelliJ related
 *.iml
 *.ipr

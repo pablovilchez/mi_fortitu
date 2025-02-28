@@ -1,7 +1,7 @@
 part of 'login_bloc.dart';
 
-@immutable
-sealed class LoginState {}
+
+abstract class LoginState {}
 
 final class LandingState extends LoginState {}
 
@@ -13,10 +13,16 @@ final class LoadingState extends LoginState {}
 
 final class LoginSuccess extends LoginState {}
 
-final class RequestError extends LoginState {
+final class LoginError extends LoginState {
   final String message;
 
-  RequestError(this.message);
+  LoginError(this.message);
+}
+
+final class RegisterError extends LoginState {
+  final String message;
+
+  RegisterError(this.message);
 }
 
 final class RegisterSuccess extends LoginState {}

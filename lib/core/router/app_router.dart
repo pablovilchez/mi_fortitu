@@ -21,10 +21,13 @@ final appRouter = GoRouter(
     ),
   ],
   redirect: (BuildContext context, GoRouterState state) {
+    print('Entrada en redirect del router\nDirección: ${state.uri.toString()}'); // DEBUG
     if (state.uri.toString().contains('/intra-callback')) {
+      print('Encuentra /intra-callback. Redirige a login'); // DEBUG
       return '/login';
     } else if (state.uri.toString().contains('/login-callback')) {
-      return '/splash';
+      print('Encuentra /login-callback. Redirige a login'); // DEBUG
+      return '/login';
     }
   }
 );

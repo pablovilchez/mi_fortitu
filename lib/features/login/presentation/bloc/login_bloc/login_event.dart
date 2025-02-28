@@ -26,6 +26,4 @@ class CheckIntraAuthEvent extends LoginEvent {}
 
 class CheckRolEvent extends LoginEvent {}
 
-class AddProfileEvent extends LoginEvent {}
-
 class ToggleFormEvent extends LoginEvent {}

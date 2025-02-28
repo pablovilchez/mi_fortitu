@@ -65,20 +65,13 @@ class SupaLoginRepository {
   ///
   /// * [Failure] if an error occurs.
   /// * [Unit] if successful.
-  Future<Either<Failure, Unit>> addProfile(
-    String userId,
-    String intraLogin, {
-    String role = 'waitlist',
-  }) async {
+  Future<Either<Failure, Unit>> addProfile() async {
     try {
-      final response = await _supabase.from('profiles').upsert({
-        'user_id': userId,
-        'intra_login': intraLogin,
-        'role': role,
+      await _supabase.from('profiles').upsert({
+        'user_id': _supabase.auth.currentUser!.id,
+        'intra_login': _supabase.auth.currentUser!.email,
+        'role': 'waitlist',
       });
-      if (response.error != null) {
-        throw Exception('Cannot add profile');
-      }
       return Right(unit);
     } catch (e) {
       return Left(DatabaseFailure(e.toString()));
@@ -91,7 +84,7 @@ class SupaLoginRepository {
   ///
   /// * [Failure] if an error occurs.
   /// * [Unit] if successful.
-  Future<Either<Failure, Unit>> checkCredentials() async {
+  Future<Either<Failure, Unit>> checkProfileCredentials() async {
     try {
       final session = _supabase.auth.currentSession;
       if (session == null) {
@@ -118,15 +111,15 @@ class SupaLoginRepository {
   /// * [String] if successful.
   Future<Either<Failure, String>> getRole() async {
     try {
-      final response = await _supabase.from('profiles').select().single();
+      final response = await _supabase.from('profiles').select();
       if (response.isEmpty) {
-        await addProfile(
-          _supabase.auth.currentUser!.id,
-          _supabase.auth.currentUser!.email ?? 'undefined',
-        );
+        final addProfileAction = await addProfile();
+        if (addProfileAction.isLeft()) {
+          throw Exception('Cannot add profile');
+        }
         return Right('waitlist');
       }
-      return Right(response['role'] as String);
+      return Right(response.first['role'] as String);
     } catch (e) {
       return Left(DatabaseFailure(e.toString()));
     }
