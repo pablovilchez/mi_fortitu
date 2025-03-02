@@ -1,0 +1,440 @@
+import 'package:mi_fortitu/features/home/domain/entities/entities.dart';
+
+class IntraProfileModel extends IntraProfile {
+  IntraProfileModel({
+    required super.id,
+    required super.email,
+    required super.login,
+    required super.firstName,
+    required super.lastName,
+    required super.usualFullName,
+    required super.usualFirstName,
+    required super.profileUrl,
+    required super.displayName,
+    required super.kind,
+    required super.image,
+    required super.staff,
+    required super.correctionPoint,
+    required super.poolMonth,
+    required super.poolYear,
+    required super.wallet,
+    required super.createdAt,
+    required super.updatedAt,
+    required super.alumnizedAt,
+    required super.alumni,
+    required super.active,
+    required super.groups,
+    required super.cursusUsers,
+    required super.projectsUsers,
+    required super.languagesUsers,
+    required super.achievements,
+    required super.titles,
+    required super.titlesUsers,
+    required super.expertisesUsers,
+    required super.campus,
+    required super.campusUsers,
+  });
+
+  factory IntraProfileModel.fromJson(Map<String, dynamic> json) {
+    return IntraProfileModel(
+      id: json["id"],
+      email: json["email"],
+      login: json["login"],
+      firstName: json["first_name"],
+      lastName: json["last_name"],
+      usualFullName: json["usual_full_name"],
+      usualFirstName: json["usual_first_name"] ?? "",
+      profileUrl: json["url"],
+      displayName: json["displayname"],
+      kind: json["kind"],
+      image: ProfileImagesModel.fromJson(json["image"]),
+      staff: json["staff?"],
+      correctionPoint: json["correction_point"],
+      poolMonth: json["pool_month"],
+      poolYear: json["pool_year"],
+      wallet: json["wallet"],
+      createdAt: json["created_at"] ?? "",
+      updatedAt: json["updated_at"] ?? "",
+      alumnizedAt: json["alumnized_at"] ?? "",
+      alumni: json["alumni?"],
+      active: json["active?"],
+      groups: List<dynamic>.from(json["groups"].map((x) => x)),
+      cursusUsers:
+          json["cursus_users"]
+              .map<CursusUserModel>((x) => CursusUserModel.fromJson(x))
+              .toList(),
+      projectsUsers:
+          json["projects_users"]
+              .map<ProjectsUserModel>((x) => ProjectsUserModel.fromJson(x))
+              .toList(),
+      languagesUsers:
+          json["languages_users"]
+              .map<LanguagesUserModel>((x) => LanguagesUserModel.fromJson(x))
+              .toList(),
+      achievements:
+          json["achievements"]
+              .map<AchievementModel>((x) => AchievementModel.fromJson(x))
+              .toList(),
+      titles:
+          json["titles"]
+              .map<TitleModel>((x) => TitleModel.fromJson(x))
+              .toList(),
+      titlesUsers:
+          json["titles_users"]
+              .map<TitlesUserModel>((x) => TitlesUserModel.fromJson(x))
+              .toList(),
+      expertisesUsers:
+          json["expertises_users"]
+              .map<ExpertisesUserModel>((x) => ExpertisesUserModel.fromJson(x))
+              .toList(),
+      campus:
+          json["campus"]
+              .map<CampusModel>((x) => CampusModel.fromJson(x))
+              .toList(),
+      campusUsers:
+          json["campus_users"]
+              .map<CampusUserModel>((x) => CampusUserModel.fromJson(x))
+              .toList(),
+    );
+  }
+}
+
+class ProfileImagesModel extends ProfileImages {
+  ProfileImagesModel({
+    required super.link,
+    required super.versions,
+  });
+
+  factory ProfileImagesModel.fromJson(Map<String, dynamic> json) {
+    return ProfileImagesModel(
+      link: json["link"],
+      versions: VersionsModel.fromJson(json["versions"]),
+    );
+  }
+}
+
+class VersionsModel extends Versions {
+  VersionsModel({
+    required super.large,
+    required super.medium,
+    required super.small,
+    required super.micro,
+  });
+
+  factory VersionsModel.fromJson(Map<String, dynamic> json) {
+    return VersionsModel(
+      large: json["large"],
+      medium: json["medium"],
+      small: json["small"],
+      micro: json["micro"],
+    );
+  }
+}
+
+class CursusUserModel extends CursusUser {
+  CursusUserModel({
+    required super.id,
+    required super.beginAt,
+    required super.endAt,
+    required super.grade,
+    required super.level,
+    required super.skills,
+    required super.cursusId,
+    required super.hasCoalition,
+    required super.blackholedAt,
+    required super.createdAt,
+    required super.updatedAt,
+    required super.cursus,
+  });
+
+  factory CursusUserModel.fromJson(Map<String, dynamic> json) {
+    return CursusUserModel(
+      id: json["id"],
+      beginAt: json["begin_at"] ?? "",
+      endAt: json["end_at"] ?? "",
+      grade: json["grade"] ?? "",
+      level: json["level"]?.toDouble(),
+      skills: List<SkillModel>.from(
+        json["skills"].map((x) => SkillModel.fromJson(x)),
+      ),
+      cursusId: json["cursus_id"],
+      hasCoalition: json["has_coalition"],
+      blackholedAt: json["blackholed_at"] ?? "",
+      createdAt: json["created_at"] ?? "",
+      updatedAt: json["updated_at"] ?? "",
+      cursus: CursusModel.fromJson(json["cursus"]),
+    );
+  }
+}
+
+class SkillModel extends Skill {
+  SkillModel({required super.id, required super.name, required super.level});
+
+  factory SkillModel.fromJson(Map<String, dynamic> json) {
+    return SkillModel(
+      id: json["id"],
+      name: json["name"],
+      level: json["level"]?.toDouble(),
+    );
+  }
+}
+
+class CursusModel extends Cursus {
+  CursusModel({
+    required super.id,
+    required super.createdAt,
+    required super.name,
+    required super.slug,
+    required super.kind,
+  });
+
+  factory CursusModel.fromJson(Map<String, dynamic> json) {
+    return CursusModel(
+      id: json["id"],
+      createdAt: json["created_at"],
+      name: json["name"],
+      slug: json["slug"],
+      kind: json["kind"],
+    );
+  }
+}
+
+class ProjectsUserModel extends ProjectsUser {
+  ProjectsUserModel({
+    required super.id,
+    required super.occurrence,
+    required super.finalMark,
+    required super.status,
+    required super.validated,
+    required super.currentTeamId,
+    required super.project,
+    required super.cursusIds,
+    required super.markedAt,
+    required super.marked,
+    required super.retriableAt,
+    required super.createdAt,
+    required super.updatedAt,
+  });
+
+  factory ProjectsUserModel.fromJson(Map<String, dynamic> json) {
+    return ProjectsUserModel(
+      id: json["id"],
+      occurrence: json["occurrence"],
+      finalMark: json["final_mark"] ?? 0,
+      status: json["status"] ?? 'undefined',
+      validated: json["validated?"] ?? false,
+      currentTeamId: json["current_team_id"],
+      project: ProjectModel.fromJson(json["project"]),
+      cursusIds: List<int>.from(json["cursus_ids"].map((x) => x)),
+      markedAt: json["marked_at"] ?? "",
+      marked: json["marked"],
+      retriableAt: json["retriable_at"] ?? "",
+      createdAt: json["created_at"] ?? "",
+      updatedAt: json["updated_at"] ?? "",
+    );
+  }
+}
+
+class ProjectModel extends Project {
+  ProjectModel({
+    required super.id,
+    required super.name,
+    required super.slug,
+    required super.parentId,
+  });
+
+  factory ProjectModel.fromJson(Map<String, dynamic> json) {
+    return ProjectModel(
+      id: json["id"],
+      name: json["name"],
+      slug: json["slug"],
+      parentId: json["parent_id"] ?? 0,
+    );
+  }
+}
+
+class LanguagesUserModel extends LanguagesUser {
+  LanguagesUserModel({
+    required super.id,
+    required super.languageId,
+    required super.userId,
+    required super.position,
+    required super.createdAt,
+  });
+
+  factory LanguagesUserModel.fromJson(Map<String, dynamic> json) {
+    return LanguagesUserModel(
+      id: json["id"],
+      languageId: json["language_id"],
+      userId: json["user_id"],
+      position: json["position"],
+      createdAt: json["created_at"] ?? "",
+    );
+  }
+}
+
+class AchievementModel extends Achievement {
+  AchievementModel({
+    required super.id,
+    required super.name,
+    required super.description,
+    required super.tier,
+    required super.kind,
+    required super.visible,
+    required super.image,
+    required super.nbrOfSuccess,
+    required super.usersUrl,
+  });
+
+  factory AchievementModel.fromJson(Map<String, dynamic> json) {
+    return AchievementModel(
+      id: json["id"],
+      name: json["name"],
+      description: json["description"],
+      tier: json["tier"] ?? 'none',
+      kind: json["kind"] ?? 'none',
+      visible: json["visible"],
+      image: json["image"],
+      nbrOfSuccess: json["nbr_of_success"] ?? 0,
+      usersUrl: json["users_url"],
+    );
+  }
+}
+
+class TitleModel extends Title {
+  TitleModel({required super.id, required super.name});
+
+  factory TitleModel.fromJson(Map<String, dynamic> json) {
+    return TitleModel(id: json["id"], name: json["name"]);
+  }
+}
+
+class TitlesUserModel extends TitlesUser {
+  TitlesUserModel({
+    required super.id,
+    required super.userId,
+    required super.titleId,
+    required super.selected,
+    required super.createdAt,
+    required super.updatedAt,
+  });
+
+  factory TitlesUserModel.fromJson(Map<String, dynamic> json) {
+    return TitlesUserModel(
+      id: json["id"],
+      userId: json["user_id"],
+      titleId: json["title_id"],
+      selected: json["selected"],
+      createdAt: json["created_at"] ?? "",
+      updatedAt: json["updated_at"] ?? "",
+    );
+  }
+}
+
+class ExpertisesUserModel extends ExpertisesUser {
+  ExpertisesUserModel({
+    required super.id,
+    required super.expertiseId,
+    required super.interested,
+    required super.value,
+    required super.contactMe,
+    required super.createdAt,
+    required super.userId,
+  });
+
+  factory ExpertisesUserModel.fromJson(Map<String, dynamic> json) {
+    return ExpertisesUserModel(
+      id: json["id"],
+      expertiseId: json["expertise_id"],
+      interested: json["interested"],
+      value: json["value"],
+      contactMe: json["contact_me"],
+      createdAt: json["created_at"] ?? "",
+      userId: json["user_id"],
+    );
+  }
+}
+
+class CampusModel extends Campus {
+  CampusModel({
+    required super.id,
+    required super.name,
+    required super.timeZone,
+    required super.language,
+    required super.usersCount,
+    required super.vogsphereId,
+    required super.country,
+    required super.address,
+    required super.zip,
+    required super.city,
+    required super.website,
+    required super.facebook,
+    required super.twitter,
+    required super.active,
+    required super.public,
+    required super.emailExtension,
+  });
+
+  factory CampusModel.fromJson(Map<String, dynamic> json) {
+    return CampusModel(
+      id: json["id"],
+      name: json["name"],
+      timeZone: json["time_zone"],
+      language: LanguageModel.fromJson(json["language"]),
+      usersCount: json["users_count"],
+      vogsphereId: json["vogsphere_id"],
+      country: json["country"],
+      address: json["address"],
+      zip: json["zip"],
+      city: json["city"],
+      website: json["website"],
+      facebook: json["facebook"],
+      twitter: json["twitter"],
+      active: json["active"],
+      public: json["public"],
+      emailExtension: json["email_extension"],
+    );
+  }
+}
+
+class LanguageModel extends Language {
+  LanguageModel({
+    required super.id,
+    required super.name,
+    required super.identifier,
+    required super.createdAt,
+    required super.updatedAt,
+  });
+
+  factory LanguageModel.fromJson(Map<String, dynamic> json) {
+    return LanguageModel(
+      id: json["id"],
+      name: json["name"],
+      identifier: json["identifier"],
+      createdAt: json["created_at"] ?? "",
+      updatedAt: json["updated_at"] ?? "",
+    );
+  }
+}
+
+class CampusUserModel extends CampusUser {
+  CampusUserModel({
+    required super.id,
+    required super.userId,
+    required super.campusId,
+    required super.isPrimary,
+    required super.createdAt,
+    required super.updatedAt,
+  });
+
+  factory CampusUserModel.fromJson(Map<String, dynamic> json) {
+    return CampusUserModel(
+      id: json["id"],
+      userId: json["user_id"],
+      campusId: json["campus_id"],
+      isPrimary: json["is_primary"],
+      createdAt: json["created_at"] ?? "",
+      updatedAt: json["updated_at"] ?? "",
+    );
+  }
+}

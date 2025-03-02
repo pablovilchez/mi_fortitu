@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:mi_fortitu/features/login/presentation/screens/screens.dart';
 import 'package:mi_fortitu/features/home/presentation/screens/screens.dart';
+import 'package:mi_fortitu/features/login/presentation/screens/screens.dart';
+
+import '../../features/home/presentation/screens/test_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/login',
@@ -19,15 +20,16 @@ final appRouter = GoRouter(
       path: '/waitlist',
       pageBuilder: (context, state) => MaterialPage(child: WaitlistScreen()),
     ),
+    GoRoute(
+      path: '/test',
+      pageBuilder: (context, state) => MaterialPage(child: TestScreen()),
+    ),
   ],
-  redirect: (BuildContext context, GoRouterState state) {
-    print('Entrada en redirect del router\nDirección: ${state.uri.toString()}'); // DEBUG
+  redirect: (BuildContext context, GoRouterState state) {// DEBUG
     if (state.uri.toString().contains('/intra-callback')) {
-      print('Encuentra /intra-callback. Redirige a login'); // DEBUG
       return '/login';
     } else if (state.uri.toString().contains('/login-callback')) {
-      print('Encuentra /login-callback. Redirige a login'); // DEBUG
       return '/login';
     }
-  }
+  },
 );
