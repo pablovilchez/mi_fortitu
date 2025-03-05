@@ -13,6 +13,13 @@ class ColorSet {
 }
 
 class AppColors {
+  static const ColorSet triPrimary = ColorSet(
+    mainColor: Color(0xFFBDE0FE),
+    darkColor: Color(0xFF02458C),
+    borderColor: Color(0xFF8FC5FF),
+  );
+
+
   static const ColorSet pastelBlue = ColorSet(
     mainColor: Color(0xFFBDE0FE),
     darkColor: Color(0xFF02458C),

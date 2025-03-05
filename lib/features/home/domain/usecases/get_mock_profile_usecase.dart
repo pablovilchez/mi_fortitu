@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:mi_fortitu/features/home/domain/failures.dart';
 
 import '../../data/repositories/home_intra_repository.dart';
-import '../entities/entities.dart';
+import '../entities/intra_profile.dart';
 
 class GetMockProfileUseCase {
   final repository = HomeIntraRepository();

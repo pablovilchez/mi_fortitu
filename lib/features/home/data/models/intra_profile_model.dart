@@ -1,4 +1,4 @@
-import 'package:mi_fortitu/features/home/domain/entities/entities.dart';
+import 'package:mi_fortitu/features/home/domain/entities/intra_profile.dart';
 
 class IntraProfileModel extends IntraProfile {
   IntraProfileModel({

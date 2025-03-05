@@ -25,17 +25,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final brigthness = MediaQuery.of(context).platformBrightness;
-    // TextTheme textTheme = createTextTheme(context, "Philosopher", "Philosopher");
-    // MaterialTheme theme = MaterialTheme(textTheme);
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => LoginBloc()),
       ],
       child: MaterialApp.router(
-        // theme: brigthness == Brightness.light ? theme.light() : theme.dark(),
-        // theme: MainTheme.theme,
         debugShowCheckedModeBanner: false,
         routerConfig: appRouter,
       ),
