@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mi_fortitu/features/home/presentation/bloc/intra_profile_bloc/intra_profile_bloc.dart';
-import 'package:mi_fortitu/features/home/presentation/viewmodels/profile_summary_viewmodel.dart';
+import 'package:mi_fortitu/features/home/presentation/viewmodels/intra_profile_summary_vm.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/tiles_list.dart';
 
 import '../widgets/profile_cards.dart';
@@ -14,15 +13,14 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final String loginName = 'pvilchez'; // DEBUG
 
-    return BlocProvider(
-      create: (context) {
-        final bloc = IntraProfileBloc();
-        bloc.add(GetIntraProfileEvent(loginName));
-        return bloc;
-      },
-      child: BlocBuilder<IntraProfileBloc, IntraProfileState>(
+    return BlocBuilder<IntraProfileBloc, IntraProfileState>(
         builder: (context, state) {
-          if (state is IntraProfileLoading) {
+          if (state is IntraProfileInitial) {
+            context.read<IntraProfileBloc>().add(
+              GetIntraProfileEvent(loginName),
+            );
+            return _LoadingView();
+          } else if (state is IntraProfileLoading) {
             return _LoadingView();
           } else if (state is IntraProfileError) {
             return _ErrorView(message: state.message, loginName: loginName);
@@ -31,28 +29,43 @@ class HomeScreen extends StatelessWidget {
           }
           return const SizedBox();
         },
-      ),
-    );
+      );
   }
 }
 
 class _HomeView extends StatelessWidget {
-  final ProfileSummaryVM profile;
+  final IntraProfileSummaryVM profile;
 
   const _HomeView({super.key, required this.profile});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
-              SizedBox(height: 30),
+              SizedBox(height: 10),
               ProfileCards(profile: profile),
               SizedBox(height: 8),
-              TilesList(),
+              Expanded (
+              child: ShaderMask(
+                  shaderCallback: (bounds) {
+                    return LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.black,
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.black,
+                      ],
+                      stops: [0.0, 0.05, 0.9, 1.0],
+                    ).createShader(bounds);
+                  },
+                  blendMode: BlendMode.dstOut,
+                  child: SingleChildScrollView(child: TilesList()))),
             ],
           ),
         ),
@@ -72,6 +85,7 @@ class _LoadingView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Loading profile data...'),
+            SizedBox(height: 20),
             CircularProgressIndicator(),
           ],
         ),

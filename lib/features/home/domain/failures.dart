@@ -7,16 +7,16 @@ abstract class Failure {
   String toString() => message;
 }
 
-class ProfileDataFailure extends Failure {
-  ProfileDataFailure(String message) : super(message);
+class ServerDataFailure extends Failure {
+  ServerDataFailure(super.message);
 
   @override
-  String toString() => 'Profile data failure: Data not found.';
+  String toString() => message;
 }
 
 class ParsingDataFailure extends Failure {
-  ParsingDataFailure(String message) : super(message);
+  ParsingDataFailure(super.message);
 
   @override
-  String toString() => 'Parsing data failure: Data not found.';
+  String toString() => message;
 }

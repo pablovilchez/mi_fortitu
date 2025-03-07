@@ -12,7 +12,7 @@ class GetMockProfileUseCase {
       final IntraProfile result = await repository.getMockIntraProfile(loginName);
       return Right(result);
     } catch (e) {
-      return Left(ProfileDataFailure(e.toString()));
+      return Left(ServerDataFailure(e.toString()));
     }
   }
 }

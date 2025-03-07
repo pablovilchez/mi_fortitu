@@ -1,6 +1,6 @@
 import 'package:mi_fortitu/features/home/domain/entities/intra_profile.dart';
 
-class ProfileSummaryVM {
+class IntraProfileSummaryVM {
   final String name;
   final String title;
   final String cursus;
@@ -11,7 +11,7 @@ class ProfileSummaryVM {
   final int correctionPoints;
   final int wallet;
 
-  ProfileSummaryVM({
+  IntraProfileSummaryVM({
     required this.name,
     required this.title,
     required this.cursus,
@@ -23,7 +23,7 @@ class ProfileSummaryVM {
     required this.wallet,
   });
 
-  factory ProfileSummaryVM.fromEntity(IntraProfile entity) {
+  factory IntraProfileSummaryVM.fromEntity(IntraProfile entity) {
     late final String titleFound;
     late final CursusUser findCursus;
 
@@ -45,7 +45,7 @@ class ProfileSummaryVM {
       findCursus = entity.cursusUsers.first;
     }
 
-    return ProfileSummaryVM(
+    return IntraProfileSummaryVM(
       name: entity.firstName,
       title: titleFound,
       cursus: findCursus.cursus.name,

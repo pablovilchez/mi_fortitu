@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../viewmodels/profile_summary_viewmodel.dart';
+import '../viewmodels/intra_profile_summary_vm.dart';
 
 
 class ProfileCards extends StatelessWidget {
-  final ProfileSummaryVM profile;
+  final IntraProfileSummaryVM profile;
 
   const ProfileCards({super.key, required this.profile});
 

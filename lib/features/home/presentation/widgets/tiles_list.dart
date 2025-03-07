@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mi_fortitu/features/home/presentation/widgets/event_carousel.dart';
 
 class TilesList extends StatelessWidget {
   const TilesList({super.key});
@@ -8,20 +9,20 @@ class TilesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _SectionHeader(title: 'Campus Events'),
+        _SectionHeader(title: 'Events'),
         SizedBox(height: 12),
-        Text('Make a Carousel here'), // TODO: Make a carousel here
+        EventCarousel(width: double.infinity,),
         SizedBox(height: 12),
         _SectionHeader(title: 'Intra 42'),
         _OptionTile(
-          title: 'Student Profile',
+          title: 'My Student Profile',
           icon: Icons.person,
           route: '/profile',
         ),
         _OptionTile(
-          title: 'Projects',
-          icon: Icons.folder,
-          route: '/projects',
+          title: 'Search Students',
+          icon: Icons.search,
+          route: '/search-students',
         ),
         _OptionTile(
           title: 'My Evaluation Slots',
@@ -55,6 +56,7 @@ class TilesList extends StatelessWidget {
           icon: Icons.sports_soccer,
           route: '/leagues',
         ),
+        SizedBox(height: 30),
       ],
     );
   }

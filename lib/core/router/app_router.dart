@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:go_router/go_router.dart';
+
 import 'package:mi_fortitu/features/home/presentation/screens/screens.dart';
 import 'package:mi_fortitu/features/login/presentation/screens/screens.dart';
-
-import '../../features/home/presentation/screens/clusters_screen.dart';
-import '../../features/home/presentation/screens/coalitions_screen.dart';
-import '../../features/home/presentation/screens/eval_slots_screen.dart';
-import '../../features/home/presentation/screens/finder_screen.dart';
-import '../../features/home/presentation/screens/leagues_screeen.dart';
-import '../../features/home/presentation/screens/profile_screen.dart';
-import '../../features/home/presentation/screens/projects_screen.dart';
-import '../../features/home/presentation/screens/settings_screen.dart';
-import '../../features/home/presentation/screens/shop_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/home',
@@ -33,8 +25,8 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) => MaterialPage(child: ProfileScreen()),
     ),
     GoRoute(
-      path: '/projects',
-      pageBuilder: (context, state) => MaterialPage(child: ProjectsScreen()),
+      path: '/search-students',
+      pageBuilder: (context, state) => MaterialPage(child: SearchStudentsScreen()),
     ),
     GoRoute(
       path: '/slots',
