@@ -5,7 +5,7 @@ import 'package:mi_fortitu/features/home/presentation/bloc/intra_profile_bloc/in
 import 'package:mi_fortitu/features/home/presentation/viewmodels/intra_profile_summary_vm.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/tiles_list.dart';
 
-import '../widgets/profile_cards.dart';
+import '../widgets/home_user_cards.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -48,7 +48,7 @@ class _HomeView extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 10),
-              ProfileCards(profile: profile),
+              HomeUserCards(profile: profile),
               SizedBox(height: 8),
               Expanded (
               child: ShaderMask(

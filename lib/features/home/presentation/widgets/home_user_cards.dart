@@ -4,10 +4,10 @@ import 'package:go_router/go_router.dart';
 import '../viewmodels/intra_profile_summary_vm.dart';
 
 
-class ProfileCards extends StatelessWidget {
+class HomeUserCards extends StatelessWidget {
   final IntraProfileSummaryVM profile;
 
-  const ProfileCards({super.key, required this.profile});
+  const HomeUserCards({super.key, required this.profile});
 
   @override
   Widget build(BuildContext context) {

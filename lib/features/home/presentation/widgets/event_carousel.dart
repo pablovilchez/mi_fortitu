@@ -91,7 +91,8 @@ class EventCard extends StatelessWidget {
             onTap: () {
               showModalBottomSheet(
                 context: context,
-                isScrollControlled: true, // Para usar todo el espacio disponible
+                isScrollControlled: true,
+
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 ),

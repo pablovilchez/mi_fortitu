@@ -61,55 +61,62 @@ class IntraProfileModel extends IntraProfile {
       groups: List<dynamic>.from(json["groups"].map((x) => x)),
       cursusUsers:
           json["cursus_users"]
-              .map<CursusUserModel>((x) => CursusUserModel.fromJson(x))
+              .map<CursusUser>((x) => CursusUserModel.fromJson(x).toEntity())
               .toList(),
       projectsUsers:
           json["projects_users"]
-              .map<ProjectsUserModel>((x) => ProjectsUserModel.fromJson(x))
+              .map<ProjectsUser>(
+                (x) => ProjectsUserModel.fromJson(x).toEntity(),
+              )
               .toList(),
       languagesUsers:
           json["languages_users"]
-              .map<LanguagesUserModel>((x) => LanguagesUserModel.fromJson(x))
+              .map<LanguagesUser>(
+                (x) => LanguagesUserModel.fromJson(x).toEntity(),
+              )
               .toList(),
       achievements:
           json["achievements"]
-              .map<AchievementModel>((x) => AchievementModel.fromJson(x))
+              .map<Achievement>((x) => AchievementModel.fromJson(x).toEntity())
               .toList(),
       titles:
           json["titles"]
-              .map<TitleModel>((x) => TitleModel.fromJson(x))
+              .map<Title>((x) => TitleModel.fromJson(x).toEntity())
               .toList(),
       titlesUsers:
           json["titles_users"]
-              .map<TitlesUserModel>((x) => TitlesUserModel.fromJson(x))
+              .map<TitlesUser>((x) => TitlesUserModel.fromJson(x).toEntity())
               .toList(),
       expertisesUsers:
           json["expertises_users"]
-              .map<ExpertisesUserModel>((x) => ExpertisesUserModel.fromJson(x))
+              .map<ExpertisesUser>(
+                (x) => ExpertisesUserModel.fromJson(x).toEntity(),
+              )
               .toList(),
       campus:
           json["campus"]
-              .map<CampusModel>((x) => CampusModel.fromJson(x))
+              .map<Campus>((x) => CampusModel.fromJson(x).toEntity())
               .toList(),
       campusUsers:
           json["campus_users"]
-              .map<CampusUserModel>((x) => CampusUserModel.fromJson(x))
+              .map<CampusUser>((x) => CampusUserModel.fromJson(x).toEntity())
               .toList(),
     );
   }
 }
 
 class ProfileImagesModel extends ProfileImages {
-  ProfileImagesModel({
-    required super.link,
-    required super.versions,
-  });
+  ProfileImagesModel({required super.link, required super.versions});
 
   factory ProfileImagesModel.fromJson(Map<String, dynamic> json) {
     return ProfileImagesModel(
       link: json["link"],
       versions: VersionsModel.fromJson(json["versions"]),
     );
+  }
+
+  ProfileImages toEntity() {
+    return ProfileImages(link: link, versions: versions);
   }
 }
 
@@ -128,6 +135,10 @@ class VersionsModel extends Versions {
       small: json["small"],
       micro: json["micro"],
     );
+  }
+
+  Versions toEntity() {
+    return Versions(large: large, medium: medium, small: small, micro: micro);
   }
 }
 
@@ -165,6 +176,23 @@ class CursusUserModel extends CursusUser {
       cursus: CursusModel.fromJson(json["cursus"]),
     );
   }
+
+  CursusUser toEntity() {
+    return CursusUser(
+      id: id,
+      beginAt: beginAt,
+      endAt: endAt,
+      grade: grade,
+      level: level,
+      skills: skills,
+      cursusId: cursusId,
+      hasCoalition: hasCoalition,
+      blackholedAt: blackholedAt,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      cursus: cursus,
+    );
+  }
 }
 
 class SkillModel extends Skill {
@@ -176,6 +204,10 @@ class SkillModel extends Skill {
       name: json["name"],
       level: json["level"]?.toDouble(),
     );
+  }
+
+  Skill toEntity() {
+    return Skill(id: id, name: name, level: level);
   }
 }
 
@@ -195,6 +227,16 @@ class CursusModel extends Cursus {
       name: json["name"],
       slug: json["slug"],
       kind: json["kind"],
+    );
+  }
+
+  Cursus toEntity() {
+    return Cursus(
+      id: id,
+      createdAt: createdAt,
+      name: name,
+      slug: slug,
+      kind: kind,
     );
   }
 }
@@ -233,6 +275,24 @@ class ProjectsUserModel extends ProjectsUser {
       updatedAt: json["updated_at"] ?? "",
     );
   }
+
+  ProjectsUser toEntity() {
+    return ProjectsUser(
+      id: id,
+      occurrence: occurrence,
+      finalMark: finalMark,
+      status: status,
+      validated: validated,
+      currentTeamId: currentTeamId,
+      project: project,
+      cursusIds: cursusIds,
+      markedAt: markedAt,
+      marked: marked,
+      retriableAt: retriableAt,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+    );
+  }
 }
 
 class ProjectModel extends Project {
@@ -250,6 +310,10 @@ class ProjectModel extends Project {
       slug: json["slug"],
       parentId: json["parent_id"] ?? 0,
     );
+  }
+
+  Project toEntity() {
+    return Project(id: id, name: name, slug: slug, parentId: parentId);
   }
 }
 
@@ -269,6 +333,16 @@ class LanguagesUserModel extends LanguagesUser {
       userId: json["user_id"],
       position: json["position"],
       createdAt: json["created_at"] ?? "",
+    );
+  }
+
+  LanguagesUser toEntity() {
+    return LanguagesUser(
+      id: id,
+      languageId: languageId,
+      userId: userId,
+      position: position,
+      createdAt: createdAt,
     );
   }
 }
@@ -299,6 +373,20 @@ class AchievementModel extends Achievement {
       usersUrl: json["users_url"],
     );
   }
+
+  Achievement toEntity() {
+    return Achievement(
+      id: id,
+      name: name,
+      description: description,
+      tier: tier,
+      kind: kind,
+      visible: visible,
+      image: image,
+      nbrOfSuccess: nbrOfSuccess,
+      usersUrl: usersUrl,
+    );
+  }
 }
 
 class TitleModel extends Title {
@@ -306,6 +394,10 @@ class TitleModel extends Title {
 
   factory TitleModel.fromJson(Map<String, dynamic> json) {
     return TitleModel(id: json["id"], name: json["name"]);
+  }
+
+  Title toEntity() {
+    return Title(id: id, name: name);
   }
 }
 
@@ -327,6 +419,17 @@ class TitlesUserModel extends TitlesUser {
       selected: json["selected"],
       createdAt: json["created_at"] ?? "",
       updatedAt: json["updated_at"] ?? "",
+    );
+  }
+
+  TitlesUser toEntity() {
+    return TitlesUser(
+      id: id,
+      userId: userId,
+      titleId: titleId,
+      selected: selected,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 }
@@ -351,6 +454,18 @@ class ExpertisesUserModel extends ExpertisesUser {
       contactMe: json["contact_me"],
       createdAt: json["created_at"] ?? "",
       userId: json["user_id"],
+    );
+  }
+
+  ExpertisesUser toEntity() {
+    return ExpertisesUser(
+      id: id,
+      expertiseId: expertiseId,
+      interested: interested,
+      value: value,
+      contactMe: contactMe,
+      createdAt: createdAt,
+      userId: userId,
     );
   }
 }
@@ -395,6 +510,27 @@ class CampusModel extends Campus {
       emailExtension: json["email_extension"],
     );
   }
+
+  Campus toEntity() {
+    return Campus(
+      id: id,
+      name: name,
+      timeZone: timeZone,
+      language: language,
+      usersCount: usersCount,
+      vogsphereId: vogsphereId,
+      country: country,
+      address: address,
+      zip: zip,
+      city: city,
+      website: website,
+      facebook: facebook,
+      twitter: twitter,
+      active: active,
+      public: public,
+      emailExtension: emailExtension,
+    );
+  }
 }
 
 class LanguageModel extends Language {
@@ -413,6 +549,16 @@ class LanguageModel extends Language {
       identifier: json["identifier"],
       createdAt: json["created_at"] ?? "",
       updatedAt: json["updated_at"] ?? "",
+    );
+  }
+
+  Language toEntity() {
+    return Language(
+      id: id,
+      name: name,
+      identifier: identifier,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 }
@@ -435,6 +581,17 @@ class CampusUserModel extends CampusUser {
       isPrimary: json["is_primary"],
       createdAt: json["created_at"] ?? "",
       updatedAt: json["updated_at"] ?? "",
+    );
+  }
+
+  CampusUser toEntity() {
+    return CampusUser(
+      id: id,
+      userId: userId,
+      campusId: campusId,
+      isPrimary: isPrimary,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 }
