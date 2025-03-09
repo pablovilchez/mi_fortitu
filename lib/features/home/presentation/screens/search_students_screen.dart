@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mi_fortitu/features/home/presentation/bloc/intra_search_profile_bloc/intra_search_profile_bloc.dart';
@@ -68,7 +69,7 @@ class _LoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Search Students')),
+      appBar: AppBar(title: Text(tr('search.hint'))),
       body: const Center(child: CircularProgressIndicator()),
     );
   }

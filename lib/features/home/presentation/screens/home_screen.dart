@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mi_fortitu/features/home/presentation/bloc/intra_profile_bloc/intra_profile_bloc.dart';
@@ -80,11 +81,11 @@ class _LoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Loading profile data...'),
+            Text(tr('home.messages.loading_profile')),
             SizedBox(height: 20),
             CircularProgressIndicator(),
           ],
@@ -107,7 +108,7 @@ class _ErrorView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Error loading profile data'),
+            Text(tr('home.messages.loading_error')),
             Text(message),
             ElevatedButton(
               onPressed: () {
@@ -115,7 +116,7 @@ class _ErrorView extends StatelessWidget {
                   GetIntraProfileEvent(loginName),
                 );
               },
-              child: const Text('Retry'),
+              child: Text(tr('buttons.retry')),
             ),
           ],
         ),

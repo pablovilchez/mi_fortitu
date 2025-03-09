@@ -1,0 +1,45 @@
+{
+  "home": {
+    "messages": {
+      "loading_profile": "Loading profile data...",
+      "loading_error": "Error loading profile data."
+    },
+    "titles": {
+      "events": "Events",
+      "intra42": "Intra 42",
+      "out_code": "Out of Code"
+    },
+    "tiles": {
+      "me": "My Profile",
+      "search": "Search Students",
+      "eval_slots": "Evaluation Slots",
+      "shop": "Shop",
+      "peer2peer": "Peer2Peer",
+      "clusters": "Clusters",
+      "coalitions": "Coalitions",
+      "leagues": "Leagues"
+    }
+  },
+  "search": {
+    "hint": "Search student"
+  },
+  "settings": {
+    "language": "Select language"
+  },
+  "buttons": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "close": "Close",
+    "confirm": "Confirm",
+    "submit": "Submit",
+    "retry": "Retry",
+    "back": "Back",
+    "next": "Next",
+    "finish": "Finish",
+    "yes": "Yes",
+    "no": "No"
+  }
+}

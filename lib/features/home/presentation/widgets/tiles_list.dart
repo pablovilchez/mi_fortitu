@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/event_carousel.dart';
@@ -9,50 +10,50 @@ class TilesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _SectionHeader(title: 'Events'),
+        _SectionHeader(title: tr('home.titles.events')),
         SizedBox(height: 12),
         EventCarousel(width: double.infinity,),
         SizedBox(height: 12),
-        _SectionHeader(title: 'Intra 42'),
+        _SectionHeader(title: tr('home.titles.intra42')),
         _OptionTile(
-          title: 'My Student Profile',
+          title: tr('home.tiles.me'),
           icon: Icons.person,
           route: '/profile',
         ),
         _OptionTile(
-          title: 'Search Students',
+          title: tr('home.tiles.search'),
           icon: Icons.search,
           route: '/search-students',
         ),
         _OptionTile(
-          title: 'My Evaluation Slots',
+          title: tr('home.tiles.eval_slots'),
           icon: Icons.calendar_today,
           route: '/slots',
         ),
         _OptionTile(
-          title: 'Shop',
+          title: tr('home.tiles.shop'),
           icon: Icons.shopping_cart,
           route: '/shop',
         ),
         _SectionHeader(title: 'Campus'),
         _OptionTile(
-          title: 'p2p',
+          title: tr('home.tiles.peer2peer'),
           icon: Icons.search,
           route: '/finder',
         ),
         _OptionTile(
-          title: 'Clusters',
+          title: tr('home.tiles.clusters'),
           icon: Icons.login,
           route: '/clusters',
         ),
         _OptionTile(
-          title: 'Coalitions',
+          title: tr('home.tiles.coalitions'),
           icon: Icons.groups,
           route: '/coalitions',
         ),
-        _SectionHeader(title: 'Out of Code'),
+        _SectionHeader(title: tr('home.titles.out_code')),
         _OptionTile(
-          title: 'Leagues',
+          title: tr('home.tiles.leagues'),
           icon: Icons.sports_soccer,
           route: '/leagues',
         ),

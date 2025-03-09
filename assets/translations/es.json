@@ -1,0 +1,45 @@
+{
+  "home": {
+    "messages": {
+      "loading_profile": "Cargando datos de perfil...",
+      "loading_error": "Error al cargar datos de perfil."
+    },
+    "titles": {
+      "events": "Eventos",
+      "intra42": "Intra 42",
+      "out_code": "Out of Code"
+    },
+    "tiles": {
+      "me": "Mi Perfil",
+      "search": "Buscar Estudiantes",
+      "eval_slots": "Slots de Evaluación",
+      "shop": "Tienda",
+      "peer2peer": "Peer2Peer",
+      "clusters": "Clusters",
+      "coalitions": "Coaliciones",
+      "leagues": "Ligas"
+    }
+  },
+  "search": {
+    "hint": "Buscar estudiante..."
+  },
+  "settings": {
+    "language": "Selecciona idioma"
+  },
+  "buttons": {
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "add": "Añadir",
+    "close": "Cerrar",
+    "confirm": "Confirmar",
+    "submit": "Enviar",
+    "retry": "Reintentar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "finish": "Finalizar",
+    "yes": "Sí",
+    "no": "No"
+  }
+}

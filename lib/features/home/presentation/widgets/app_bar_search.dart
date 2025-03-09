@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class AppBarSearch extends StatelessWidget implements PreferredSizeWidget {
@@ -15,8 +16,8 @@ class AppBarSearch extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: TextField(
         controller: controller,
-        decoration: const InputDecoration(
-          hintText: 'Search student...',
+        decoration: InputDecoration(
+          hintText: tr('search.hint'),
           border: InputBorder.none,
         ),
       ),
