@@ -1,8 +1,14 @@
 {
+  "language": "es",
   "home": {
     "messages": {
       "loading_profile": "Cargando datos de perfil...",
       "loading_error": "Error al cargar datos de perfil."
+    },
+    "events": {
+      "today": "Hoy",
+      "tomorrow": "Mñn",
+      "no_events": "No hay eventos próximos."
     },
     "titles": {
       "events": "Eventos",
@@ -23,6 +29,23 @@
   "search": {
     "hint": "Buscar estudiante..."
   },
+  "profile": {
+    "kind": "Tipo",
+    "pool": "Piscina",
+    "eval_p": "P.Eval.",
+    "wallet": "Monedero",
+    "grade": "Grado",
+    "level": "Nivel",
+    "experience": "Experiencia",
+    "skills": "Habilidades",
+    "projects": "Proyectos",
+    "attempts": "Intentos",
+    "opened": "Abierto",
+    "closed": "Cerrado",
+    "ago": "act.",
+    "years": "a",
+    "months": "m"
+  },
   "settings": {
     "language": "Selecciona idioma"
   },
@@ -41,5 +64,31 @@
     "finish": "Finalizar",
     "yes": "Sí",
     "no": "No"
+  },
+  "lang": {
+    "months": {
+      "january": "ene",
+      "february": "feb",
+      "march": "mar",
+      "april": "abr",
+      "may": "may",
+      "june": "Jun",
+      "july": "Jul",
+      "august": "Ago",
+      "september": "Sep",
+      "october": "Oct",
+      "november": "Nov",
+      "december": "Dic"
+    },
+    "days": {
+      "monday": "Lun",
+      "tuesday": "Mar",
+      "wednesday": "Mié",
+      "thursday": "Jue",
+      "friday": "Vie",
+      "saturday": "Sáb",
+      "sunday": "Dom"
+    },
+    "number_format": "#.###,##"
   }
 }

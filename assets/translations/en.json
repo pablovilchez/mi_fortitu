@@ -1,8 +1,14 @@
 {
+  "language": "en",
   "home": {
     "messages": {
       "loading_profile": "Loading profile data...",
       "loading_error": "Error loading profile data."
+    },
+    "events": {
+      "today": "Today",
+      "tomorrow": "Tmrw",
+      "no_events": "No upcoming events."
     },
     "titles": {
       "events": "Events",
@@ -23,6 +29,23 @@
   "search": {
     "hint": "Search student"
   },
+  "profile": {
+    "kind": "Kind",
+    "pool": "Pool",
+    "eval_p": "Eval.P.",
+    "wallet": "Wallet",
+    "grade": "Grade",
+    "level": "Level",
+    "experience": "Experience",
+    "skills": "Skills",
+    "projects": "Projects",
+    "attempts": "Attempts",
+    "opened": "Opened",
+    "closed": "Closed",
+    "ago": "upd.",
+    "years": "y",
+    "months": "m"
+  },
   "settings": {
     "language": "Select language"
   },
@@ -41,5 +64,31 @@
     "finish": "Finish",
     "yes": "Yes",
     "no": "No"
+  },
+  "lang": {
+    "months": {
+      "january": "Jan",
+      "february": "Feb",
+      "march": "Mar",
+      "april": "Apr",
+      "may": "May",
+      "june": "Jun",
+      "july": "Jul",
+      "august": "Aug",
+      "september": "Sep",
+      "october": "Oct",
+      "november": "Nov",
+      "december": "Dec"
+    },
+    "days": {
+      "monday": "Mon",
+      "tuesday": "Tue",
+      "wednesday": "Wed",
+      "thursday": "Thu",
+      "friday": "Fri",
+      "saturday": "Sat",
+      "sunday": "Sun"
+    },
+    "number_format": "#,###.##"
   }
 }

@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:mi_fortitu/core/utils/data_format_helper.dart';
 
 import '../../domain/entities/intra_event.dart';
 import '../bloc/intra_events_bloc/intra_events_bloc.dart';
@@ -127,7 +129,15 @@ class EventCard extends StatelessWidget {
           children: [
             HeaderEventElement(
               icon: Icons.calendar_month,
-              text: DateFormat('d/M').format(begin),
+              text: () {
+                if (begin.day == DateTime.now().day) {
+                  return tr('home.events.today');
+                } else if (begin.day == DateTime.now().day + 1) {
+                  return tr('home.events.tomorrow');
+                } else {
+                  return DataFormatHelper.shortFormatDate(begin);
+                }
+              }(),
             ),
             HeaderEventElement(
               icon: Icons.access_time,
@@ -135,7 +145,15 @@ class EventCard extends StatelessWidget {
             ),
             HeaderEventElement(
               icon: Icons.timelapse,
-              text: hours > 0 ? '${hours}h ${minutes}m' : '${minutes}m',
+              text: () {
+                if (hours == 0) {
+                  return '${minutes}m';
+                } else if (minutes == 0) {
+                  return '${hours}h';
+                } else {
+                  return '${hours}h ${minutes}m';
+                }
+              }(),
             ),
           ],
         ),

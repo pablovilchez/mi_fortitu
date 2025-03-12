@@ -9,14 +9,46 @@ class ProfileUserSkills extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100,
-      width: double.infinity,
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text('Cursus Skills of ${cursus.cursus.name}'),
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children:
+            List.generate(
+                cursus.skills.length,
+                    (index) => skillBuilder(context, index)),
+          ),
         ),
       ),
+    );
+  }
+
+  Widget skillBuilder(BuildContext context, int index) {
+    final skill = cursus.skills[index];
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(skill.name, style: const TextStyle(fontSize: 13)),
+            Text(skill.level.toString(), style: const TextStyle(fontSize: 13)),
+          ],
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: LinearProgressIndicator(
+                minHeight: 3,
+                value: skill.level / 20,
+                backgroundColor: Colors.grey[800],
+                valueColor: const AlwaysStoppedAnimation(Colors.cyan),
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 6),
+      ],
     );
   }
 }

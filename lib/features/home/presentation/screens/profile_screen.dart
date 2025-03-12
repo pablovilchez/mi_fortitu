@@ -14,7 +14,7 @@ class ProfileScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is IntraProfileSuccess) {
             final intraProfile = state.intraProfile;
-            return CursusProfile(intraProfile: intraProfile);
+            return CursusProfile(profile: intraProfile);
           }
           return Center(child: Text('Error: Cannot load profile'));
         },

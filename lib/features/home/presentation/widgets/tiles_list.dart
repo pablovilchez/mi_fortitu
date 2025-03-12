@@ -10,11 +10,11 @@ class TilesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _SectionHeader(title: tr('home.titles.events')),
+        SectionHeader(title: tr('home.titles.events')),
         SizedBox(height: 12),
         EventCarousel(width: double.infinity,),
         SizedBox(height: 12),
-        _SectionHeader(title: tr('home.titles.intra42')),
+        SectionHeader(title: tr('home.titles.intra42')),
         _OptionTile(
           title: tr('home.tiles.me'),
           icon: Icons.person,
@@ -35,7 +35,7 @@ class TilesList extends StatelessWidget {
           icon: Icons.shopping_cart,
           route: '/shop',
         ),
-        _SectionHeader(title: 'Campus'),
+        SectionHeader(title: 'Campus'),
         _OptionTile(
           title: tr('home.tiles.peer2peer'),
           icon: Icons.search,
@@ -51,7 +51,7 @@ class TilesList extends StatelessWidget {
           icon: Icons.groups,
           route: '/coalitions',
         ),
-        _SectionHeader(title: tr('home.titles.out_code')),
+        SectionHeader(title: tr('home.titles.out_code')),
         _OptionTile(
           title: tr('home.tiles.leagues'),
           icon: Icons.sports_soccer,
@@ -63,10 +63,10 @@ class TilesList extends StatelessWidget {
   }
 }
 
-class _SectionHeader extends StatelessWidget {
+class SectionHeader extends StatelessWidget {
   final String title;
 
-  const _SectionHeader({super.key, required this.title});
+  const SectionHeader({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {

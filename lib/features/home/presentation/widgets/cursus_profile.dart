@@ -1,13 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mi_fortitu/features/home/domain/entities/intra_profile.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/profile_user_card.dart';
+import 'package:mi_fortitu/features/home/presentation/widgets/profile_user_level_card.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/profile_user_projects.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/profile_user_skills.dart';
 
 class CursusProfile extends StatefulWidget {
-  final IntraProfile intraProfile;
+  final IntraProfile profile;
 
-  const CursusProfile({super.key, required this.intraProfile});
+  const CursusProfile({super.key, required this.profile});
 
   @override
   State<CursusProfile> createState() => _CursusProfileState();
@@ -18,10 +20,10 @@ class _CursusProfileState extends State<CursusProfile> {
 
   @override
   void initState() {
-    if (widget.intraProfile.cursusUsers.isNotEmpty) {
-      _selectedCursus = widget.intraProfile.cursusUsers.firstWhere(
-        (cursus) => cursus.cursus.kind == 'main',
-        orElse: () => widget.intraProfile.cursusUsers.first,
+    if (widget.profile.cursusUsers.isNotEmpty) {
+      _selectedCursus = widget.profile.cursusUsers.firstWhere(
+            (cursus) => cursus.cursus.kind == 'main',
+        orElse: () => widget.profile.cursusUsers.first,
       );
     }
     super.initState();
@@ -29,6 +31,10 @@ class _CursusProfileState extends State<CursusProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final List<ProjectsUser> cursusProjects = widget.profile.projectsUsers
+        .where((project) => project.cursusIds.contains(_selectedCursus!.cursus.id))
+        .toList();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -48,34 +54,52 @@ class _CursusProfileState extends State<CursusProfile> {
                   });
                 },
                 items:
-                    widget.intraProfile.cursusUsers
-                        .map<DropdownMenuItem<CursusUser>>((
-                          CursusUser cursusUser,
-                        ) {
-                          return DropdownMenuItem<CursusUser>(
-                            value: cursusUser,
-                            child: Text(cursusUser.cursus.name),
-                          );
-                        })
-                        .toList(),
+                widget.profile.cursusUsers
+                    .map<DropdownMenuItem<CursusUser>>((
+                    CursusUser cursusUser,) {
+                  return DropdownMenuItem<CursusUser>(
+                    value: cursusUser,
+                    child: Text(cursusUser.cursus.name),
+                  );
+                })
+                    .toList(),
               ),
             ],
           ),
           if (_selectedCursus != null) ...[
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  ProfileUserCard(intraProfile: widget.intraProfile),
-                  SizedBox(height: 16),
-                  ProfileUserSkills(cursus: _selectedCursus!),
-                  SizedBox(height: 16),
-                  ProfileUserProjects(cursus: _selectedCursus!),
-                ],
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ProfileUserCard(profile: widget.profile),
+                    buildTitle(tr('profile.experience')),
+                    ProfileLevelUserProjects(cursus: _selectedCursus!),
+                    buildTitle(tr('profile.skills')),
+                    ProfileUserSkills(cursus: _selectedCursus!),
+                    buildTitle(tr('profile.projects')),
+                    ProfileUserProjects(projectList: cursusProjects),
+                  ],
+                ),
               ),
             ),
-          ] else ...[
-            Center(child: Text('No cursus found.')),
-          ],
+
+          ] else
+            ...[
+              Center(child: Text('No cursus found.')),
+            ],
+        ],
+      ),
+    );
+  }
+  Widget buildTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0, left: 15.0),
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );
