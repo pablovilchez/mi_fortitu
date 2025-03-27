@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:mi_fortitu/features/home/domain/usecases/get_mock_profile_usecase.dart';
+import 'package:mi_fortitu/features/home/domain/usecases/get_profile_usecase.dart';
 
 import '../../../domain/entities/intra_profile.dart';
 
@@ -18,7 +18,7 @@ class IntraSearchProfileBloc extends Bloc<IntraSearchProfileEvent, IntraSearchPr
       Emitter<IntraSearchProfileState> emit) async {
     emit(IntraSearchProfileLoading());
 
-    final result = await GetMockProfileUseCase().call(event.login);
+    final result = await GetProfileUseCase().call(event.login);
     result.fold(
           (failure) => emit(IntraSearchProfileError(failure.toString())),
           (profile) => emit(IntraSearchProfileSuccess(profile)),

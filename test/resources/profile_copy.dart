@@ -73,7 +73,7 @@ class Profile {
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
     id: json["id"],
     email: json["email"],
-    login: json["login"],
+    login: json["auth"],
     firstName: json["first_name"],
     lastName: json["last_name"],
     usualFullName: json["usual_full_name"],

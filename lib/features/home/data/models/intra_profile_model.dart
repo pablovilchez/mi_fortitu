@@ -39,7 +39,7 @@ class IntraProfileModel extends IntraProfile {
     return IntraProfileModel(
       id: json["id"],
       email: json["email"],
-      login: json["login"],
+      login: json["auth"],
       firstName: json["first_name"],
       lastName: json["last_name"],
       usualFullName: json["usual_full_name"],
@@ -101,6 +101,42 @@ class IntraProfileModel extends IntraProfile {
           json["campus_users"]
               .map<CampusUser>((x) => CampusUserModel.fromJson(x).toEntity())
               .toList(),
+    );
+  }
+
+  IntraProfile toEntity() {
+    return IntraProfile(
+      id: id,
+      email: email,
+      login: login,
+      firstName: firstName,
+      lastName: lastName,
+      usualFullName: usualFullName,
+      usualFirstName: usualFirstName,
+      profileUrl: profileUrl,
+      displayName: displayName,
+      kind: kind,
+      image: image,
+      staff: staff,
+      correctionPoint: correctionPoint,
+      poolMonth: poolMonth,
+      poolYear: poolYear,
+      wallet: wallet,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      alumnizedAt: alumnizedAt,
+      alumni: alumni,
+      active: active,
+      groups: groups,
+      cursusUsers: cursusUsers,
+      projectsUsers: projectsUsers,
+      languagesUsers: languagesUsers,
+      achievements: achievements,
+      titles: titles,
+      titlesUsers: titlesUsers,
+      expertisesUsers: expertisesUsers,
+      campus: campus,
+      campusUsers: campusUsers,
     );
   }
 }

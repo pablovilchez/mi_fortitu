@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:mi_fortitu/features/home/domain/usecases/get_mock_profile_usecase.dart';
+import 'package:mi_fortitu/features/home/domain/usecases/get_profile_usecase.dart';
 
 import '../../../domain/entities/intra_profile.dart';
 import '../../viewmodels/intra_profile_summary_vm.dart';
@@ -19,7 +19,7 @@ class IntraProfileBloc extends Bloc<IntraProfileEvent, IntraProfileState> {
       Emitter<IntraProfileState> emit) async {
     emit(IntraProfileLoading());
 
-    final result = await GetMockProfileUseCase().call(event.login);
+    final result = await GetProfileUseCase().call(event.login);
     result.fold(
           (failure) => emit(IntraProfileError(failure.toString())),
           (profile) => emit(IntraProfileSuccess(profile)),

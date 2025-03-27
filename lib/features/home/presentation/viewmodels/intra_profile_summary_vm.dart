@@ -32,7 +32,7 @@ class IntraProfileSummaryVM {
       titleFound = entity.titles
           .firstWhere((e) => e.id == titleId)
           .name
-          .replaceAll('%login', entity.login);
+          .replaceAll('%auth', entity.login);
     } catch (e) {
       titleFound = entity.login;
     }

@@ -20,3 +20,10 @@ class ParsingDataFailure extends Failure {
   @override
   String toString() => message;
 }
+
+class AuthFailure extends Failure {
+  AuthFailure(super.message);
+
+  @override
+  String toString() => message;
+}

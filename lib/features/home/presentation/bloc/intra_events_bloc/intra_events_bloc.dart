@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:mi_fortitu/features/home/domain/usecases/get_mock_events_usecase.dart';
+import 'package:mi_fortitu/features/home/domain/usecases/get_events_usecase.dart';
 
 import '../../../domain/entities/intra_event.dart';
 
@@ -17,7 +17,7 @@ class IntraEventsBloc extends Bloc<IntraEventsEvent, IntraEventsState> {
     Emitter<IntraEventsState> emit,
   ) async {
     emit(IntraEventsLoading());
-    final result = await GetMockEventsUsecase().call();
+    final result = await GetEventsUsecase().call();
     result.fold(
       (failure) => emit(IntraEventsError(failure.toString())),
       (events) => emit(IntraEventsSuccess(events)),
