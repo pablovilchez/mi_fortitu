@@ -6,7 +6,7 @@ import 'package:http/http.dart' as oauth2;
 
 import 'package:mi_fortitu/features/home/data/models/models.dart';
 
-import '../../../../core/utils/secure_storage_helper.dart';
+import '../../../../core/helpers/secure_storage_helper.dart';
 import '../../../home/domain/failures.dart';
 import '../../domain/entities/intra_event.dart';
 import '../../domain/entities/intra_profile.dart';

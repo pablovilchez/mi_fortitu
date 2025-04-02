@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mi_fortitu/core/utils/snackbar_helper.dart';
+import 'package:mi_fortitu/core/helpers/snackbar_helper.dart';
 import 'package:mi_fortitu/features/auth/presentation/bloc/supa_login_bloc/supa_login_bloc.dart';
 import 'package:mi_fortitu/features/auth/presentation/widgets/login_text_fields.dart';
 

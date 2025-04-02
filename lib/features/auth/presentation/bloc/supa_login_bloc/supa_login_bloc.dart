@@ -7,15 +7,15 @@ part 'supa_login_event.dart';
 part 'supa_login_state.dart';
 
 class SupaLoginBloc extends Bloc<SupaLoginEvent, SupaLoginState> {
-  final GetIntraClientUsecase intraGetClient;
-  final GetRoleUseCase getRoleUseCase;
+  final IntraAuthUsecase intraAuthUsecase;
+  final GetRoleUseCase getRoleUsecase;
   final LogInUsecase logInUsecase;
   final RegisterUsecase registerUsecase;
   final CheckProfileCredentialsUsecase checkProfileCredentialsUsecase;
 
   SupaLoginBloc({
-    required this.intraGetClient,
-    required this.getRoleUseCase,
+    required this.intraAuthUsecase,
+    required this.getRoleUsecase,
     required this.logInUsecase,
     required this.registerUsecase,
     required this.checkProfileCredentialsUsecase,
@@ -65,7 +65,7 @@ class SupaLoginBloc extends Bloc<SupaLoginEvent, SupaLoginState> {
   }
 
   Future<void> _onCheckRol(CheckRolEvent event, Emitter<SupaLoginState> emit) async {
-    final role = await getRoleUseCase();
+    final role = await getRoleUsecase();
     role.fold((failure) => emit(LoginError(failure.message)), (role) {
       if (role == 'waitlist') {
         emit(WaitlistState());
@@ -79,7 +79,7 @@ class SupaLoginBloc extends Bloc<SupaLoginEvent, SupaLoginState> {
 
   Future<void> _onCheckIntraAuth(CheckIntraAuthEvent event, Emitter<SupaLoginState> emit) async {
     emit(LoadingState());
-    final result = await intraGetClient();
+    final result = await intraAuthUsecase();
     result.fold(
       (failure) => emit(LoginError(failure.message)),
       (supaLogin) => emit(LoginSuccess()),

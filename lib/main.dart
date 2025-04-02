@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mi_fortitu/core/router/app_router.dart';
-import 'package:mi_fortitu/core/utils/preferences_helper.dart';
+import 'package:mi_fortitu/core/helpers/preferences_helper.dart';
 import 'package:mi_fortitu/features/auth/presentation/bloc/supa_login_bloc/supa_login_bloc.dart';
 import 'package:mi_fortitu/features/home/presentation/bloc/intra_events_bloc/intra_events_bloc.dart';
 import 'package:mi_fortitu/features/home/presentation/bloc/intra_profile_bloc/intra_profile_bloc.dart';
@@ -42,8 +42,8 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           create:
               (_) => SupaLoginBloc(
-                intraGetClient: sl(),
-                getRoleUseCase: sl(),
+                intraAuthUsecase: sl(),
+                getRoleUsecase: sl(),
                 logInUsecase: sl(),
                 registerUsecase: sl(),
                 checkProfileCredentialsUsecase: sl(),
