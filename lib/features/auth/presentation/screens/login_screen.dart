@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mi_fortitu/core/helpers/snackbar_helper.dart';
-import 'package:mi_fortitu/features/auth/presentation/bloc/supa_login_bloc/supa_login_bloc.dart';
+import 'package:mi_fortitu/features/auth/presentation/bloc/supa_login_bloc/auth_bloc.dart';
 import 'package:mi_fortitu/features/auth/presentation/widgets/login_text_fields.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -10,8 +10,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<SupaLoginBloc>().add(LandingEvent());
-    return BlocListener<SupaLoginBloc, SupaLoginState>(
+    context.read<AuthBloc>().add(LandingEvent());
+    return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is RegisterSuccess) {
           SnackbarHelper.showSnackbar(

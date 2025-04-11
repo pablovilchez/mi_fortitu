@@ -1,10 +1,10 @@
-class SupaLogin {
+class DbLoginEntity {
   final String? id;
   final String? email;
   final String? accessToken;
   final String? refreshToken;
 
-  SupaLogin({
+  DbLoginEntity({
     this.id,
     this.email,
     this.accessToken,

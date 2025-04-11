@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mi_fortitu/core/router/app_router.dart';
 import 'package:mi_fortitu/core/helpers/preferences_helper.dart';
-import 'package:mi_fortitu/features/auth/presentation/bloc/supa_login_bloc/supa_login_bloc.dart';
+import 'package:mi_fortitu/core/router/app_router.dart';
+import 'package:mi_fortitu/features/auth/presentation/bloc/supa_login_bloc/auth_bloc.dart';
 import 'package:mi_fortitu/features/home/presentation/bloc/intra_events_bloc/intra_events_bloc.dart';
 import 'package:mi_fortitu/features/home/presentation/bloc/intra_profile_bloc/intra_profile_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -18,8 +18,8 @@ void main() async {
   await PreferencesHelper().init();
 
   String savedLanguage = PreferencesHelper().getLanguage();
-
   await Supabase.initialize(url: dotenv.env['SUPA_URL']!, anonKey: dotenv.env['SUPA_ANON_KEY']!);
+  initDi();
 
   runApp(
     EasyLocalization(
@@ -41,17 +41,16 @@ class MainApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create:
-              (_) => SupaLoginBloc(
-                intraAuthUsecase: sl(),
-                getRoleUsecase: sl(),
-                logInUsecase: sl(),
-                registerUsecase: sl(),
-                checkProfileCredentialsUsecase: sl(),
+              (_) => AuthBloc(
+                authUsecase: sl(),
+                dbLogInUsecase: sl(),
+                dbRegisterUsecase: sl(),
+                getRoleUseCase: sl(),
               ),
         ),
-        BlocProvider(create: (_) => IntraProfileBloc()),
-        BlocProvider(create: (_) => IntraSearchProfileBloc()),
-        BlocProvider(create: (_) => IntraEventsBloc()),
+        BlocProvider(create: (_) => IntraProfileBloc(getProfileUsecase: sl())),
+        BlocProvider(create: (_) => IntraSearchProfileBloc(getProfileUsecase: sl())),
+        BlocProvider(create: (_) => IntraEventsBloc(getEventsUsecase: sl())),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

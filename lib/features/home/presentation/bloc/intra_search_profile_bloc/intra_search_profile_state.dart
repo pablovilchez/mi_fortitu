@@ -8,7 +8,7 @@ final class IntraSearchProfileInitial extends IntraSearchProfileState {}
 final class IntraSearchProfileLoading extends IntraSearchProfileState {}
 
 final class IntraSearchProfileSuccess extends IntraSearchProfileState {
-  final IntraProfile intraSearchProfile;
+  final IntraProfileEntity intraSearchProfile;
 
   IntraSearchProfileSuccess(this.intraSearchProfile);
 }

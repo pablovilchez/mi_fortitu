@@ -1,4 +1,4 @@
-class IntraProfile {
+class IntraProfileEntity {
   int id;
   String email;
   String login;
@@ -31,7 +31,7 @@ class IntraProfile {
   List<Campus> campus;
   List<CampusUser> campusUsers;
 
-  IntraProfile({
+  IntraProfileEntity({
     required this.id,
     required this.email,
     required this.login,

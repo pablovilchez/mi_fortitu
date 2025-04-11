@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-
 import 'package:go_router/go_router.dart';
-
-import 'package:mi_fortitu/features/home/presentation/screens/screens.dart';
 import 'package:mi_fortitu/features/auth/presentation/screens/screens.dart';
+import 'package:mi_fortitu/features/home/presentation/screens/screens.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/auth',
   routes: [
+    GoRoute(path: '/auth', pageBuilder: (context, state) => MaterialPage(child: LoginScreen())),
     GoRoute(
-      path: '/auth',
-      pageBuilder: (context, state) => MaterialPage(child: LoginScreen()),
+      path: '/login-callback',
+      pageBuilder: (context, state) => const MaterialPage(child: SizedBox.shrink()),
     ),
-    GoRoute(
-      path: '/home',
-      pageBuilder: (context, state) => MaterialPage(child: HomeScreen()),
-    ),
+    GoRoute(path: '/home', pageBuilder: (context, state) => MaterialPage(child: HomeScreen())),
     GoRoute(
       path: '/waitlist',
       pageBuilder: (context, state) => MaterialPage(child: WaitlistScreen()),
@@ -32,18 +28,12 @@ final appRouter = GoRouter(
       path: '/slots',
       pageBuilder: (context, state) => MaterialPage(child: EvalSlotsScreen()),
     ),
-    GoRoute(
-      path: '/shop',
-      pageBuilder: (context, state) => MaterialPage(child: ShopScreen()),
-    ),
+    GoRoute(path: '/shop', pageBuilder: (context, state) => MaterialPage(child: ShopScreen())),
     GoRoute(
       path: '/settings',
       pageBuilder: (context, state) => MaterialPage(child: SettingsScreen()),
     ),
-    GoRoute(
-      path: '/finder',
-      pageBuilder: (context, state) => MaterialPage(child: FinderScreen()),
-    ),
+    GoRoute(path: '/finder', pageBuilder: (context, state) => MaterialPage(child: FinderScreen())),
     GoRoute(
       path: '/clusters',
       pageBuilder: (context, state) => MaterialPage(child: ClustersScreen()),
@@ -58,11 +48,10 @@ final appRouter = GoRouter(
     ),
   ],
   redirect: (BuildContext context, GoRouterState state) {
-    // DEBUG
-    if (state.uri.toString().contains('/intra-callback')) {
+    if (state.uri.toString().contains('/login-callback')) {
       return '/auth';
-    } else if (state.uri.toString().contains('/auth-callback')) {
-      return '/auth';
+    } else {
+      return null;
     }
   },
 );

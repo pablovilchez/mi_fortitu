@@ -1,6 +1,6 @@
-import 'package:mi_fortitu/features/home/domain/entities/intra_profile.dart';
+import 'package:mi_fortitu/features/home/domain/entities/intra_profile_entity.dart';
 
-class IntraProfileModel extends IntraProfile {
+class IntraProfileModel extends IntraProfileEntity {
   IntraProfileModel({
     required super.id,
     required super.email,
@@ -38,17 +38,17 @@ class IntraProfileModel extends IntraProfile {
   factory IntraProfileModel.fromJson(Map<String, dynamic> json) {
     return IntraProfileModel(
       id: json["id"],
-      email: json["email"],
-      login: json["auth"],
-      firstName: json["first_name"],
-      lastName: json["last_name"],
-      usualFullName: json["usual_full_name"],
+      email: json["email"] ?? "",
+      login: json["login"] ?? "",
+      firstName: json["first_name"] ?? "",
+      lastName: json["last_name"] ?? "",
+      usualFullName: json["usual_full_name"] ?? "",
       usualFirstName: json["usual_first_name"] ?? "",
-      profileUrl: json["url"],
-      displayName: json["displayname"],
-      kind: json["kind"],
+      profileUrl: json["url"] ?? "",
+      displayName: json["displayname"] ?? "",
+      kind: json["kind"] ?? "",
       image: ProfileImagesModel.fromJson(json["image"]),
-      staff: json["staff?"],
+      staff: json["staff?"] ?? false,
       correctionPoint: json["correction_point"] ?? 0,
       poolMonth: json["pool_month"] ?? "None",
       poolYear: json["pool_year"] ?? "None",
@@ -56,8 +56,8 @@ class IntraProfileModel extends IntraProfile {
       createdAt: json["created_at"] ?? "",
       updatedAt: json["updated_at"] ?? "",
       alumnizedAt: json["alumnized_at"] ?? "",
-      alumni: json["alumni?"],
-      active: json["active?"],
+      alumni: json["alumni?"] ?? false,
+      active: json["active?"] ?? false,
       groups: List<dynamic>.from(json["groups"].map((x) => x)),
       cursusUsers:
           json["cursus_users"]
@@ -104,8 +104,8 @@ class IntraProfileModel extends IntraProfile {
     );
   }
 
-  IntraProfile toEntity() {
-    return IntraProfile(
+  IntraProfileEntity toEntity() {
+    return IntraProfileEntity(
       id: id,
       email: email,
       login: login,
@@ -146,7 +146,7 @@ class ProfileImagesModel extends ProfileImages {
 
   factory ProfileImagesModel.fromJson(Map<String, dynamic> json) {
     return ProfileImagesModel(
-      link: json["link"],
+      link: json["link"] ?? "",
       versions: VersionsModel.fromJson(json["versions"]),
     );
   }
@@ -166,10 +166,10 @@ class VersionsModel extends Versions {
 
   factory VersionsModel.fromJson(Map<String, dynamic> json) {
     return VersionsModel(
-      large: json["large"],
-      medium: json["medium"],
-      small: json["small"],
-      micro: json["micro"],
+      large: json["large"] ?? "",
+      medium: json["medium"] ?? "",
+      small: json["small"] ?? "",
+      micro: json["micro"] ?? "",
     );
   }
 
@@ -200,12 +200,12 @@ class CursusUserModel extends CursusUser {
       beginAt: json["begin_at"] ?? "",
       endAt: json["end_at"] ?? "",
       grade: json["grade"] ?? "",
-      level: json["level"]?.toDouble(),
+      level: json["level"]?.toDouble() ?? 0,
       skills: List<SkillModel>.from(
         json["skills"].map((x) => SkillModel.fromJson(x)),
       ),
       cursusId: json["cursus_id"],
-      hasCoalition: json["has_coalition"],
+      hasCoalition: json["has_coalition"] ?? false,
       blackholedAt: json["blackholed_at"] ?? "",
       createdAt: json["created_at"] ?? "",
       updatedAt: json["updated_at"] ?? "",
@@ -237,7 +237,7 @@ class SkillModel extends Skill {
   factory SkillModel.fromJson(Map<String, dynamic> json) {
     return SkillModel(
       id: json["id"],
-      name: json["name"],
+      name: json["name"] ?? "",
       level: json["level"]?.toDouble(),
     );
   }
@@ -259,10 +259,10 @@ class CursusModel extends Cursus {
   factory CursusModel.fromJson(Map<String, dynamic> json) {
     return CursusModel(
       id: json["id"],
-      createdAt: json["created_at"],
-      name: json["name"],
-      slug: json["slug"],
-      kind: json["kind"],
+      createdAt: json["created_at"] ?? "",
+      name: json["name"] ?? "",
+      slug: json["slug"] ?? "",
+      kind: json["kind"] ?? "",
     );
   }
 
@@ -297,15 +297,15 @@ class ProjectsUserModel extends ProjectsUser {
   factory ProjectsUserModel.fromJson(Map<String, dynamic> json) {
     return ProjectsUserModel(
       id: json["id"],
-      occurrence: json["occurrence"],
+      occurrence: json["occurrence"] ?? 0,
       finalMark: json["final_mark"] ?? 0,
       status: json["status"] ?? 'undefined',
       validated: json["validated?"] ?? false,
-      currentTeamId: json["current_team_id"],
+      currentTeamId: json["current_team_id"] ?? -1,
       project: ProjectModel.fromJson(json["project"]),
       cursusIds: List<int>.from(json["cursus_ids"].map((x) => x)),
       markedAt: json["marked_at"] ?? "",
-      marked: json["marked"],
+      marked: json["marked"] ?? false,
       retriableAt: json["retriable_at"] ?? "",
       createdAt: json["created_at"] ?? "",
       updatedAt: json["updated_at"] ?? "",
@@ -342,8 +342,8 @@ class ProjectModel extends Project {
   factory ProjectModel.fromJson(Map<String, dynamic> json) {
     return ProjectModel(
       id: json["id"],
-      name: json["name"],
-      slug: json["slug"],
+      name: json["name"] ?? "",
+      slug: json["slug"] ?? "",
       parentId: json["parent_id"] ?? 0,
     );
   }
@@ -365,9 +365,9 @@ class LanguagesUserModel extends LanguagesUser {
   factory LanguagesUserModel.fromJson(Map<String, dynamic> json) {
     return LanguagesUserModel(
       id: json["id"],
-      languageId: json["language_id"],
-      userId: json["user_id"],
-      position: json["position"],
+      languageId: json["language_id"] ?? -1,
+      userId: json["user_id"] ?? -1,
+      position: json["position"] ?? -1,
       createdAt: json["created_at"] ?? "",
     );
   }
@@ -399,14 +399,14 @@ class AchievementModel extends Achievement {
   factory AchievementModel.fromJson(Map<String, dynamic> json) {
     return AchievementModel(
       id: json["id"],
-      name: json["name"],
-      description: json["description"],
+      name: json["name"] ?? "",
+      description: json["description"] ?? "",
       tier: json["tier"] ?? 'none',
       kind: json["kind"] ?? 'none',
-      visible: json["visible"],
-      image: json["image"],
+      visible: json["visible"] ?? false,
+      image: json["image"] ?? "",
       nbrOfSuccess: json["nbr_of_success"] ?? 0,
-      usersUrl: json["users_url"],
+      usersUrl: json["users_url"] ?? "",
     );
   }
 
@@ -450,9 +450,9 @@ class TitlesUserModel extends TitlesUser {
   factory TitlesUserModel.fromJson(Map<String, dynamic> json) {
     return TitlesUserModel(
       id: json["id"],
-      userId: json["user_id"],
-      titleId: json["title_id"],
-      selected: json["selected"],
+      userId: json["user_id"] ?? -1,
+      titleId: json["title_id"] ?? -1,
+      selected: json["selected"] ?? false,
       createdAt: json["created_at"] ?? "",
       updatedAt: json["updated_at"] ?? "",
     );
@@ -484,12 +484,12 @@ class ExpertisesUserModel extends ExpertisesUser {
   factory ExpertisesUserModel.fromJson(Map<String, dynamic> json) {
     return ExpertisesUserModel(
       id: json["id"],
-      expertiseId: json["expertise_id"],
-      interested: json["interested"],
-      value: json["value"],
-      contactMe: json["contact_me"],
+      expertiseId: json["expertise_id"] ?? -1,
+      interested: json["interested"] ?? false,
+      value: json["value"] ?? 0,
+      contactMe: json["contact_me"] ?? false,
       createdAt: json["created_at"] ?? "",
-      userId: json["user_id"],
+      userId: json["user_id"] ?? -1,
     );
   }
 
@@ -529,21 +529,21 @@ class CampusModel extends Campus {
   factory CampusModel.fromJson(Map<String, dynamic> json) {
     return CampusModel(
       id: json["id"],
-      name: json["name"],
-      timeZone: json["time_zone"],
+      name: json["name"] ?? "",
+      timeZone: json["time_zone"] ?? "",
       language: LanguageModel.fromJson(json["language"]),
-      usersCount: json["users_count"],
-      vogsphereId: json["vogsphere_id"],
-      country: json["country"],
-      address: json["address"],
-      zip: json["zip"],
-      city: json["city"],
-      website: json["website"],
-      facebook: json["facebook"],
-      twitter: json["twitter"],
-      active: json["active"],
-      public: json["public"],
-      emailExtension: json["email_extension"],
+      usersCount: json["users_count"] ?? 0,
+      vogsphereId: json["vogsphere_id"] ?? 0,
+      country: json["country"] ?? "",
+      address: json["address"] ?? "",
+      zip: json["zip"] ?? "",
+      city: json["city"] ?? "",
+      website: json["website"] ?? "",
+      facebook: json["facebook"] ?? "",
+      twitter: json["twitter"] ?? "",
+      active: json["active"] ?? false,
+      public: json["public"] ?? false,
+      emailExtension: json["email_extension"] ?? "",
     );
   }
 
@@ -581,8 +581,8 @@ class LanguageModel extends Language {
   factory LanguageModel.fromJson(Map<String, dynamic> json) {
     return LanguageModel(
       id: json["id"],
-      name: json["name"],
-      identifier: json["identifier"],
+      name: json["name"] ?? "",
+      identifier: json["identifier"] ?? "",
       createdAt: json["created_at"] ?? "",
       updatedAt: json["updated_at"] ?? "",
     );
@@ -613,8 +613,8 @@ class CampusUserModel extends CampusUser {
     return CampusUserModel(
       id: json["id"],
       userId: json["user_id"],
-      campusId: json["campus_id"],
-      isPrimary: json["is_primary"],
+      campusId: json["campus_id"] ?? -1,
+      isPrimary: json["is_primary"] ?? false,
       createdAt: json["created_at"] ?? "",
       updatedAt: json["updated_at"] ?? "",
     );

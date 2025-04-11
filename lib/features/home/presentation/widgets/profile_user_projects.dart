@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:mi_fortitu/features/home/domain/entities/intra_profile.dart';
+import 'package:mi_fortitu/features/home/domain/entities/intra_profile_entity.dart';
 
 class ProfileUserProjects extends StatelessWidget {
   final List<ProjectsUser> projectList;

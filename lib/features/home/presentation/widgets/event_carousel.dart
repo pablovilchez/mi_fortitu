@@ -2,16 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:mi_fortitu/core/utils/data_format_helper.dart';
+import 'package:mi_fortitu/core/helpers/data_format_helper.dart';
 
-import '../../domain/entities/intra_event.dart';
+import '../../domain/entities/intra_event_entity.dart';
 import '../bloc/intra_events_bloc/intra_events_bloc.dart';
 import 'event_detail_sheet.dart';
 
 class EventCarousel extends StatelessWidget {
   final double width;
   final double height;
-  final List<IntraEvent> event = [];
+  final List<IntraEventEntity> event = [];
 
   EventCarousel({super.key, this.width = 300, this.height = 200});
 
@@ -20,7 +20,6 @@ class EventCarousel extends StatelessWidget {
     return BlocBuilder<IntraEventsBloc, IntraEventsState>(
       builder: (context, state) {
         if (state is IntraEventsInitial) {
-          context.read<IntraEventsBloc>().add(GetIntraEventsEvent());
           return CircularProgressIndicator();
         } else if (state is IntraEventsLoading) {
           return CircularProgressIndicator();
@@ -74,7 +73,7 @@ class EventCarousel extends StatelessWidget {
 }
 
 class EventCard extends StatelessWidget {
-  final IntraEvent event;
+  final IntraEventEntity event;
 
   const EventCard({super.key, required this.event});
 

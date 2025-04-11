@@ -41,6 +41,7 @@ flutter:
     - assets/images/gif/
     - assets/translations/
     - test/resources/
+    - assets/clusters/
 
 
 

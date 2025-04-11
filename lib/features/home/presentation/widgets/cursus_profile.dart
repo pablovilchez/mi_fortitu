@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:mi_fortitu/features/home/domain/entities/intra_profile.dart';
+import 'package:mi_fortitu/features/home/domain/entities/intra_profile_entity.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/profile_user_card.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/profile_user_level_card.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/profile_user_projects.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/profile_user_skills.dart';
 
 class CursusProfile extends StatefulWidget {
-  final IntraProfile profile;
+  final IntraProfileEntity profile;
 
   const CursusProfile({super.key, required this.profile});
 

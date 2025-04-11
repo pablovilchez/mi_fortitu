@@ -1,15 +1,22 @@
 import 'dart:convert';
 
 import 'package:app_links/app_links.dart';
+import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
+import 'package:mi_fortitu/core/config/env_config.dart';
 import 'package:mi_fortitu/core/services/url_launcher_service.dart';
+import 'package:mi_fortitu/features/auth/data/exceptions.dart';
 
-
+/// A data source for handling Intra authentication.
+///
+/// This class is responsible for managing the authentication process with Intra,
+/// including obtaining the authorization URL, handling redirects,
+/// and exchanging authorization codes for access tokens.
 class AuthIntraDatasource {
   final http.Client httpClient;
   final AppLinks appLinks;
   final UrlLauncherService launcher;
-  final Map<String, String> env;
+  final EnvConfig env;
 
   AuthIntraDatasource({
     required this.httpClient,
@@ -18,92 +25,84 @@ class AuthIntraDatasource {
     required this.env,
   });
 
-  /// Gets the authorization URL for Intra authentication.
-  Future<String> getAuthorizationUrl() async {
-    final oAuthCodeFunctionUrl = env['OAUTH_CODE_FUNCTION_URL'];
-    final tokenScope = env['INTRA_TOKEN_SCOPE'];
+  /// Handles the authentication process with Intra.
+  ///
+  /// This method first retrieves the authorization URL, then launches it in the browser.
+  /// After the user authorizes the app, it listens for the redirect URI to extract the
+  /// authorization code. Finally, it exchanges the authorization code for an access token.
+  Future<Either<AuthException, Map<String, dynamic>>> requestNewTokens() async {
+    // Check if the environment variables are set.
+    final redirectUri = env.redirectUri;
+    final codeForTokenFunctionUrl = env.codeForTokenFunctionUrl;
+
+    // Get the authorization URL from the server and launch it in the browser.
+    final responseAuthUrl = await _getAuthorizationUrl();
+    if (responseAuthUrl.isLeft()) {
+      return Left(responseAuthUrl.fold((failure) => failure, (r) => UrlException()));
+    }
+    final authUrl = responseAuthUrl.getOrElse(() => '');
+    await launcher.redirect(Uri.parse(authUrl));
+
+    // Listen for the redirect URI.
+    final responseRedirectUrl = await _listenForRedirect(Uri.parse(redirectUri));
+    if (responseRedirectUrl.isLeft()) {
+      return Left(responseRedirectUrl.fold((failure) => failure, (r) => UrlException()));
+    }
+    final responseUrl = responseRedirectUrl.getOrElse(() => Uri.parse(''));
+
+    // Extract the authorization code and change it for an access token.
+    final code = responseUrl.queryParameters['code'];
+    if (code == null) {
+      return Left(NoCodeException());
+    }
     final response = await httpClient.post(
-      Uri.parse(oAuthCodeFunctionUrl!),
+      Uri.parse(codeForTokenFunctionUrl),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'response_type': 'code',
-        'scope': tokenScope,
-      }),
+      body: jsonEncode({'code': code}),
+    );
+    if (response.statusCode != 200) {
+      return Left(TokenExchangeException(message: '${response.statusCode}: ${response.body}'));
+    }
+
+    return Right(jsonDecode(response.body));
+  }
+
+  /// Gets the authorization URL for Intra authentication.
+  Future<Either<AuthException, String>> _getAuthorizationUrl() async {
+    final getAuthUrlFunctionUrl = env.getAuthUrlFunctionUrl;
+    final tokenScope = env.intraTokenScope;
+
+    final response = await httpClient.post(
+      Uri.parse(getAuthUrlFunctionUrl),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'scope': tokenScope}),
     );
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to get authorization URL: ${response.body}');
+      return Left(UrlException(code: 'E001', message: '${response.statusCode}: ${response.body}'));
     }
 
     final data = jsonDecode(response.body);
 
     if (data['url'] == null) {
-      throw Exception('Authorization URL not found in response');
+      return Left(UrlException(code: 'E002'));
     }
 
-    return data['url'];
-  }
-
-  /// Handles the authentication process with Intra.
-  Future<Map<String, dynamic>> authenticate() async {
-    final redirectUri = env['REDIRECT_URI'];
-    final authFunctionUrl = env['AUTH_FUNCTION_URL'];
-    final authUrl = await getAuthorizationUrl();
-    await launcher.redirect(Uri.parse(authUrl));
-
-    final responseUrl = await _listenForRedirect(Uri.parse(redirectUri!));
-    final code = responseUrl.queryParameters['code'];
-
-    if (code == null) {
-      throw Exception('Authorization code not found in response URL');
-    }
-
-    final response = await httpClient.post(
-      Uri.parse(authFunctionUrl!),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'grant_type': 'authorization_code', 'code': code}),
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception('Failed to exchange code for token: ${response.body}');
-    }
-
-    return jsonDecode(response.body);
+    return Right(data['url']);
   }
 
   /// Listens for the redirect URL.
-  Future<Uri> _listenForRedirect(Uri redirectUri) async {
+  Future<Either<AuthException, Uri>> _listenForRedirect(Uri redirectUri) async {
+    bool redirectProcessed = false;
     await for (final uri in appLinks.uriLinkStream) {
+      if (redirectProcessed) {
+        break;
+      }
       if (uri.toString().startsWith(redirectUri.toString())) {
-        return uri;
+        redirectProcessed = true;
+        return Right(uri);
       }
     }
-    throw Exception('Failed to listen for redirect');
-  }
-
-  /// Gets the token information from intra
-  Future<Map<String, dynamic>> getTokenInfo(String accessToken) async {
-    final intraTokenUrl = env['INTRA_TOKEN_URL'];
-    final response = await httpClient.get(
-      Uri.parse(intraTokenUrl!),
-      headers: {'Authorization': 'Bearer $accessToken'},
-    );
-
-    return jsonDecode(response.body);
-  }
-
-  /// Refreshes the access token using the refresh token.
-  Future<Map<String, dynamic>> refreshToken(String refreshToken) async {
-    final refreshTokenFunctionUrl = env['REFRESH_TOKEN_FUNCTION_URL'];
-    final response = await httpClient.post(
-      Uri.parse(refreshTokenFunctionUrl!),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'grant_type': 'refresh_token', 'refresh_token': refreshToken}),
-    );
-    if (response.statusCode != 200) {
-      throw Exception('Failed to refresh token: ${response.body}');
-    }
-
-    return jsonDecode(response.body);
+    return Left(UrlException(code: 'E003'));
   }
 }

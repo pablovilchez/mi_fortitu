@@ -1,6 +1,6 @@
-import 'package:mi_fortitu/features/home/domain/entities/intra_event.dart';
+import 'package:mi_fortitu/features/home/domain/entities/intra_event_entity.dart';
 
-class IntraEventModel extends IntraEvent {
+class IntraEventModel extends IntraEventEntity {
   IntraEventModel({
     required super.id,
     required super.name,
@@ -39,8 +39,8 @@ class IntraEventModel extends IntraEvent {
     );
   }
 
-  IntraEvent toEntity() {
-    return IntraEvent(
+  IntraEventEntity toEntity() {
+    return IntraEventEntity(
       id: id,
       name: name,
       description: description,

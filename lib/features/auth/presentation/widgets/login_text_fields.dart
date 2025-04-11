@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mi_fortitu/features/auth/presentation/bloc/supa_login_bloc/supa_login_bloc.dart';
+import 'package:mi_fortitu/features/auth/presentation/bloc/supa_login_bloc/auth_bloc.dart';
 import 'package:mi_fortitu/features/auth/presentation/widgets/validators.dart';
 
 class LoginForm extends StatefulWidget {
@@ -18,9 +18,9 @@ class _SupaForm extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final loginBloc = context.read<SupaLoginBloc>();
+    final loginBloc = context.read<AuthBloc>();
 
-    return BlocBuilder<SupaLoginBloc, SupaLoginState>(
+    return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         final isRegister = state is RegisterFormState;
 
@@ -80,7 +80,7 @@ class _SupaForm extends State<LoginForm> {
   }
 
   Widget _buildSubmitButton() {
-    return BlocBuilder<SupaLoginBloc, SupaLoginState>(
+    return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         final isLoading = state is LoadingState || state is LandingState;
         final isRegister = state is RegisterFormState;
@@ -89,15 +89,15 @@ class _SupaForm extends State<LoginForm> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               if (isRegister) {
-                context.read<SupaLoginBloc>().add(
-                  RequestRegisterEvent(
+                context.read<AuthBloc>().add(
+                  RequestDbRegisterEvent(
                     email: _emailController.text,
                     password: _passwordController.text,
                   ),
                 );
               } else {
-                context.read<SupaLoginBloc>().add(
-                  RequestLoginEvent(
+                context.read<AuthBloc>().add(
+                  RequestDbLoginEvent(
                     email: _emailController.text,
                     password: _passwordController.text,
                   ),
@@ -118,7 +118,7 @@ class _SupaForm extends State<LoginForm> {
     );
   }
 
-  Widget _buildToggleButton(SupaLoginBloc bloc) {
+  Widget _buildToggleButton(AuthBloc bloc) {
     final state = bloc.state;
     return TextButton(
       onPressed: state is LandingState || state is LoadingState

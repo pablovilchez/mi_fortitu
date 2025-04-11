@@ -1,6 +1,7 @@
-import 'package:mi_fortitu/features/home/domain/entities/intra_profile.dart';
+import 'package:mi_fortitu/features/home/domain/entities/intra_profile_entity.dart';
 
 class IntraProfileSummaryVM {
+  final String login;
   final String name;
   final String title;
   final String cursus;
@@ -12,6 +13,7 @@ class IntraProfileSummaryVM {
   final int wallet;
 
   IntraProfileSummaryVM({
+    required this.login,
     required this.name,
     required this.title,
     required this.cursus,
@@ -23,7 +25,7 @@ class IntraProfileSummaryVM {
     required this.wallet,
   });
 
-  factory IntraProfileSummaryVM.fromEntity(IntraProfile entity) {
+  factory IntraProfileSummaryVM.fromEntity(IntraProfileEntity entity) {
     late final String titleFound;
     late final CursusUser findCursus;
 
@@ -32,7 +34,7 @@ class IntraProfileSummaryVM {
       titleFound = entity.titles
           .firstWhere((e) => e.id == titleId)
           .name
-          .replaceAll('%auth', entity.login);
+          .replaceAll('%login', entity.login);
     } catch (e) {
       titleFound = entity.login;
     }
@@ -46,6 +48,7 @@ class IntraProfileSummaryVM {
     }
 
     return IntraProfileSummaryVM(
+      login: entity.login,
       name: entity.firstName,
       title: titleFound,
       cursus: findCursus.cursus.name,

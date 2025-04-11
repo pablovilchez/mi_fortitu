@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mi_fortitu/features/home/domain/entities/intra_profile.dart';
+import 'package:mi_fortitu/features/home/domain/entities/intra_profile_entity.dart';
 
 class ProfileUserSkills extends StatelessWidget {
   final CursusUser cursus;

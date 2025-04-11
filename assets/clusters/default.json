@@ -1,0 +1,18 @@
+{
+  "id": 0,
+    "name": "Default",
+    "country": "Default",
+    "city": "Default",
+    "cluster": [
+      {
+        "name": "c1_default",
+        "rows": [
+          {
+            "value": 0,
+            "stations": [0],
+            "starts": "down"
+          }
+        ]
+      }
+    ]
+}

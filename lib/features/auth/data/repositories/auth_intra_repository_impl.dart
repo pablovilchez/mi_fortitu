@@ -6,18 +6,22 @@ import 'package:mi_fortitu/features/auth/domain/repositories/auth_intra_reposito
 
 class AuthIntraRepositoryImpl implements AuthIntraRepository {
   final AuthIntraDatasource datasource;
-  final IntraApiService tokenService;
+  final IntraApiService apiService;
 
-  AuthIntraRepositoryImpl(this.datasource, this.tokenService);
+  AuthIntraRepositoryImpl(this.datasource, this.apiService);
 
   @override
-  Future<Either<Failure, Unit>> requestNewToken() async {
-    try {
-      final data = await datasource.authenticate();
-      await tokenService.saveTokens(data);
-      return Right(unit);
-    } catch (e) {
-      return Left(IntraLoginFailure('Failed to create client: $e'));
-    }
+  Future<Either<Failure, Unit>> requestToken() async {
+    final isAuthenticated = await apiService.getGrantedToken();
+    return isAuthenticated.fold((notAuthenticated) async {
+      final result = await datasource.requestNewTokens();
+      return result.fold((failure) => Left(IntraLoginFailure(failure.title)), (data) async {
+        final saveResult = await apiService.saveTokens(data);
+        return saveResult.fold(
+          (failure) => Left(IntraLoginFailure(failure.toString())),
+          (_) => Right(unit),
+        );
+      });
+    }, (r) => Right(unit));
   }
 }

@@ -32,3 +32,11 @@ class DatabaseFailure extends Failure {
 class CredentialsFailure extends Failure {
   CredentialsFailure(super.message);
 }
+
+class DbTokenFailure extends Failure {
+  DbTokenFailure(super.message);
+}
+
+class IntraTokenFailure extends Failure {
+  IntraTokenFailure(super.message);
+}
