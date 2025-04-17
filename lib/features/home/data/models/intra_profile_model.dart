@@ -1,4 +1,7 @@
+import 'package:mi_fortitu/features/home/data/models/project_user_model.dart';
 import 'package:mi_fortitu/features/home/domain/entities/intra_profile_entity.dart';
+
+import '../../domain/entities/project_user_entity.dart';
 
 class IntraProfileModel extends IntraProfileEntity {
   IntraProfileModel({
@@ -65,38 +68,26 @@ class IntraProfileModel extends IntraProfileEntity {
               .toList(),
       projectsUsers:
           json["projects_users"]
-              .map<ProjectsUser>(
-                (x) => ProjectsUserModel.fromJson(x).toEntity(),
-              )
+              .map<ProjectUserEntity>((x) => ProjectUserModel.fromJson(x).toEntity())
               .toList(),
       languagesUsers:
           json["languages_users"]
-              .map<LanguagesUser>(
-                (x) => LanguagesUserModel.fromJson(x).toEntity(),
-              )
+              .map<LanguagesUser>((x) => LanguagesUserModel.fromJson(x).toEntity())
               .toList(),
       achievements:
           json["achievements"]
               .map<Achievement>((x) => AchievementModel.fromJson(x).toEntity())
               .toList(),
-      titles:
-          json["titles"]
-              .map<Title>((x) => TitleModel.fromJson(x).toEntity())
-              .toList(),
+      titles: json["titles"].map<Title>((x) => TitleModel.fromJson(x).toEntity()).toList(),
       titlesUsers:
           json["titles_users"]
               .map<TitlesUser>((x) => TitlesUserModel.fromJson(x).toEntity())
               .toList(),
       expertisesUsers:
           json["expertises_users"]
-              .map<ExpertisesUser>(
-                (x) => ExpertisesUserModel.fromJson(x).toEntity(),
-              )
+              .map<ExpertisesUser>((x) => ExpertisesUserModel.fromJson(x).toEntity())
               .toList(),
-      campus:
-          json["campus"]
-              .map<Campus>((x) => CampusModel.fromJson(x).toEntity())
-              .toList(),
+      campus: json["campus"].map<Campus>((x) => CampusModel.fromJson(x).toEntity()).toList(),
       campusUsers:
           json["campus_users"]
               .map<CampusUser>((x) => CampusUserModel.fromJson(x).toEntity())
@@ -201,9 +192,7 @@ class CursusUserModel extends CursusUser {
       endAt: json["end_at"] ?? "",
       grade: json["grade"] ?? "",
       level: json["level"]?.toDouble() ?? 0,
-      skills: List<SkillModel>.from(
-        json["skills"].map((x) => SkillModel.fromJson(x)),
-      ),
+      skills: List<SkillModel>.from(json["skills"].map((x) => SkillModel.fromJson(x))),
       cursusId: json["cursus_id"],
       hasCoalition: json["has_coalition"] ?? false,
       blackholedAt: json["blackholed_at"] ?? "",
@@ -235,11 +224,7 @@ class SkillModel extends Skill {
   SkillModel({required super.id, required super.name, required super.level});
 
   factory SkillModel.fromJson(Map<String, dynamic> json) {
-    return SkillModel(
-      id: json["id"],
-      name: json["name"] ?? "",
-      level: json["level"]?.toDouble(),
-    );
+    return SkillModel(id: json["id"], name: json["name"] ?? "", level: json["level"]?.toDouble());
   }
 
   Skill toEntity() {
@@ -267,89 +252,7 @@ class CursusModel extends Cursus {
   }
 
   Cursus toEntity() {
-    return Cursus(
-      id: id,
-      createdAt: createdAt,
-      name: name,
-      slug: slug,
-      kind: kind,
-    );
-  }
-}
-
-class ProjectsUserModel extends ProjectsUser {
-  ProjectsUserModel({
-    required super.id,
-    required super.occurrence,
-    required super.finalMark,
-    required super.status,
-    required super.validated,
-    required super.currentTeamId,
-    required super.project,
-    required super.cursusIds,
-    required super.markedAt,
-    required super.marked,
-    required super.retriableAt,
-    required super.createdAt,
-    required super.updatedAt,
-  });
-
-  factory ProjectsUserModel.fromJson(Map<String, dynamic> json) {
-    return ProjectsUserModel(
-      id: json["id"],
-      occurrence: json["occurrence"] ?? 0,
-      finalMark: json["final_mark"] ?? 0,
-      status: json["status"] ?? 'undefined',
-      validated: json["validated?"] ?? false,
-      currentTeamId: json["current_team_id"] ?? -1,
-      project: ProjectModel.fromJson(json["project"]),
-      cursusIds: List<int>.from(json["cursus_ids"].map((x) => x)),
-      markedAt: json["marked_at"] ?? "",
-      marked: json["marked"] ?? false,
-      retriableAt: json["retriable_at"] ?? "",
-      createdAt: json["created_at"] ?? "",
-      updatedAt: json["updated_at"] ?? "",
-    );
-  }
-
-  ProjectsUser toEntity() {
-    return ProjectsUser(
-      id: id,
-      occurrence: occurrence,
-      finalMark: finalMark,
-      status: status,
-      validated: validated,
-      currentTeamId: currentTeamId,
-      project: project,
-      cursusIds: cursusIds,
-      markedAt: markedAt,
-      marked: marked,
-      retriableAt: retriableAt,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-    );
-  }
-}
-
-class ProjectModel extends Project {
-  ProjectModel({
-    required super.id,
-    required super.name,
-    required super.slug,
-    required super.parentId,
-  });
-
-  factory ProjectModel.fromJson(Map<String, dynamic> json) {
-    return ProjectModel(
-      id: json["id"],
-      name: json["name"] ?? "",
-      slug: json["slug"] ?? "",
-      parentId: json["parent_id"] ?? 0,
-    );
-  }
-
-  Project toEntity() {
-    return Project(id: id, name: name, slug: slug, parentId: parentId);
+    return Cursus(id: id, createdAt: createdAt, name: name, slug: slug, kind: kind);
   }
 }
 

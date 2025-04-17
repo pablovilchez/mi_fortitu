@@ -43,58 +43,61 @@ class _EventDetailSheetState extends State<EventDetailSheet> {
   @override
   Widget build(BuildContext context) {
     final day = DateFormat('MMMEd').format(widget.event.beginAt);
-    final time = DateFormat('HH:mm').format(widget.event.endAt);
+    final time = DateFormat('HH:mm').format(widget.event.beginAt);
     final contentStyle = TextStyle(fontSize: 15);
 
     return FractionallySizedBox(
       heightFactor: 0.7,
-      child: Padding(
-        padding: EdgeInsets.only(left: 24, right: 24, top: 20, bottom: 30),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.event.name,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                EventDetailField(icon: Icons.calendar_today, text: day),
-                SizedBox(width: 40),
-                EventDetailField(icon: Icons.access_time, text: time),
-              ],
-            ),
-            SizedBox(height: 10),
-            EventDetailField(icon: Icons.pin_drop, text: widget.event.location),
-            SizedBox(height: 20),
-            Expanded(
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                child: Column(
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: EdgeInsets.only(left: 24, right: 24, top: 20, bottom: 30),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.event.name,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  EventDetailField(icon: Icons.calendar_today, text: day),
+                  SizedBox(width: 40),
+                  EventDetailField(icon: Icons.access_time, text: time),
+                ],
+              ),
+              SizedBox(height: 10),
+              EventDetailField(icon: Icons.pin_drop, text: widget.event.location),
+              SizedBox(height: 20),
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  child: Column(
+                    children: [
+                      Text(widget.event.description, style: contentStyle),
+                      SizedBox(height: 40),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(widget.event.description, style: contentStyle),
-                    SizedBox(height: 40),
+                    if (_isScrollable && !_isAtBottom)
+                      Icon(Icons.keyboard_arrow_down),
                   ],
                 ),
               ),
-            ),
-            SizedBox(
-              height: 30,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  if (_isScrollable && !_isAtBottom)
-                    Icon(Icons.keyboard_arrow_down),
-                ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [EventDetailButton(event: widget.event)],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [EventDetailButton(event: widget.event)],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

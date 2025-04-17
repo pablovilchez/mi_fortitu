@@ -1,23 +1,24 @@
 import '../../domain/entities/cluster_user_entity.dart';
 
 class ClusterVm {
-  final String name;
+  final String clusterId;
+  final String clusterName;
   final List<RowViewModel> rows;
 
-  ClusterVm({required this.name, required this.rows});
+  ClusterVm({required this.clusterId, required this.clusterName, required this.rows});
 }
 
 class RowViewModel {
-  final int rowNumber;
-  final String starts;
+  final String rowId;
   final List<StationViewModel> stations;
+  final String starts;
 
-  RowViewModel({required this.rowNumber, required this.starts, required this.stations});
+  RowViewModel({required this.rowId, required this.stations, required this.starts});
 }
 
 class StationViewModel {
-  final int stationNumber;
+  final String stationId;
   final ClusterUserEntity? user;
 
-  StationViewModel({required this.stationNumber, this.user});
+  StationViewModel({required this.stationId, this.user});
 }

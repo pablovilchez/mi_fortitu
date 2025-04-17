@@ -24,10 +24,17 @@
       "clusters": "Clusters",
       "coalitions": "Coaliciones",
       "leagues": "Ligas"
+    },
+    "project_states": {
+      "finished": "terminado",
+      "in_progress": "en progreso",
+      "waiting_to_start": "a comenzar",
+      "waiting_for_correction": "a corregir"
     }
   },
   "search": {
-    "hint": "Buscar estudiante..."
+    "hint": "Buscar estudiante...",
+    "no_results": "No se encontraron resultados"
   },
   "profile": {
     "kind": "Tipo",
@@ -47,6 +54,7 @@
     "months": "m"
   },
   "settings": {
+    "title": "Configuración",
     "language": "Selecciona idioma"
   },
   "buttons": {

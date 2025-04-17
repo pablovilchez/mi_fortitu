@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:mi_fortitu/features/home/domain/entities/intra_profile_entity.dart';
+
+import '../../domain/entities/project_user_entity.dart';
 
 class ProfileUserProjects extends StatelessWidget {
-  final List<ProjectsUser> projectList;
+  final List<ProjectUserEntity> projectList;
 
   const ProfileUserProjects({super.key, required this.projectList});
 
@@ -81,10 +82,12 @@ class ProfileUserProjects extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      project.project.name,
+                      project.project.name.length > 30
+                          ? '${project.project.name.substring(0, 27)}...'
+                          : project.project.name,
                       style: const TextStyle(fontSize: 13),
                     ),
-                    Text(project.status, style: const TextStyle(fontSize: 13)),
+                    Text(tr('home.project_states.${project.status}'), style: const TextStyle(fontSize: 13)),
                   ],
                 ),
                 Row(

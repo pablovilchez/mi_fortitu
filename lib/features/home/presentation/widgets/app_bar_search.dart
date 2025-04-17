@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import 'dev_info_widget.dart';
+
 class AppBarSearch extends StatelessWidget implements PreferredSizeWidget {
   final TextEditingController controller;
   final VoidCallback onSearch;
@@ -29,6 +31,10 @@ class AppBarSearch extends StatelessWidget implements PreferredSizeWidget {
             onPressed: onSearch,
           ),
         ),
+        IconButton(onPressed: (){
+          showDevInfoDialog(context, 'searchTestInfo');
+        }, icon: Icon(Icons.adb),
+          color: Colors.red,)
       ],
     );
   }

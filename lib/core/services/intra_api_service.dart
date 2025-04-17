@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:mi_fortitu/core/config/env_config.dart';
 
-import '../../features/auth/domain/failures.dart';
 import '../errors/exceptions.dart';
 import '../helpers/secure_storage_helper.dart';
 
@@ -23,7 +22,7 @@ class IntraApiService {
     );
 
     if (response.statusCode != 200) {
-      return Left(Exception('Failed to get token info: ${response.body}'));
+      return Left(Exception('Failed to get token info: ${response.statusCode} ${response.body}'));
     }
 
     return Right(jsonDecode(response.body));
@@ -53,23 +52,22 @@ class IntraApiService {
     final response = await httpClient.post(
       Uri.parse(refreshTokenFunctionUrl),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'grant_type': 'refresh_token', 'refresh_token': refreshToken}),
+      body: jsonEncode({'refresh_token': refreshToken}),
     );
     if (response.statusCode != 200) {
-      throw Exception('Failed to refresh token: ${response.body}');
+      throw Exception('Failed to refresh token: ${response.statusCode} ${response.body}');
     }
     return jsonDecode(response.body);
   }
 
-  Future<Either<Failure, String>> getGrantedToken() async {
+  Future<Either<Exception, String>> getGrantedToken() async {
     try {
       final accessToken = await secureStorage.read('intra_access_token');
       final intraRefreshToken = await secureStorage.read('intra_refresh_token');
       final expirationTimeStr = await secureStorage.read('intra_token_expiration');
 
       if (accessToken == null || intraRefreshToken == null || expirationTimeStr == null) {
-        print('DEBUG      no tokens found in secure storage');
-        return Left(IntraLoginFailure('No access token found'));
+        return Left(Exception('No access token found in storage. Please log in again.'));
       }
       final expirationTime = DateTime.parse(expirationTimeStr);
       if (expirationTime.isBefore(DateTime.now())) {
@@ -79,7 +77,7 @@ class IntraApiService {
       }
       return Right(accessToken);
     } catch (e) {
-      return Left(IntraLoginFailure('Failed to get access token: $e'));
+      return Left(Exception(e));
     }
   }
 }

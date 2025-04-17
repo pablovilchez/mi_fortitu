@@ -8,6 +8,8 @@ import 'package:mi_fortitu/features/home/data/models/intra_event_model.dart';
 import 'package:mi_fortitu/features/home/data/models/intra_profile_model.dart';
 
 import '../exceptions.dart';
+import '../models/cursus_coalitions_model.dart';
+import '../models/project_user_model.dart';
 
 class HomeIntraDatasource {
   final http.Client httpClient;
@@ -15,10 +17,10 @@ class HomeIntraDatasource {
 
   HomeIntraDatasource({required this.httpClient, required this.intraApiService});
 
-  Future<Either<RequestException, dynamic>> _makeRequest(String route) async {
+  Future<Either<HomeException, dynamic>> _makeRequest(String route) async {
     final grantToken = await intraApiService.getGrantedToken();
     if (grantToken.isLeft()) {
-      return Left(TokenException(code: 'E001'));
+      return Left(AuthException(code: '01', message: grantToken.fold((l) => l.toString(), (r) => '')));
     }
     final accessToken = grantToken.fold((l) => '', (r) => r);
     try {
@@ -27,15 +29,15 @@ class HomeIntraDatasource {
         headers: {'Authorization': 'Bearer $accessToken'},
       );
       if (response.statusCode != 200) {
-        return Left(CodeException(code: 'E001', message: response.body));
+        return Left(RequestException(code: '01', message: '${response.statusCode}: ${response.body}'));
       }
       return Right(jsonDecode(response.body));
     } catch (e) {
-      return Left(DataException(code: 'E001', message: e.toString()));
+      return Left(RequestException(code: '02', message: e.toString()));
     }
   }
 
-  Future<Either<RequestException, IntraProfileModel>> getIntraProfile({
+  Future<Either<HomeException, IntraProfileModel>> getIntraProfile({
     required String loginName,
   }) async {
     late final String route;
@@ -47,12 +49,12 @@ class HomeIntraDatasource {
       try {
         return Right(IntraProfileModel.fromJson(data as Map<String, dynamic>));
       } catch (e) {
-        return Left(DataException(code: 'E002', message: e.toString()));
+        return Left(DataException(message: '(profile) ${e.toString()}'));
       }
     });
   }
 
-  Future<Either<RequestException, List<IntraEventModel>>> getIntraUserEvents({
+  Future<Either<HomeException, List<IntraEventModel>>> getIntraUserEvents({
     required String loginName,
   }) async {
     final route = 'https://api.intra.42.fr/v2/users/$loginName/events_users';
@@ -65,12 +67,12 @@ class HomeIntraDatasource {
                 .toList();
         return Right(events);
       } catch (e) {
-        return Left(DataException(code: 'E003', message: e.toString()));
+        return Left(DataException(message: '(user events) ${e.toString()}'));
       }
     });
   }
 
-  Future<Either<RequestException, List<IntraEventModel>>> getIntraCampusEvents({
+  Future<Either<HomeException, List<IntraEventModel>>> getIntraCampusEvents({
     required String campusId,
   }) async {
     final route = 'https://api.intra.42.fr/v2/campus/$campusId/events';
@@ -83,12 +85,12 @@ class HomeIntraDatasource {
                 .toList();
         return Right(events);
       } catch (e) {
-        return Left(DataException(code: 'E004', message: e.toString()));
+        return Left(DataException(message: '(campus events) ${e.toString()}'));
       }
     });
   }
 
-  Future<Either<RequestException, List<ClusterUserModel>>> getIntraClusterUsers({
+  Future<Either<HomeException, List<ClusterUserModel>>> getIntraClusterUsers({
     required String campusId,
   }) async {
     final baseRoute = 'https://api.intra.42.fr/v2/campus/$campusId/locations';
@@ -114,9 +116,45 @@ class HomeIntraDatasource {
         allUsers.addAll(users);
         pageNumber++;
       } catch (e) {
-        return Left(DataException(code: 'E005', message: e.toString()));
+        return Left(DataException(message: '(clusters) ${e.toString()}'));
       }
     }
     return Right(allUsers);
+  }
+
+  Future<Either<HomeException, List<CursusCoalitionsModel>>> getIntraCampusCoalitions({
+    required String campusId,
+  }) async {
+    final route = 'https://api.intra.42.fr/v2/blocs/?filter[campus_id]=$campusId';
+    final response = await _makeRequest(route);
+    return response.fold((exception) => Left(exception), (data) {
+      try {
+        final cursusCoalitions =
+            (data as List)
+                .map((coalition) => CursusCoalitionsModel.fromJson(coalition as Map<String, dynamic>))
+                .toList();
+        return Right(cursusCoalitions);
+      } catch (e) {
+        return Left(DataException(message: '(coalition) ${e.toString()}'));
+      }
+    });
+  }
+
+  Future<Either<HomeException, List<ProjectUserModel>>> getIntraProjectUsers({
+    required String projectId, required String campusId,
+  }) async {
+    final route = 'https://api.intra.42.fr/v2/projects/$projectId/project_users?filter[campus]=$campusId&filter[status]=in_progress&filter[marked]=false';
+    final response = await _makeRequest(route);
+    return response.fold((exception) => Left(exception), (data) {
+      try {
+        final projectUsers =
+            (data as List)
+                .map((user) => ProjectUserModel.fromJson(user as Map<String, dynamic>))
+                .toList();
+        return Right(projectUsers);
+      } catch (e) {
+        return Left(DataException(message: '(project users) ${e.toString()}'));
+      }
+    });
   }
 }

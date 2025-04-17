@@ -1,3 +1,5 @@
+import 'package:mi_fortitu/features/home/domain/entities/project_user_entity.dart';
+
 class IntraProfileEntity {
   int id;
   String email;
@@ -22,7 +24,7 @@ class IntraProfileEntity {
   bool active;
   List<dynamic> groups;
   List<CursusUser> cursusUsers;
-  List<ProjectsUser> projectsUsers;
+  List<ProjectUserEntity> projectsUsers;
   List<LanguagesUser> languagesUsers;
   List<Achievement> achievements;
   List<Title> titles;
@@ -145,52 +147,6 @@ class Cursus {
     required this.name,
     required this.slug,
     required this.kind,
-  });
-}
-
-class ProjectsUser {
-  int id;
-  int occurrence;
-  int finalMark;
-  String status;
-  bool validated;
-  int currentTeamId;
-  Project project;
-  List<int> cursusIds;
-  String markedAt;
-  bool marked;
-  String retriableAt;
-  String createdAt;
-  String updatedAt;
-
-  ProjectsUser({
-    required this.id,
-    required this.occurrence,
-    required this.finalMark,
-    required this.status,
-    required this.validated,
-    required this.currentTeamId,
-    required this.project,
-    required this.cursusIds,
-    required this.markedAt,
-    required this.marked,
-    required this.retriableAt,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-}
-
-class Project {
-  int id;
-  String name;
-  String slug;
-  int parentId;
-
-  Project({
-    required this.id,
-    required this.name,
-    required this.slug,
-    required this.parentId,
   });
 }
 

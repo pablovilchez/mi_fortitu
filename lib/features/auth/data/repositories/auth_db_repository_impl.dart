@@ -28,7 +28,7 @@ class AuthDbRepositoryImpl implements AuthDbRepository {
 
   @override
   Future<Either<Failure, Unit>> getToken() async {
-    final response = await datasource.checkDbUserAuth();
+    final response = await datasource.checkAuth();
     return response.leftMap((exception) => AuthFailure(exception.message));
   }
 

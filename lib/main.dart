@@ -10,6 +10,8 @@ import 'package:mi_fortitu/features/home/presentation/bloc/intra_profile_bloc/in
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/di/dependency_injection.dart';
+import 'features/home/presentation/bloc/intra_clusters_bloc/intra_clusters_bloc.dart';
+import 'features/home/presentation/bloc/intra_coalitions_bloc/intra_coalitions_bloc.dart';
 import 'features/home/presentation/bloc/intra_search_profile_bloc/intra_search_profile_bloc.dart';
 
 void main() async {
@@ -51,6 +53,8 @@ class MainApp extends StatelessWidget {
         BlocProvider(create: (_) => IntraProfileBloc(getProfileUsecase: sl())),
         BlocProvider(create: (_) => IntraSearchProfileBloc(getProfileUsecase: sl())),
         BlocProvider(create: (_) => IntraEventsBloc(getEventsUsecase: sl())),
+        BlocProvider(create: (_) => IntraClustersBloc(getCampusClustersUsecase: sl())),
+        BlocProvider(create: (_) => IntraCoalitionsBloc(getCoalitionsUsecase: sl())),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

@@ -1,4 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/dev_info_widget.dart';
 
 class EvalSlotsScreen extends StatelessWidget {
   const EvalSlotsScreen({super.key});
@@ -7,7 +10,16 @@ class EvalSlotsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Evaluation Slots'),
+        title: Text(tr('home.tiles.eval_slots')),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDevInfoDialog(context, 'slotsTestInfo');
+            },
+            icon: Icon(Icons.adb),
+            color: Colors.red,
+          ),
+        ],
       ),
       body: const Center(
         child: Text('Evaluation Slots Screen'),

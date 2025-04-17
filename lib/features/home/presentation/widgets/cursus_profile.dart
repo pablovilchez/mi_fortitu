@@ -6,6 +6,8 @@ import 'package:mi_fortitu/features/home/presentation/widgets/profile_user_level
 import 'package:mi_fortitu/features/home/presentation/widgets/profile_user_projects.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/profile_user_skills.dart';
 
+import '../../domain/entities/project_user_entity.dart';
+
 class CursusProfile extends StatefulWidget {
   final IntraProfileEntity profile;
 
@@ -22,7 +24,7 @@ class _CursusProfileState extends State<CursusProfile> {
   void initState() {
     if (widget.profile.cursusUsers.isNotEmpty) {
       _selectedCursus = widget.profile.cursusUsers.firstWhere(
-            (cursus) => cursus.cursus.kind == 'main',
+        (cursus) => cursus.cursus.kind == 'main',
         orElse: () => widget.profile.cursusUsers.first,
       );
     }
@@ -31,9 +33,10 @@ class _CursusProfileState extends State<CursusProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final List<ProjectsUser> cursusProjects = widget.profile.projectsUsers
-        .where((project) => project.cursusIds.contains(_selectedCursus!.cursus.id))
-        .toList();
+    final List<ProjectUserEntity> cursusProjects =
+        widget.profile.projectsUsers
+            .where((project) => project.cursusIds.contains(_selectedCursus!.cursus.id))
+            .toList();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -54,15 +57,17 @@ class _CursusProfileState extends State<CursusProfile> {
                   });
                 },
                 items:
-                widget.profile.cursusUsers
-                    .map<DropdownMenuItem<CursusUser>>((
-                    CursusUser cursusUser,) {
-                  return DropdownMenuItem<CursusUser>(
-                    value: cursusUser,
-                    child: Text(cursusUser.cursus.name),
-                  );
-                })
-                    .toList(),
+                    widget.profile.cursusUsers.map<DropdownMenuItem<CursusUser>>((
+                      CursusUser cursusUser,
+                    ) {
+                      final cursusName = cursusUser.cursus.name.length > 30
+                          ? '${cursusUser.cursus.name.substring(0, 27)}...'
+                          : cursusUser.cursus.name;
+                      return DropdownMenuItem<CursusUser>(
+                        value: cursusUser,
+                        child: Text(cursusName),
+                      );
+                    }).toList(),
               ),
             ],
           ),
@@ -82,25 +87,19 @@ class _CursusProfileState extends State<CursusProfile> {
                 ),
               ),
             ),
-
-          ] else
-            ...[
-              Center(child: Text('No cursus found.')),
-            ],
+          ] else ...[
+            Center(child: Text('No cursus found.')),
+          ],
         ],
       ),
     );
   }
+
   Widget buildTitle(String title) {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0, left: 15.0),
       child: Row(
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-        ],
+        children: [Text(title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold))],
       ),
     );
   }

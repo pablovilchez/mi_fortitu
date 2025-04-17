@@ -30,11 +30,11 @@ class TilesList extends StatelessWidget {
           icon: Icons.calendar_today,
           route: '/slots',
         ),
-        _OptionTile(
-          title: tr('home.tiles.shop'),
-          icon: Icons.shopping_cart,
-          route: '/shop',
-        ),
+        // _OptionTile(
+        //   title: tr('home.tiles.shop'),
+        //   icon: Icons.shopping_cart,
+        //   route: '/shop',
+        // ),
         SectionHeader(title: 'Campus'),
         _OptionTile(
           title: tr('home.tiles.peer2peer'),

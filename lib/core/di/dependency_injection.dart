@@ -24,9 +24,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../features/home/data/repositories/home_intra_repository_impl.dart';
 import '../../features/home/domain/repositories/home_intra_repository.dart';
+import '../../features/home/domain/usecases/get_coalitions_usecase.dart';
 import '../../features/home/domain/usecases/get_events_usecase.dart';
 import '../../features/home/domain/usecases/get_profile_usecase.dart';
 import '../../features/home/presentation/bloc/intra_clusters_bloc/intra_clusters_bloc.dart';
+import '../../features/home/presentation/bloc/intra_coalitions_bloc/intra_coalitions_bloc.dart';
 import '../config/env_config.dart';
 
 // Environment
@@ -88,6 +90,7 @@ void initDi() {
   sl.registerLazySingleton<GetEventsUsecase>(() => GetEventsUsecase(repository: sl()));
   sl.registerLazySingleton<GetProfileUsecase>(() => GetProfileUsecase(repository: sl()));
   sl.registerLazySingleton<GetClustersUsecase>(() => GetClustersUsecase(sl()));
+  sl.registerLazySingleton<GetCoalitionsUsecase>(() => GetCoalitionsUsecase(sl()));
 
   // Home feature - Blocs
   sl.registerLazySingleton<IntraEventsBloc>(() => IntraEventsBloc(getEventsUsecase: sl()));
@@ -97,5 +100,8 @@ void initDi() {
   );
   sl.registerLazySingleton<IntraClustersBloc>(
     () => IntraClustersBloc(getCampusClustersUsecase: sl()),
+  );
+  sl.registerLazySingleton<IntraCoalitionsBloc>(
+    () => IntraCoalitionsBloc(getCoalitionsUsecase: sl()),
   );
 }

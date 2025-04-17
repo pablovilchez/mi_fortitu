@@ -33,7 +33,7 @@ final appRouter = GoRouter(
       path: '/settings',
       pageBuilder: (context, state) => MaterialPage(child: SettingsScreen()),
     ),
-    GoRoute(path: '/finder', pageBuilder: (context, state) => MaterialPage(child: FinderScreen())),
+    GoRoute(path: '/finder', pageBuilder: (context, state) => MaterialPage(child: PeerToPeerScreen())),
     GoRoute(
       path: '/clusters',
       pageBuilder: (context, state) => MaterialPage(child: ClustersScreen()),

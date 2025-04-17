@@ -9,3 +9,4 @@ class GetCampusClustersEvent extends IntraClustersEvent {
   GetCampusClustersEvent({required this.campusId});
 }
 
+class RefreshClustersEvent extends IntraClustersEvent {}

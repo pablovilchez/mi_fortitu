@@ -1,16 +1,10 @@
 class ClusterUserEntity {
   final String host;
-  final int cluster;
-  final int row;
-  final int station;
   final int campusId;
   final User user;
 
   ClusterUserEntity({
     required this.host,
-    required this.cluster,
-    required this.row,
-    required this.station,
     required this.campusId,
     required this.user,
   });

@@ -28,6 +28,13 @@ class AuthFailure extends HomeFailure {
   String toString() => message;
 }
 
+class EmptyDataFailure extends HomeFailure {
+  EmptyDataFailure(super.message);
+
+  @override
+  String toString() => message;
+}
+
 class UnexpectedFailure extends HomeFailure {
   UnexpectedFailure(super.message);
 

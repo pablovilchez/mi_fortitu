@@ -1,0 +1,201 @@
+{
+  "campusId": 37,
+  "campusName": "42 Málaga",
+  "country": "Spain",
+  "city": "Málaga",
+  "clusters": [
+    {
+      "clusterId": "c1",
+      "clusterName": "Cluster 1",
+      "rows": [
+        {
+          "rowId": "r15",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r14",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r13",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r12",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r11",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r10",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r9",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r8",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r7",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r6",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r5",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r4",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r3",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r2",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r1",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        }
+      ]
+    },
+    {
+      "clusterId": "c2",
+      "clusterName": "Cluster 2",
+      "rows": [
+        {
+          "rowId": "r10",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r9",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r8",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r7",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r6",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r5",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r4",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r3",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r2",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r1",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"],
+          "starts": "down"
+        }
+      ]
+    },
+    {
+      "clusterId": "c3",
+      "clusterName": "Cluster 3",
+      "rows": [
+        {
+          "rowId": "r10",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r9",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r8",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r7",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r6",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r5",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r4",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r3",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r2",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"],
+          "starts": "down"
+        },
+        {
+          "rowId": "r1",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"],
+          "starts": "down"
+        }
+      ]
+    }
+  ]
+}

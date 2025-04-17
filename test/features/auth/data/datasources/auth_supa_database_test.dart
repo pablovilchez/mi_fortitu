@@ -112,7 +112,7 @@ void main() {
         expiresIn: 3600,
       ));
 
-      final result = await datasource.checkDbUserAuth();
+      final result = await datasource.checkAuth();
 
       expect(result, Right(unit));
     });
@@ -120,7 +120,7 @@ void main() {
     test('checkDbUserAuth returns AuthException when session is null', () async {
       when(() => mockSupabaseClient.auth.currentSession).thenReturn(null);
 
-      final result = await datasource.checkDbUserAuth();
+      final result = await datasource.checkAuth();
 
       expect(result.isLeft(), isTrue);
       expect(result.swap().getOrElse(() => throw Exception()), isA<AuthException>());

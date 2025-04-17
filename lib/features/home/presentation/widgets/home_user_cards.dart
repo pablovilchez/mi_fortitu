@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../viewmodels/intra_profile_summary_vm.dart';
+import 'dev_info_widget.dart';
 
 
 class HomeUserCards extends StatelessWidget {
@@ -81,7 +82,7 @@ class HomeUserCards extends StatelessWidget {
               ),
             ),
             Positioned(
-              right: 0,
+              right: 30,
               top: 0,
               child: IconButton(
                 icon: const Icon(Icons.settings),
@@ -89,6 +90,14 @@ class HomeUserCards extends StatelessWidget {
                   GoRouter.of(context).push('/settings');
                 },
               ),
+            ),
+            Positioned(
+              right: 0,
+              top: 0,
+              child: IconButton(onPressed: (){
+                showDevInfoDialog(context, 'homeTestInfo');
+              }, icon: Icon(Icons.adb),
+                color: Colors.red,)
             ),
           ],
         ),

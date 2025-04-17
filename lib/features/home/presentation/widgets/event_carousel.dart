@@ -117,6 +117,7 @@ class EventCard extends StatelessWidget {
   Widget _buildEventInfo() {
     final begin = event.beginAt;
     final end = event.endAt;
+    final days = end.difference(begin).inDays;
     final hours = (end.difference(begin).inMinutes / 60).truncate();
     final minutes = end.difference(begin).inMinutes % 60;
 
@@ -145,7 +146,9 @@ class EventCard extends StatelessWidget {
             HeaderEventElement(
               icon: Icons.timelapse,
               text: () {
-                if (hours == 0) {
+                if (days > 0) {
+                  return '${days}d';
+                } else if (hours == 0) {
                   return '${minutes}m';
                 } else if (minutes == 0) {
                   return '${hours}h';

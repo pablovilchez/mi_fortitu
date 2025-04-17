@@ -81,7 +81,7 @@ void main() {
     });
 
     test('checkDbUserAuth returns Right(unit) when successful', () async {
-      when(() => mockDatasource.checkDbUserAuth()).thenAnswer((_) async => Right(unit));
+      when(() => mockDatasource.checkAuth()).thenAnswer((_) async => Right(unit));
 
       final result = await repository.checkToken();
 
@@ -89,7 +89,7 @@ void main() {
     });
 
     test('checkDbUserAuth returns Left(AuthFailure) on error', () async {
-      when(() => mockDatasource.checkDbUserAuth()).thenAnswer(
+      when(() => mockDatasource.checkAuth()).thenAnswer(
             (_) async => Left(AuthException(code: 'E002', message: 'not logged')),
       );
 

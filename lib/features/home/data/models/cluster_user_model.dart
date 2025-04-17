@@ -1,41 +1,20 @@
 import '../../domain/entities/cluster_user_entity.dart';
 
 class ClusterUserModel extends ClusterUserEntity {
-  ClusterUserModel({
-    required super.host,
-    required super.cluster,
-    required super.row,
-    required super.station,
-    required super.campusId,
-    required super.user,
-  });
+  ClusterUserModel({required super.host, required super.campusId, required super.user});
 
   factory ClusterUserModel.fromJson(Map<String, dynamic> json) {
     final host = json["host"];
-    final regex = RegExp(r'c(\d+)r(\d+)s(\d+)').firstMatch(host);
-    final cluster = int.parse(regex?.group(1) ?? '0');
-    final row = int.parse(regex?.group(2) ?? '0');
-    final station = int.parse(regex?.group(3) ?? '0');
 
     return ClusterUserModel(
       host: host,
-      cluster: cluster,
-      row: row,
-      station: station,
-      campusId: json["campus_id"],
+      campusId: json["campus_id"] ?? -1,
       user: UserModel.fromJson(json["user"]),
     );
   }
 
   ClusterUserEntity toEntity() {
-    return ClusterUserEntity(
-      host: host,
-      cluster: cluster,
-      row: row,
-      station: station,
-      campusId: campusId,
-      user: user,
-    );
+    return ClusterUserEntity(host: host, campusId: campusId, user: user);
   }
 }
 
@@ -55,17 +34,17 @@ class UserModel extends User {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-    id: json["id"],
-    login: json["login"],
-    firstName: json["first_name"],
-    lastName: json["last_name"],
-    kind: json["kind"],
+    id: json["id"] ?? -1,
+    login: json["login"] ?? 'no_login',
+    firstName: json["first_name"] ?? 'no_first_name',
+    lastName: json["last_name"] ?? 'no_last_name',
+    kind: json["kind"] ?? 'no_kind',
     image: ImageModel.fromJson(json["image"]),
-    staff: json["staff?"],
-    correctionPoint: json["correction_point"],
-    poolMonth: json["pool_month"],
-    poolYear: json["pool_year"],
-    alumni: json["alumni?"],
+    staff: json["staff?"] ?? false,
+    correctionPoint: json["correction_point"] ?? -1,
+    poolMonth: json["pool_month"] ?? 'no_pool_month',
+    poolYear: json["pool_year"] ?? 'no_pool_year',
+    alumni: json["alumni?"] ?? false,
   );
 
   User toEntity() {
@@ -88,13 +67,12 @@ class UserModel extends User {
 class ImageModel extends Image {
   ImageModel({required super.small, required super.micro});
 
-  factory ImageModel.fromJson(Map<String, dynamic> json) =>
-      ImageModel(small: json["versions"]["small"], micro: json["versions"]["micro"]);
+  factory ImageModel.fromJson(Map<String, dynamic> json) => ImageModel(
+    small: json["versions"]["small"] ?? 'no_small_image',
+    micro: json["versions"]["micro"] ?? 'no_micro_image',
+  );
 
   Image toEntity() {
-    return Image(
-      small: small,
-      micro: micro,
-    );
+    return Image(small: small, micro: micro);
   }
 }

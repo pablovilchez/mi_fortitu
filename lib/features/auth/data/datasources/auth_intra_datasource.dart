@@ -38,7 +38,7 @@ class AuthIntraDatasource {
     // Get the authorization URL from the server and launch it in the browser.
     final responseAuthUrl = await _getAuthorizationUrl();
     if (responseAuthUrl.isLeft()) {
-      return Left(responseAuthUrl.fold((failure) => failure, (r) => UrlException()));
+      return Left(responseAuthUrl.fold((failure) => failure, (r) => AuthException()));
     }
     final authUrl = responseAuthUrl.getOrElse(() => '');
     await launcher.redirect(Uri.parse(authUrl));
@@ -46,14 +46,14 @@ class AuthIntraDatasource {
     // Listen for the redirect URI.
     final responseRedirectUrl = await _listenForRedirect(Uri.parse(redirectUri));
     if (responseRedirectUrl.isLeft()) {
-      return Left(responseRedirectUrl.fold((failure) => failure, (r) => UrlException()));
+      return Left(responseRedirectUrl.fold((failure) => failure, (r) => AuthException()));
     }
     final responseUrl = responseRedirectUrl.getOrElse(() => Uri.parse(''));
 
     // Extract the authorization code and change it for an access token.
     final code = responseUrl.queryParameters['code'];
     if (code == null) {
-      return Left(NoCodeException());
+      return Left(OAuthException(code: '04'));
     }
     final response = await httpClient.post(
       Uri.parse(codeForTokenFunctionUrl),
@@ -61,7 +61,7 @@ class AuthIntraDatasource {
       body: jsonEncode({'code': code}),
     );
     if (response.statusCode != 200) {
-      return Left(TokenExchangeException(message: '${response.statusCode}: ${response.body}'));
+      return Left(OAuthException(code: '04', message: '${response.statusCode}: ${response.body}'));
     }
 
     return Right(jsonDecode(response.body));
@@ -79,13 +79,13 @@ class AuthIntraDatasource {
     );
 
     if (response.statusCode != 200) {
-      return Left(UrlException(code: 'E001', message: '${response.statusCode}: ${response.body}'));
+      return Left(OAuthException(code: '01', message: '${response.statusCode}: ${response.body}'));
     }
 
     final data = jsonDecode(response.body);
 
     if (data['url'] == null) {
-      return Left(UrlException(code: 'E002'));
+      return Left(OAuthException(code: '02'));
     }
 
     return Right(data['url']);
@@ -103,6 +103,6 @@ class AuthIntraDatasource {
         return Right(uri);
       }
     }
-    return Left(UrlException(code: 'E003'));
+    return Left(OAuthException(code: '03'));
   }
 }

@@ -1,7 +1,7 @@
 export 'clusters_screen.dart';
 export 'coalitions_screen.dart';
 export 'eval_slots_screen.dart';
-export 'finder_screen.dart';
+export 'peer_to_peer_screen.dart';
 export 'home_screen.dart';
 export 'leagues_screen.dart';
 export 'profile_screen.dart';

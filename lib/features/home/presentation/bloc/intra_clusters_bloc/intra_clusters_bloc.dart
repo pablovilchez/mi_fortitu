@@ -14,6 +14,7 @@ class IntraClustersBloc extends Bloc<IntraClustersEvent, IntraClustersState> {
 
   IntraClustersBloc({required this.getCampusClustersUsecase}) : super(IntraClustersInitial()) {
     on<GetCampusClustersEvent>(_onGetCampusClusters);
+    on<RefreshClustersEvent>((event, emit) => emit(IntraClustersInitial()));
   }
 
   Future<void> _onGetCampusClusters(
@@ -22,13 +23,20 @@ class IntraClustersBloc extends Bloc<IntraClustersEvent, IntraClustersState> {
   ) async {
     emit(IntraClustersLoading());
     final result = await getCampusClustersUsecase.call(event.campusId);
-    result.fold((failure) => emit(IntraClustersError(failure.toString())), (clusters) {
-      final campusLayout = CampusLayoutVm.fromCampusJson(event.campusId);
-      final clusterVMs = ClusterLayoutMapper.map(campusLayout, clusters);
-      return clusterVMs.fold(
-        (l) => emit(IntraClustersError(l.toString())),
-        (layout) => emit(IntraClustersSuccess(layout)),
-      );
-    });
+    await result.fold(
+      (failure) async {
+        emit(IntraClustersError(failure.toString()));
+      },
+      (clusters) async {
+        final campusLayout = await CampusLayoutVm.fromCampusJson(event.campusId);
+        final clusterVMs = ClusterLayoutMapper.map(campusLayout, clusters);
+        return clusterVMs.fold(
+          (l) => emit(IntraClustersError(l.toString())),
+          (layout) => emit(IntraClustersSuccess(layout)),
+        );
+      },
+    );
   }
+
+
 }

@@ -1,4 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/dev_info_widget.dart';
 
 class ShopScreen extends StatelessWidget {
   const ShopScreen({super.key});
@@ -7,7 +10,16 @@ class ShopScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Shop'),
+        title: Text(tr('home.tiles.shop')),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDevInfoDialog(context, 'shopTestInfo');
+            },
+            icon: Icon(Icons.adb),
+            color: Colors.red,
+          ),
+        ],
       ),
       body: const Center(
         child: Text('Shop Screen'),

@@ -15,6 +15,42 @@ class ClusterLayoutMapper {
     CampusLayoutVm campusLayout,
     List<ClusterUserEntity> users,
   ) {
-    return Left(UnexpectedFailure('TODO'));
+    if (campusLayout.campusId == 0) {
+      return Left(ParsingDataFailure('Working in progress with no campus layout'));
+    }
+    try {
+      final userMap = {
+        for (var user in users) user.host: user,
+      };
+      final clusters =
+          campusLayout.clusters.map((clusterLayout) {
+            final rows =
+                clusterLayout.rows.map((rowLayout) {
+                  final stations =
+                      rowLayout.stationsId.map((stationsId) {
+                        final user =
+                            userMap['${clusterLayout.clusterId}${rowLayout.rowId}$stationsId'];
+
+                        return StationViewModel(stationId: stationsId, user: user);
+                      }).toList();
+
+                  return RowViewModel(
+                    rowId: rowLayout.rowId,
+                    stations: stations,
+                    starts: rowLayout.startsUp ? 'up' : 'down',
+                  );
+                }).toList();
+
+            return ClusterVm(
+              clusterId: clusterLayout.clusterId,
+              clusterName: clusterLayout.clusterName,
+              rows: rows,
+            );
+          }).toList();
+
+      return Right(clusters);
+    } catch (e) {
+      return Left(ParsingDataFailure('Error mapping clusters: $e'));
+    }
   }
 }

@@ -1,85 +1,75 @@
 import 'dart:convert';
-import 'dart:io';
+
+import 'package:flutter/services.dart';
 
 class CampusLayoutVm {
-  final int id;
-  final String name;
+  final int campusId;
+  final String campusName;
   final String country;
   final String city;
   final List<ClusterLayout> clusters;
 
   CampusLayoutVm({
-    required this.id,
-    required this.name,
+    required this.campusId,
+    required this.campusName,
     required this.country,
     required this.city,
     required this.clusters,
   });
 
-  factory CampusLayoutVm.fromCampusJson(String campusId) {
+  static Future<CampusLayoutVm> fromCampusJson(String campusId) async {
     final String path = 'assets/campus_layouts/$campusId.json';
 
-    Map<String, dynamic> json;
-
-    final file = File(path);
-    if (file.existsSync()) {
-      json = jsonDecode(file.readAsStringSync());
-    } else {
-      json = {
-        "id": 0,
-        "name": "Default",
-        "country": "Default",
-        "city": "Default",
-        "cluster": [
-          {
-            "name": "c1_default",
-            "rows": [
-              {
-                "value": 0,
-                "stations": [0],
-                "starts": "down",
-              },
-            ],
-          },
-        ],
-      };
+    try {
+      return rootBundle.loadString(path).then((content) {
+        final json = jsonDecode(content);
+        return CampusLayoutVm(
+          campusId: json['campusId'],
+          campusName: json['campusName'],
+          country: json['country'],
+          city: json['city'],
+          clusters: (json['clusters'] as List).map((e) => ClusterLayout.fromJson(e)).toList(),
+        );
+    });
+    } catch (e) {
+      return CampusLayoutVm(
+        campusId: 0,
+        campusName: 'Default',
+        country: 'Default',
+        city: 'Default',
+        clusters: [],
+      );
     }
-
-    return CampusLayoutVm(
-      id: json['id'],
-      name: json['name'],
-      country: json['country'],
-      city: json['city'],
-      clusters: (json['cluster'] as List).map((e) => ClusterLayout.fromJson(e)).toList(),
-    );
   }
 }
 
 class ClusterLayout {
-  final String name;
+  final String clusterId;
+  final String clusterName;
   final List<RowLayout> rows;
 
-  ClusterLayout({required this.name, required this.rows});
+  ClusterLayout({required this.clusterId, required this.clusterName, required this.rows});
 
   factory ClusterLayout.fromJson(Map<String, dynamic> json) {
     return ClusterLayout(
-      name: json['name'],
+      clusterId: json['clusterId'],
+      clusterName: json['clusterName'],
       rows: (json['rows'] as List).map((e) => RowLayout.fromJson(e)).toList(),
     );
   }
 }
 
 class RowLayout {
-  final int value;
-  final List<int> stations;
+  final String rowId;
+  final List<String> stationsId;
   final bool startsUp;
 
-  RowLayout({required this.value, required this.stations, required this.startsUp});
+  RowLayout({required this.rowId, required this.stationsId, required this.startsUp});
 
   factory RowLayout.fromJson(Map<String, dynamic> json) {
     return RowLayout(
-      value: json['value'],
-      stations: List<int>.from(json['stations']),
+      rowId: json['rowId'],
+      stationsId: List<String>.from(json['stationsId']),
       startsUp: json['starts'] == 'up',
     );
   }

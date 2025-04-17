@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mi_fortitu/features/home/presentation/bloc/intra_search_profile_bloc/intra_search_profile_bloc.dart';
 
 import '../widgets/app_bar_search.dart';
+import '../widgets/cursus_profile.dart';
 
 class SearchStudentsScreen extends StatefulWidget {
   const SearchStudentsScreen({super.key});
@@ -20,12 +21,14 @@ class SearchStudentsScreenState extends State<SearchStudentsScreen> {
     return Scaffold(
       appBar: AppBarSearch(
         controller: _searchController,
-        onSearch: () {},
+        onSearch: () {
+          final searchText = _searchController.text;
+          if (searchText.isNotEmpty) {
+            context.read<IntraSearchProfileBloc>().add(GetIntraSearchProfileEvent(searchText));
+          }
+        },
       ),
-      body: BlocBuilder<
-        IntraSearchProfileBloc,
-        IntraSearchProfileState
-      >(
+      body: BlocBuilder<IntraSearchProfileBloc, IntraSearchProfileState>(
         builder: (context, state) {
           if (state is IntraSearchProfileInitial) {
             return _SearchView();
@@ -34,7 +37,8 @@ class SearchStudentsScreenState extends State<SearchStudentsScreen> {
           } else if (state is IntraSearchProfileError) {
             return _ErrorView(message: state.message);
           } else if (state is IntraSearchProfileSuccess) {
-            return _ProfileView();
+            final intraProfile = state.intraSearchProfile;
+            return CursusProfile(profile: intraProfile);
           }
           return const SizedBox();
         },
@@ -50,53 +54,28 @@ class SearchStudentsScreenState extends State<SearchStudentsScreen> {
 }
 
 class _SearchView extends StatelessWidget {
-  const _SearchView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Center(
-      child:
-        SizedBox(
-          width: 300,
-            child: Image.asset('assets/images/gif/search_student.png')),
+      child: SizedBox(width: 300, child: Image.asset('assets/images/gif/search_student.png')),
     );
   }
 }
 
 class _LoadingView extends StatelessWidget {
-  const _LoadingView({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(tr('search.hint'))),
-      body: const Center(child: CircularProgressIndicator()),
-    );
-  }
-}
-
-class _ProfileView extends StatelessWidget {
-  const _ProfileView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Search Students')),
-      body: const Center(child: Text('Profile Screen')),
-    );
+    return Scaffold(body: const Center(child: CircularProgressIndicator()));
   }
 }
 
 class _ErrorView extends StatelessWidget {
   final String message;
 
-  const _ErrorView({super.key, required this.message});
+  const _ErrorView({required this.message});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Search Students')),
-      body: Center(child: Text(message)),
-    );
+    return Scaffold(body: Center(child: Text(tr('search.no_results'))));
   }
 }
