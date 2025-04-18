@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mi_fortitu/core/helpers/snackbar_helper.dart';
-import 'package:mi_fortitu/features/auth/presentation/bloc/supa_login_bloc/auth_bloc.dart';
+import 'package:mi_fortitu/features/auth/presentation/blocs/supa_login_bloc/auth_bloc.dart';
 import 'package:mi_fortitu/features/auth/presentation/widgets/login_text_fields.dart';
 
 class LoginScreen extends StatelessWidget {

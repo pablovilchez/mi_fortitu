@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../viewmodels/intra_profile_summary_vm.dart';
-import 'dev_info_widget.dart';
+
+import '../../../profiles/presentation/viewmodels/intra_profile_summary_vm.dart';
+import '../../../../core/widgets/dev_info_widget.dart';
 
 
 class HomeUserCards extends StatelessWidget {

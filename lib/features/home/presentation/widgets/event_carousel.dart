@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:mi_fortitu/core/helpers/data_format_helper.dart';
 
 import '../../domain/entities/event_entity.dart';
-import '../bloc/intra_events_bloc/intra_events_bloc.dart';
+import '../blocs/events_bloc/events_bloc.dart';
 import 'event_detail_sheet.dart';
 
 class EventCarousel extends StatelessWidget {
@@ -17,7 +17,7 @@ class EventCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<IntraEventsBloc, IntraEventsState>(
+    return BlocBuilder<EventsBloc, EventsState>(
       builder: (context, state) {
         if (state is IntraEventsInitial) {
           return CircularProgressIndicator();

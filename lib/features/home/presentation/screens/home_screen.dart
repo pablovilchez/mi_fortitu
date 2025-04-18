@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mi_fortitu/features/home/presentation/bloc/intra_events_bloc/intra_events_bloc.dart';
-import 'package:mi_fortitu/features/home/presentation/bloc/intra_profile_bloc/intra_profile_bloc.dart';
-import 'package:mi_fortitu/features/home/presentation/viewmodels/intra_profile_summary_vm.dart';
+
 import 'package:mi_fortitu/features/home/presentation/widgets/tiles_list.dart';
 
+import '../../../profiles/presentation/blocs/profiles_bloc/profiles_bloc.dart';
+import '../../../profiles/presentation/viewmodels/intra_profile_summary_vm.dart';
+import '../blocs/events_bloc/events_bloc.dart';
 import '../widgets/home_user_cards.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -13,26 +14,26 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<IntraProfileBloc, IntraProfileState>(
+    return BlocConsumer<ProfilesBloc, ProfilesState>(
       listener: (context, state) {
-        if (state is IntraProfileSuccess) {
-          context.read<IntraEventsBloc>().add(
+        if (state is ProfileSuccess) {
+          context.read<EventsBloc>().add(
             GetIntraEventsEvent(
-              state.intraProfile.login,
-              state.intraProfile.campus[0].id.toString(),
+              state.profile.login,
+              state.profile.campus[0].id.toString(),
             ),
           );
         }
       },
       builder: (context, state) {
-        if (state is IntraProfileInitial) {
-          context.read<IntraProfileBloc>().add(GetIntraProfileEvent());
+        if (state is ProfileInitial) {
+          context.read<ProfilesBloc>().add(GetIntraProfileEvent());
           return _LoadingView();
-        } else if (state is IntraProfileLoading) {
+        } else if (state is ProfileLoading) {
           return _LoadingView();
-        } else if (state is IntraProfileError) {
+        } else if (state is ProfileError) {
           return _ErrorView(message: state.message);
-        } else if (state is IntraProfileSuccess) {
+        } else if (state is ProfileSuccess) {
           return _HomeView(profile: state.profileSummary);
         }
         return const SizedBox();
@@ -115,7 +116,7 @@ class _ErrorView extends StatelessWidget {
             Text(message),
             ElevatedButton(
               onPressed: () {
-                context.read<IntraProfileBloc>().add(GetIntraProfileEvent());
+                context.read<ProfilesBloc>().add(GetIntraProfileEvent());
               },
               child: Text(tr('buttons.retry')),
             ),

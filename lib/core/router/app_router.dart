@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mi_fortitu/features/auth/presentation/screens/screens.dart';
+import 'package:mi_fortitu/features/clusters/presentation/screens/screens.dart';
+import 'package:mi_fortitu/features/coalitions_blocs/presentation/screens/screens.dart';
 import 'package:mi_fortitu/features/home/presentation/screens/screens.dart';
+import 'package:mi_fortitu/features/leagues/presentation/screens/screens.dart';
+import 'package:mi_fortitu/features/peers/presentation/screens/screens.dart';
+import 'package:mi_fortitu/features/profiles/presentation/screens/screens.dart';
+import 'package:mi_fortitu/features/settings/presentation/screens/screens.dart';
+import 'package:mi_fortitu/features/shop/presentation/screens/screens.dart';
+import 'package:mi_fortitu/features/slots/presentation/screens/screens.dart';
+
 
 final appRouter = GoRouter(
   initialLocation: '/auth',
@@ -26,7 +35,7 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/slots',
-      pageBuilder: (context, state) => MaterialPage(child: EvalSlotsScreen()),
+      pageBuilder: (context, state) => MaterialPage(child: SlotsScreen()),
     ),
     GoRoute(path: '/shop', pageBuilder: (context, state) => MaterialPage(child: ShopScreen())),
     GoRoute(

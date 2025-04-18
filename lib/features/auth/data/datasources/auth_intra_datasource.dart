@@ -18,12 +18,7 @@ class AuthIntraDatasource {
   final UrlLauncherService launcher;
   final EnvConfig env;
 
-  AuthIntraDatasource({
-    required this.httpClient,
-    required this.appLinks,
-    required this.launcher,
-    required this.env,
-  });
+  AuthIntraDatasource(this.httpClient, this.appLinks, this.launcher, this.env,);
 
   /// Handles the authentication process with Intra.
   ///

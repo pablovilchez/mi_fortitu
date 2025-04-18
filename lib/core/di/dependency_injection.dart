@@ -4,32 +4,19 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 // Helpers and services
+import 'package:mi_fortitu/core/config/env_config.dart';
 import 'package:mi_fortitu/core/helpers/secure_storage_helper.dart';
 import 'package:mi_fortitu/core/services/intra_api_client.dart';
 import 'package:mi_fortitu/core/services/url_launcher_service.dart';
-// Auth feature
-import 'package:mi_fortitu/features/auth/data/datasources/datasources.dart';
-import 'package:mi_fortitu/features/auth/data/repositories/repositories.dart';
-import 'package:mi_fortitu/features/auth/domain/repositories/repositories.dart';
-import 'package:mi_fortitu/features/auth/domain/usecases/db_get_role_usecase.dart';
-import 'package:mi_fortitu/features/auth/domain/usecases/usecases.dart';
-import 'package:mi_fortitu/features/auth/presentation/bloc/supa_login_bloc/auth_bloc.dart';
-// Home feature
-import 'package:mi_fortitu/features/home/data/datasources/home_intra_datasource.dart';
-import 'package:mi_fortitu/features/home/domain/usecases/get_clusters_usecase.dart';
-import 'package:mi_fortitu/features/home/presentation/bloc/intra_events_bloc/intra_events_bloc.dart';
-import 'package:mi_fortitu/features/home/presentation/bloc/intra_profile_bloc/intra_profile_bloc.dart';
-import 'package:mi_fortitu/features/home/presentation/bloc/intra_search_profile_bloc/intra_search_profile_bloc.dart';
+// Features
+import 'package:mi_fortitu/features/auth/auth.dart';
+import 'package:mi_fortitu/features/clusters/clusters.dart';
+import 'package:mi_fortitu/features/coalitions_blocs/coalitions_blocs.dart';
+import 'package:mi_fortitu/features/home/home.dart';
+import 'package:mi_fortitu/features/peers/peers.dart';
+import 'package:mi_fortitu/features/profiles/profiles.dart';
+// Database package helper
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../features/home/data/repositories/home_intra_repository_impl.dart';
-import '../../features/home/domain/repositories/home_intra_repository.dart';
-import '../../features/home/domain/usecases/get_coalitions_usecase.dart';
-import '../../features/home/domain/usecases/get_events_usecase.dart';
-import '../../features/home/domain/usecases/get_profile_usecase.dart';
-import '../../features/home/presentation/bloc/intra_clusters_bloc/intra_clusters_bloc.dart';
-import '../../features/home/presentation/bloc/intra_coalitions_bloc/intra_coalitions_bloc.dart';
-import '../config/env_config.dart';
 
 // Environment
 final GetIt sl = GetIt.instance;
@@ -46,62 +33,65 @@ void initDi() {
 
   // Helpers and services
   sl.registerLazySingleton<SecureStorageHelper>(() => SecureStorageHelper(FlutterSecureStorage()));
-  sl.registerLazySingleton<IntraApiClient>(
-    () => IntraApiClient(httpClient: sl(), env: sl(), secureStorage: sl()),
-  );
+  sl.registerLazySingleton<IntraApiClient>(() => IntraApiClient(sl(), sl(), sl()));
   sl.registerLazySingleton<UrlLauncherService>(() => UrlLauncherServiceImpl());
 
   // Auth feature - Datasources
   sl.registerLazySingleton<AuthSupaDatasource>(() => AuthSupaDatasource(supabaseClient));
-  sl.registerLazySingleton<AuthIntraDatasource>(
-    () => AuthIntraDatasource(httpClient: sl(), appLinks: sl(), launcher: sl(), env: sl()),
-  );
+  sl.registerLazySingleton<AuthIntraDatasource>(() => AuthIntraDatasource(sl(), sl(), sl(), sl()));
   // Auth feature - Repositories
-  sl.registerLazySingleton<AuthIntraRepository>(
-    () => AuthIntraRepositoryImpl(sl<AuthIntraDatasource>(), sl<IntraApiClient>()),
-  );
-  sl.registerLazySingleton<AuthDbRepository>(() => AuthDbRepositoryImpl(sl<AuthSupaDatasource>()));
+  sl.registerLazySingleton<AuthIntraRepository>(() => AuthIntraRepositoryImpl(sl(), sl()));
+  sl.registerLazySingleton<AuthDbRepository>(() => AuthDbRepositoryImpl(sl()));
   // Auth feature - Usecases
   sl.registerLazySingleton<AuthUsecase>(() => AuthUsecase(sl(), sl()));
+  sl.registerLazySingleton<GetRoleUsecase>(() => GetRoleUsecase(sl()));
   sl.registerLazySingleton<DbLogInUsecase>(() => DbLogInUsecase(sl()));
   sl.registerLazySingleton<DbRegisterUsecase>(() => DbRegisterUsecase(sl()));
-  sl.registerLazySingleton<GetRoleUsecase>(() => GetRoleUsecase(sl()));
-
   // Auth feature - Blocs
-  sl.registerLazySingleton<AuthBloc>(
-    () => AuthBloc(
-      authUsecase: sl(),
-      dbLogInUsecase: sl(),
-      dbRegisterUsecase: sl(),
-      getRoleUseCase: sl(),
-    ),
-  );
+  sl.registerLazySingleton<AuthBloc>(() => AuthBloc(sl(), sl(), sl(), sl()));
+
+  // Clusters feature - Datasources
+  sl.registerLazySingleton<ClustersDatasource>(() => ClustersDatasource(sl(), sl()));
+  // Clusters feature - Repositories
+  sl.registerLazySingleton<ClustersRepository>(() => ClustersRepositoryImpl(sl()));
+  // Clusters feature - Usecases
+  sl.registerLazySingleton<GetClustersUsecase>(() => GetClustersUsecase(sl()));
+  // Clusters feature - Blocs
+  sl.registerLazySingleton<ClustersBloc>(() => ClustersBloc(sl()));
+
+  // Coalitions Blocs feature - Datasources
+  sl.registerLazySingleton<CoalitionsBlocsDatasource>(() => CoalitionsBlocsDatasource(sl(), sl()));
+  // Coalitions Blocs feature - Repositories
+  sl.registerLazySingleton<CoalitionsBlocsRepository>(() => CoalitionsBlocsRepositoryImpl(sl()));
+  // Coalitions Blocs feature - Usecases
+  sl.registerLazySingleton<GetCoalitionsBlocsUsecase>(() => GetCoalitionsBlocsUsecase(sl()));
+  // Coalitions Blocs feature - Blocs
+  sl.registerLazySingleton<CoalitionsBlocsBloc>(() => CoalitionsBlocsBloc(sl()));
 
   // Home feature - Datasources
-  sl.registerLazySingleton<HomeIntraDatasource>(
-    () => HomeIntraDatasource(httpClient: sl(), intraApiClient: sl()),
-  );
+  sl.registerLazySingleton<HomeDatasource>(() => HomeDatasource(sl(), sl()));
   // Home feature - Repositories
-  sl.registerLazySingleton<HomeIntraRepository>(
-    () => HomeIntraRepositoryImpl(sl<HomeIntraDatasource>()),
-  );
-
+  sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(sl()));
   // Home feature - Use cases
-  sl.registerLazySingleton<GetEventsUsecase>(() => GetEventsUsecase(repository: sl()));
-  sl.registerLazySingleton<GetProfileUsecase>(() => GetProfileUsecase(repository: sl()));
-  sl.registerLazySingleton<GetClustersUsecase>(() => GetClustersUsecase(sl()));
-  sl.registerLazySingleton<GetCoalitionsUsecase>(() => GetCoalitionsUsecase(sl()));
-
+  sl.registerLazySingleton<GetEventsUsecase>(() => GetEventsUsecase(sl()));
   // Home feature - Blocs
-  sl.registerLazySingleton<IntraEventsBloc>(() => IntraEventsBloc(getEventsUsecase: sl()));
-  sl.registerLazySingleton<IntraProfileBloc>(() => IntraProfileBloc(getProfileUsecase: sl()));
-  sl.registerLazySingleton<IntraSearchProfileBloc>(
-    () => IntraSearchProfileBloc(getProfileUsecase: sl()),
-  );
-  sl.registerLazySingleton<IntraClustersBloc>(
-    () => IntraClustersBloc(getCampusClustersUsecase: sl()),
-  );
-  sl.registerLazySingleton<IntraCoalitionsBloc>(
-    () => IntraCoalitionsBloc(getCoalitionsUsecase: sl()),
-  );
+  sl.registerLazySingleton<EventsBloc>(() => EventsBloc(sl()));
+
+  // Peers feature - Datasources
+  sl.registerLazySingleton<PeersDatasource>(() => PeersDatasource(sl(), sl()));
+  // Peers feature - Repositories
+  sl.registerLazySingleton<PeersRepository>(() => PeersRepositoryImpl(sl()));
+  // Peers feature - Use cases
+  sl.registerLazySingleton<GetProjectUsersUseCase>(() => GetProjectUsersUseCase(sl()));
+  // Peers feature - Blocs
+  sl.registerLazySingleton<ProjectsBloc>(() => ProjectsBloc(sl()));
+
+  // Profile feature - Datasources
+  sl.registerLazySingleton<ProfilesDatasource>(() => ProfilesDatasource(sl(), sl()));
+  // Profile feature - Repositories
+  sl.registerLazySingleton<ProfilesRepository>(() => ProfilesRepositoryImpl(sl()));
+  // Profile feature - Use cases
+  sl.registerLazySingleton<GetProfileUsecase>(() => GetProfileUsecase(sl()));
+  // Profile feature - Blocs
+  sl.registerLazySingleton<ProfilesBloc>(() => ProfilesBloc(sl()));
 }

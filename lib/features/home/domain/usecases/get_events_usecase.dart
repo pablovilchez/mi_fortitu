@@ -2,12 +2,12 @@ import 'package:dartz/dartz.dart';
 
 import '../../../home/domain/failures.dart';
 import '../entities/event_entity.dart';
-import '../repositories/home_intra_repository.dart';
+import '../repositories/home_repository.dart';
 
 class GetEventsUsecase {
-  final HomeIntraRepository repository;
+  final HomeRepository repository;
 
-  GetEventsUsecase({required this.repository});
+  GetEventsUsecase(this.repository);
 
   Future<Either<HomeFailure, List<EventEntity>>> call(String loginName, String campusId) async {
     final campusEvents = await repository.getIntraCampusEvents(campusId);

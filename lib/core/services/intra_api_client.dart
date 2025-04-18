@@ -12,7 +12,7 @@ class IntraApiClient {
   final EnvConfig env;
   final SecureStorageHelper secureStorage;
 
-  IntraApiClient({required this.httpClient, required this.env, required this.secureStorage});
+  IntraApiClient(this.httpClient, this.env, this.secureStorage);
 
   Future<Either<Exception, String>> getGrantedToken() async {
     try {

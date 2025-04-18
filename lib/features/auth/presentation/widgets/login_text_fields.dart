@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mi_fortitu/features/auth/presentation/bloc/supa_login_bloc/auth_bloc.dart';
+import 'package:mi_fortitu/features/auth/presentation/blocs/supa_login_bloc/auth_bloc.dart';
 import 'package:mi_fortitu/features/auth/presentation/widgets/validators.dart';
 
 class LoginForm extends StatefulWidget {
