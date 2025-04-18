@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import '../../domain/entities/cluster_user_entity.dart';
+import '../../domain/entities/location_entity.dart';
 
 class StationUserDialog extends StatelessWidget {
-  final ClusterUserEntity user;
+  final LocationEntity user;
 
   const StationUserDialog({super.key, required this.user});
 
@@ -17,7 +17,7 @@ class StationUserDialog extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 32,
-            backgroundImage: NetworkImage(u.image.small),
+            backgroundImage: NetworkImage(u.imageUrl),
           ),
           const SizedBox(height: 12),
           Text('Login: ${u.login}'),
@@ -28,7 +28,7 @@ class StationUserDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cerrar'),
+          child: Text(tr('buttons.close')),
         ),
       ],
     );

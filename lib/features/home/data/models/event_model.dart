@@ -1,7 +1,7 @@
-import 'package:mi_fortitu/features/home/domain/entities/intra_event_entity.dart';
+import 'package:mi_fortitu/features/home/domain/entities/event_entity.dart';
 
-class IntraEventModel extends IntraEventEntity {
-  IntraEventModel({
+class EventModel extends EventEntity {
+  EventModel({
     required super.id,
     required super.name,
     required super.description,
@@ -19,8 +19,8 @@ class IntraEventModel extends IntraEventEntity {
     required super.waitlist,
   });
 
-  factory IntraEventModel.fromJson(Map<String, dynamic> json) {
-    return IntraEventModel(
+  factory EventModel.fromJson(Map<String, dynamic> json) {
+    return EventModel(
       id: json["id"],
       name: json["name"] ?? "unknown",
       description: json["description"] ?? "unknown",
@@ -39,8 +39,8 @@ class IntraEventModel extends IntraEventEntity {
     );
   }
 
-  IntraEventEntity toEntity() {
-    return IntraEventEntity(
+  EventEntity toEntity() {
+    return EventEntity(
       id: id,
       name: name,
       description: description,

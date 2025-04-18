@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mi_fortitu/features/home/domain/entities/intra_event_entity.dart';
+import 'package:mi_fortitu/features/home/domain/entities/event_entity.dart';
 
 class EventDetailSheet extends StatefulWidget {
-  final IntraEventEntity event;
+  final EventEntity event;
 
   const EventDetailSheet({super.key, required this.event});
 
@@ -133,7 +133,7 @@ class EventDetailField extends StatelessWidget {
 }
 
 class EventDetailButton extends StatelessWidget {
-  final IntraEventEntity event;
+  final EventEntity event;
 
   const EventDetailButton({super.key, required this.event});
 

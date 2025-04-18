@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mi_fortitu/core/errors/exceptions.dart';
 import 'package:mi_fortitu/core/helpers/secure_storage_helper.dart';
-import 'package:mi_fortitu/core/services/intra_api_service.dart';
+import 'package:mi_fortitu/core/services/intra_api_client.dart';
 import 'package:mi_fortitu/features/auth/data/datasources/auth_intra_datasource.dart';
 import 'package:mi_fortitu/features/auth/data/exceptions.dart';
 import 'package:mi_fortitu/features/auth/data/repositories/repositories.dart';
@@ -14,7 +14,7 @@ class MockIntraAuthDatasource extends Mock implements AuthIntraDatasource {}
 
 class MockSecureStorageHelper extends Mock implements SecureStorageHelper {}
 
-class MockIntraApiService extends Mock implements IntraApiService {}
+class MockIntraApiService extends Mock implements IntraApiClient {}
 
 void main() {
   late AuthIntraRepository repository;

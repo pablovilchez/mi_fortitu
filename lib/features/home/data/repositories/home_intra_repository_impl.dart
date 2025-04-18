@@ -11,8 +11,8 @@ class HomeIntraRepositoryImpl implements HomeIntraRepository {
   HomeIntraRepositoryImpl(this.datasource);
 
   @override
-  Future<Either<HomeFailure, IntraProfileEntity>> getIntraProfile(String loginName) async {
-    final response = await datasource.getIntraProfile(loginName: loginName);
+  Future<Either<HomeFailure, UserEntity>> getIntraProfile(String loginName) async {
+    final response = await datasource.getUser(loginName: loginName);
     return response.fold(
       (exception) => Left(AuthFailure(exception.toString())),
       (profileModel) => Right(profileModel.toEntity()),
@@ -20,8 +20,8 @@ class HomeIntraRepositoryImpl implements HomeIntraRepository {
   }
 
   @override
-  Future<Either<HomeFailure, List<IntraEventEntity>>> getIntraUserEvents(String loginName) async {
-    final response = await datasource.getIntraUserEvents(loginName: loginName);
+  Future<Either<HomeFailure, List<EventEntity>>> getIntraUserEvents(String loginName) async {
+    final response = await datasource.getUserEvents(loginName: loginName);
     return response.fold(
       (exception) => Left(AuthFailure(exception.toString())),
       (events) => Right(events.map((model) => model.toEntity()).toList()),
@@ -29,8 +29,8 @@ class HomeIntraRepositoryImpl implements HomeIntraRepository {
   }
 
   @override
-  Future<Either<HomeFailure, List<IntraEventEntity>>> getIntraCampusEvents(String campusId) async {
-    final response = await datasource.getIntraCampusEvents(campusId: campusId);
+  Future<Either<HomeFailure, List<EventEntity>>> getIntraCampusEvents(String campusId) async {
+    final response = await datasource.getCampusEvents(campusId: campusId);
     return response.fold(
       (exception) => Left(AuthFailure(exception.toString())),
       (events) => Right(events.map((model) => model.toEntity()).toList()),
@@ -38,8 +38,8 @@ class HomeIntraRepositoryImpl implements HomeIntraRepository {
   }
 
   @override
-  Future<Either<HomeFailure, List<ClusterUserEntity>>> getIntraClusterUsers(String campusId) async {
-    final response = await datasource.getIntraClusterUsers(campusId: campusId);
+  Future<Either<HomeFailure, List<LocationEntity>>> getIntraClusterUsers(String campusId) async {
+    final response = await datasource.getCampusLocations(campusId: campusId);
     return response.fold(
       (exception) => Left(AuthFailure(exception.toString())),
       (events) => Right(events.map((model) => model.toEntity()).toList()),
@@ -47,8 +47,8 @@ class HomeIntraRepositoryImpl implements HomeIntraRepository {
   }
 
   @override
-  Future<Either<HomeFailure, List<CursusCoalitionsEntity>>> getCampusCoalitions(String campusId) async {
-    final response = await datasource.getIntraCampusCoalitions(campusId: campusId);
+  Future<Either<HomeFailure, List<BlocEntity>>> getCampusCoalitions(String campusId) async {
+    final response = await datasource.getCampusBlocs(campusId: campusId);
     return response.fold(
       (exception) => Left(AuthFailure(exception.toString())),
       (campus) => Right(campus.map((model) => model.toEntity()).toList()),
@@ -57,7 +57,7 @@ class HomeIntraRepositoryImpl implements HomeIntraRepository {
 
   @override
   Future<Either<HomeFailure, List<ProjectUserEntity>>> getProjectUsers(String projectId, String campusId) async {
-    final response = await datasource.getIntraProjectUsers(projectId: projectId, campusId: campusId);
+    final response = await datasource.getProjectUsers(projectId: projectId, campusId: campusId);
     return response.fold(
       (exception) => Left(AuthFailure(exception.toString())),
       (events) => Right(events.map((model) => model.toEntity()).toList()),

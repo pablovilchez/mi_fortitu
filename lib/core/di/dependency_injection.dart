@@ -5,7 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 // Helpers and services
 import 'package:mi_fortitu/core/helpers/secure_storage_helper.dart';
-import 'package:mi_fortitu/core/services/intra_api_service.dart';
+import 'package:mi_fortitu/core/services/intra_api_client.dart';
 import 'package:mi_fortitu/core/services/url_launcher_service.dart';
 // Auth feature
 import 'package:mi_fortitu/features/auth/data/datasources/datasources.dart';
@@ -46,8 +46,8 @@ void initDi() {
 
   // Helpers and services
   sl.registerLazySingleton<SecureStorageHelper>(() => SecureStorageHelper(FlutterSecureStorage()));
-  sl.registerLazySingleton<IntraApiService>(
-    () => IntraApiService(httpClient: sl(), env: sl(), secureStorage: sl()),
+  sl.registerLazySingleton<IntraApiClient>(
+    () => IntraApiClient(httpClient: sl(), env: sl(), secureStorage: sl()),
   );
   sl.registerLazySingleton<UrlLauncherService>(() => UrlLauncherServiceImpl());
 
@@ -58,7 +58,7 @@ void initDi() {
   );
   // Auth feature - Repositories
   sl.registerLazySingleton<AuthIntraRepository>(
-    () => AuthIntraRepositoryImpl(sl<AuthIntraDatasource>(), sl<IntraApiService>()),
+    () => AuthIntraRepositoryImpl(sl<AuthIntraDatasource>(), sl<IntraApiClient>()),
   );
   sl.registerLazySingleton<AuthDbRepository>(() => AuthDbRepositoryImpl(sl<AuthSupaDatasource>()));
   // Auth feature - Usecases
@@ -79,7 +79,7 @@ void initDi() {
 
   // Home feature - Datasources
   sl.registerLazySingleton<HomeIntraDatasource>(
-    () => HomeIntraDatasource(httpClient: sl(), intraApiService: sl()),
+    () => HomeIntraDatasource(httpClient: sl(), intraApiClient: sl()),
   );
   // Home feature - Repositories
   sl.registerLazySingleton<HomeIntraRepository>(

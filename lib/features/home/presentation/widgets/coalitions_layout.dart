@@ -2,10 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../domain/entities/cursus_coalitions_entity.dart';
+import '../../domain/entities/bloc_entity.dart';
 
 class CoalitionsLayout extends StatelessWidget {
-  final CursusCoalitionsEntity coalitions;
+  final BlocEntity coalitions;
 
   const CoalitionsLayout({super.key, required this.coalitions});
 

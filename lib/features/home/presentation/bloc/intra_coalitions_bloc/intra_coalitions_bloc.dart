@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../../domain/entities/cursus_coalitions_entity.dart';
+import '../../../domain/entities/bloc_entity.dart';
 import '../../../domain/usecases/get_coalitions_usecase.dart';
 
 part 'intra_coalitions_event.dart';

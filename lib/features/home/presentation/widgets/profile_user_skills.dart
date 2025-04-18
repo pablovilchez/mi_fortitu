@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mi_fortitu/features/home/domain/entities/intra_profile_entity.dart';
+
+import '../../domain/entities/cursus_user_entity.dart';
 
 class ProfileUserSkills extends StatelessWidget {
-  final CursusUser cursus;
+  final CursusUserEntity cursus;
 
   const ProfileUserSkills({super.key, required this.cursus});
 

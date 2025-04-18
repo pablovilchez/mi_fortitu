@@ -1,15 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:mi_fortitu/features/home/domain/entities/intra_profile_entity.dart';
+import 'package:mi_fortitu/features/home/domain/entities/user_entity.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/profile_user_card.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/profile_user_level_card.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/profile_user_projects.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/profile_user_skills.dart';
 
+import '../../domain/entities/cursus_user_entity.dart';
 import '../../domain/entities/project_user_entity.dart';
 
 class CursusProfile extends StatefulWidget {
-  final IntraProfileEntity profile;
+  final UserEntity profile;
 
   const CursusProfile({super.key, required this.profile});
 
@@ -18,7 +19,7 @@ class CursusProfile extends StatefulWidget {
 }
 
 class _CursusProfileState extends State<CursusProfile> {
-  CursusUser? _selectedCursus;
+  CursusUserEntity? _selectedCursus;
 
   @override
   void initState() {
@@ -47,23 +48,23 @@ class _CursusProfileState extends State<CursusProfile> {
             children: [
               Text('Cursus:'),
               SizedBox(width: 16),
-              DropdownButton<CursusUser>(
+              DropdownButton<CursusUserEntity>(
                 elevation: 2,
                 borderRadius: BorderRadius.circular(8),
                 value: _selectedCursus,
-                onChanged: (CursusUser? newValue) {
+                onChanged: (CursusUserEntity? newValue) {
                   setState(() {
                     _selectedCursus = newValue;
                   });
                 },
                 items:
-                    widget.profile.cursusUsers.map<DropdownMenuItem<CursusUser>>((
-                      CursusUser cursusUser,
+                    widget.profile.cursusUsers.map<DropdownMenuItem<CursusUserEntity>>((
+                        CursusUserEntity cursusUser,
                     ) {
                       final cursusName = cursusUser.cursus.name.length > 30
                           ? '${cursusUser.cursus.name.substring(0, 27)}...'
                           : cursusUser.cursus.name;
-                      return DropdownMenuItem<CursusUser>(
+                      return DropdownMenuItem<CursusUserEntity>(
                         value: cursusUser,
                         child: Text(cursusName),
                       );

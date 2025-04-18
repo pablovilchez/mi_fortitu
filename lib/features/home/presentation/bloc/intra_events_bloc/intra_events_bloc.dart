@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:mi_fortitu/features/home/domain/usecases/get_events_usecase.dart';
 
-import '../../../domain/entities/intra_event_entity.dart';
+import '../../../domain/entities/event_entity.dart';
 
 part 'intra_events_event.dart';
 part 'intra_events_state.dart';

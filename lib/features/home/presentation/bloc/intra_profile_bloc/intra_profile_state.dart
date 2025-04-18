@@ -8,7 +8,7 @@ final class IntraProfileInitial extends IntraProfileState {}
 final class IntraProfileLoading extends IntraProfileState {}
 
 final class IntraProfileSuccess extends IntraProfileState {
-  final IntraProfileEntity intraProfile;
+  final UserEntity intraProfile;
   final IntraProfileSummaryVM profileSummary;
 
   IntraProfileSuccess(this.intraProfile)

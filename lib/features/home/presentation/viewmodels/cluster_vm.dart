@@ -1,4 +1,4 @@
-import '../../domain/entities/cluster_user_entity.dart';
+import '../../domain/entities/location_entity.dart';
 
 class ClusterVm {
   final String clusterId;
@@ -18,7 +18,7 @@ class RowViewModel {
 
 class StationViewModel {
   final String stationId;
-  final ClusterUserEntity? user;
+  final LocationEntity? user;
 
   StationViewModel({required this.stationId, this.user});
 }

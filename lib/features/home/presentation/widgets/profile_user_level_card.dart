@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:mi_fortitu/features/home/domain/entities/intra_profile_entity.dart';
+
+import '../../domain/entities/cursus_user_entity.dart';
 
 class ProfileLevelUserProjects extends StatelessWidget {
-  final CursusUser cursus;
+  final CursusUserEntity cursus;
 
   const ProfileLevelUserProjects({super.key, required this.cursus});
 

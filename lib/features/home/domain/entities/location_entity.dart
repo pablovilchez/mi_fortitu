@@ -1,49 +1,45 @@
-class ClusterUserEntity {
+class LocationEntity {
   final String host;
   final int campusId;
-  final User user;
+  final LocationUserEntity user;
 
-  ClusterUserEntity({
+  LocationEntity({
     required this.host,
     required this.campusId,
     required this.user,
   });
 }
 
-class User {
+class LocationUserEntity {
   final int id;
+  final String email;
   final String login;
   final String firstName;
   final String lastName;
+  final String url;
   final String kind;
-  final Image image;
+  final String imageUrl;
   final bool staff;
-  final int correctionPoint;
   final String poolMonth;
   final String poolYear;
+  final int wallet;
   final bool alumni;
+  final bool active;
 
-  User({
+  LocationUserEntity({
     required this.id,
+    required this.email,
     required this.login,
     required this.firstName,
     required this.lastName,
+    required this.url,
     required this.kind,
-    required this.image,
+    required this.imageUrl,
     required this.staff,
-    required this.correctionPoint,
     required this.poolMonth,
     required this.poolYear,
+    required this.wallet,
     required this.alumni,
-  });
-}
-
-class Image {
-  final String small;
-  final String micro;
-
-  Image({
-    required this.small,
-    required this.micro,
+    required this.active,
   });
 }

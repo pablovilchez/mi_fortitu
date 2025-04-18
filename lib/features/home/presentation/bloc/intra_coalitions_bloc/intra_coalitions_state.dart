@@ -8,7 +8,7 @@ final class IntraCoalitionsInitial extends IntraCoalitionsState {}
 final class IntraCoalitionsLoading extends IntraCoalitionsState {}
 
 final class IntraCoalitionsSuccess extends IntraCoalitionsState {
-  final CursusCoalitionsEntity coalitions;
+  final BlocEntity coalitions;
 
   IntraCoalitionsSuccess(this.coalitions);
 }

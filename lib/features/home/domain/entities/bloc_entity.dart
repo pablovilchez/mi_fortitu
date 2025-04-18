@@ -1,10 +1,10 @@
-class CursusCoalitionsEntity {
+class BlocEntity {
   final int id;
   final int campusId;
   final int cursusId;
   final List<CoalitionEntity> coalitions;
 
-  CursusCoalitionsEntity({
+  BlocEntity({
     required this.id,
     required this.campusId,
     required this.cursusId,

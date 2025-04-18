@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:mi_fortitu/features/home/domain/entities/intra_profile_entity.dart';
+import 'package:mi_fortitu/features/home/domain/entities/user_entity.dart';
 
 class ProfileUserCard extends StatelessWidget {
-  final IntraProfileEntity profile;
+  final UserEntity profile;
 
   const ProfileUserCard({super.key, required this.profile});
 
@@ -50,7 +50,7 @@ class ProfileUserCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      profile.displayName,
+                      '${profile.firstName} ${profile.lastName}',
                       style: const TextStyle(fontSize: 12),
                     ),
                     Text(profile.email, style: const TextStyle(fontSize: 12)),

@@ -1,19 +1,18 @@
 import 'package:mi_fortitu/features/home/data/models/project_user_model.dart';
-import 'package:mi_fortitu/features/home/domain/entities/intra_profile_entity.dart';
+import 'package:mi_fortitu/features/home/domain/entities/user_entity.dart';
 
+import '../../domain/entities/cursus_user_entity.dart';
 import '../../domain/entities/project_user_entity.dart';
+import 'cursus_user_model.dart';
 
-class IntraProfileModel extends IntraProfileEntity {
-  IntraProfileModel({
+class UserModel extends UserEntity {
+  UserModel({
     required super.id,
     required super.email,
     required super.login,
     required super.firstName,
     required super.lastName,
-    required super.usualFullName,
-    required super.usualFirstName,
     required super.profileUrl,
-    required super.displayName,
     required super.kind,
     required super.image,
     required super.staff,
@@ -21,34 +20,25 @@ class IntraProfileModel extends IntraProfileEntity {
     required super.poolMonth,
     required super.poolYear,
     required super.wallet,
-    required super.createdAt,
-    required super.updatedAt,
-    required super.alumnizedAt,
     required super.alumni,
     required super.active,
-    required super.groups,
     required super.cursusUsers,
     required super.projectsUsers,
-    required super.languagesUsers,
     required super.achievements,
     required super.titles,
     required super.titlesUsers,
-    required super.expertisesUsers,
     required super.campus,
     required super.campusUsers,
   });
 
-  factory IntraProfileModel.fromJson(Map<String, dynamic> json) {
-    return IntraProfileModel(
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
       id: json["id"],
       email: json["email"] ?? "",
       login: json["login"] ?? "",
       firstName: json["first_name"] ?? "",
       lastName: json["last_name"] ?? "",
-      usualFullName: json["usual_full_name"] ?? "",
-      usualFirstName: json["usual_first_name"] ?? "",
       profileUrl: json["url"] ?? "",
-      displayName: json["displayname"] ?? "",
       kind: json["kind"] ?? "",
       image: ProfileImagesModel.fromJson(json["image"]),
       staff: json["staff?"] ?? false,
@@ -56,23 +46,15 @@ class IntraProfileModel extends IntraProfileEntity {
       poolMonth: json["pool_month"] ?? "None",
       poolYear: json["pool_year"] ?? "None",
       wallet: json["wallet"] ?? 0,
-      createdAt: json["created_at"] ?? "",
-      updatedAt: json["updated_at"] ?? "",
-      alumnizedAt: json["alumnized_at"] ?? "",
       alumni: json["alumni?"] ?? false,
       active: json["active?"] ?? false,
-      groups: List<dynamic>.from(json["groups"].map((x) => x)),
       cursusUsers:
           json["cursus_users"]
-              .map<CursusUser>((x) => CursusUserModel.fromJson(x).toEntity())
+              .map<CursusUserEntity>((x) => CursusUserModel.fromJson(x).toEntity())
               .toList(),
       projectsUsers:
           json["projects_users"]
               .map<ProjectUserEntity>((x) => ProjectUserModel.fromJson(x).toEntity())
-              .toList(),
-      languagesUsers:
-          json["languages_users"]
-              .map<LanguagesUser>((x) => LanguagesUserModel.fromJson(x).toEntity())
               .toList(),
       achievements:
           json["achievements"]
@@ -83,10 +65,6 @@ class IntraProfileModel extends IntraProfileEntity {
           json["titles_users"]
               .map<TitlesUser>((x) => TitlesUserModel.fromJson(x).toEntity())
               .toList(),
-      expertisesUsers:
-          json["expertises_users"]
-              .map<ExpertisesUser>((x) => ExpertisesUserModel.fromJson(x).toEntity())
-              .toList(),
       campus: json["campus"].map<Campus>((x) => CampusModel.fromJson(x).toEntity()).toList(),
       campusUsers:
           json["campus_users"]
@@ -95,17 +73,14 @@ class IntraProfileModel extends IntraProfileEntity {
     );
   }
 
-  IntraProfileEntity toEntity() {
-    return IntraProfileEntity(
+  UserEntity toEntity() {
+    return UserEntity(
       id: id,
       email: email,
       login: login,
       firstName: firstName,
       lastName: lastName,
-      usualFullName: usualFullName,
-      usualFirstName: usualFirstName,
       profileUrl: profileUrl,
-      displayName: displayName,
       kind: kind,
       image: image,
       staff: staff,
@@ -113,19 +88,13 @@ class IntraProfileModel extends IntraProfileEntity {
       poolMonth: poolMonth,
       poolYear: poolYear,
       wallet: wallet,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-      alumnizedAt: alumnizedAt,
       alumni: alumni,
       active: active,
-      groups: groups,
       cursusUsers: cursusUsers,
       projectsUsers: projectsUsers,
-      languagesUsers: languagesUsers,
       achievements: achievements,
       titles: titles,
       titlesUsers: titlesUsers,
-      expertisesUsers: expertisesUsers,
       campus: campus,
       campusUsers: campusUsers,
     );
@@ -166,123 +135,6 @@ class VersionsModel extends Versions {
 
   Versions toEntity() {
     return Versions(large: large, medium: medium, small: small, micro: micro);
-  }
-}
-
-class CursusUserModel extends CursusUser {
-  CursusUserModel({
-    required super.id,
-    required super.beginAt,
-    required super.endAt,
-    required super.grade,
-    required super.level,
-    required super.skills,
-    required super.cursusId,
-    required super.hasCoalition,
-    required super.blackholedAt,
-    required super.createdAt,
-    required super.updatedAt,
-    required super.cursus,
-  });
-
-  factory CursusUserModel.fromJson(Map<String, dynamic> json) {
-    return CursusUserModel(
-      id: json["id"],
-      beginAt: json["begin_at"] ?? "",
-      endAt: json["end_at"] ?? "",
-      grade: json["grade"] ?? "",
-      level: json["level"]?.toDouble() ?? 0,
-      skills: List<SkillModel>.from(json["skills"].map((x) => SkillModel.fromJson(x))),
-      cursusId: json["cursus_id"],
-      hasCoalition: json["has_coalition"] ?? false,
-      blackholedAt: json["blackholed_at"] ?? "",
-      createdAt: json["created_at"] ?? "",
-      updatedAt: json["updated_at"] ?? "",
-      cursus: CursusModel.fromJson(json["cursus"]),
-    );
-  }
-
-  CursusUser toEntity() {
-    return CursusUser(
-      id: id,
-      beginAt: beginAt,
-      endAt: endAt,
-      grade: grade,
-      level: level,
-      skills: skills,
-      cursusId: cursusId,
-      hasCoalition: hasCoalition,
-      blackholedAt: blackholedAt,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-      cursus: cursus,
-    );
-  }
-}
-
-class SkillModel extends Skill {
-  SkillModel({required super.id, required super.name, required super.level});
-
-  factory SkillModel.fromJson(Map<String, dynamic> json) {
-    return SkillModel(id: json["id"], name: json["name"] ?? "", level: json["level"]?.toDouble());
-  }
-
-  Skill toEntity() {
-    return Skill(id: id, name: name, level: level);
-  }
-}
-
-class CursusModel extends Cursus {
-  CursusModel({
-    required super.id,
-    required super.createdAt,
-    required super.name,
-    required super.slug,
-    required super.kind,
-  });
-
-  factory CursusModel.fromJson(Map<String, dynamic> json) {
-    return CursusModel(
-      id: json["id"],
-      createdAt: json["created_at"] ?? "",
-      name: json["name"] ?? "",
-      slug: json["slug"] ?? "",
-      kind: json["kind"] ?? "",
-    );
-  }
-
-  Cursus toEntity() {
-    return Cursus(id: id, createdAt: createdAt, name: name, slug: slug, kind: kind);
-  }
-}
-
-class LanguagesUserModel extends LanguagesUser {
-  LanguagesUserModel({
-    required super.id,
-    required super.languageId,
-    required super.userId,
-    required super.position,
-    required super.createdAt,
-  });
-
-  factory LanguagesUserModel.fromJson(Map<String, dynamic> json) {
-    return LanguagesUserModel(
-      id: json["id"],
-      languageId: json["language_id"] ?? -1,
-      userId: json["user_id"] ?? -1,
-      position: json["position"] ?? -1,
-      createdAt: json["created_at"] ?? "",
-    );
-  }
-
-  LanguagesUser toEntity() {
-    return LanguagesUser(
-      id: id,
-      languageId: languageId,
-      userId: userId,
-      position: position,
-      createdAt: createdAt,
-    );
   }
 }
 
@@ -369,42 +221,6 @@ class TitlesUserModel extends TitlesUser {
       selected: selected,
       createdAt: createdAt,
       updatedAt: updatedAt,
-    );
-  }
-}
-
-class ExpertisesUserModel extends ExpertisesUser {
-  ExpertisesUserModel({
-    required super.id,
-    required super.expertiseId,
-    required super.interested,
-    required super.value,
-    required super.contactMe,
-    required super.createdAt,
-    required super.userId,
-  });
-
-  factory ExpertisesUserModel.fromJson(Map<String, dynamic> json) {
-    return ExpertisesUserModel(
-      id: json["id"],
-      expertiseId: json["expertise_id"] ?? -1,
-      interested: json["interested"] ?? false,
-      value: json["value"] ?? 0,
-      contactMe: json["contact_me"] ?? false,
-      createdAt: json["created_at"] ?? "",
-      userId: json["user_id"] ?? -1,
-    );
-  }
-
-  ExpertisesUser toEntity() {
-    return ExpertisesUser(
-      id: id,
-      expertiseId: expertiseId,
-      interested: interested,
-      value: value,
-      contactMe: contactMe,
-      createdAt: createdAt,
-      userId: userId,
     );
   }
 }

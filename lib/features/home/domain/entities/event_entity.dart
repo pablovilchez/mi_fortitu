@@ -1,4 +1,4 @@
-class IntraEventEntity {
+class EventEntity {
   int id;
   String name;
   String description;
@@ -16,7 +16,7 @@ class IntraEventEntity {
   Waitlist? waitlist;
   bool isSubscribed = false;
 
-  IntraEventEntity({
+  EventEntity({
     required this.id,
     required this.name,
     required this.description,
@@ -34,8 +34,8 @@ class IntraEventEntity {
     required this.waitlist,
   });
 
-  factory IntraEventEntity.empty() {
-    return IntraEventEntity(
+  factory EventEntity.empty() {
+    return EventEntity(
       id: -1,
       name: '',
       description: '',

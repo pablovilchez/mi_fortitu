@@ -1,4 +1,4 @@
-import 'package:mi_fortitu/features/home/domain/entities/intra_profile_entity.dart';
+import 'package:mi_fortitu/features/home/domain/entities/entities.dart';
 
 class IntraProfileSummaryVM {
   final String login;
@@ -25,9 +25,9 @@ class IntraProfileSummaryVM {
     required this.wallet,
   });
 
-  factory IntraProfileSummaryVM.fromEntity(IntraProfileEntity entity) {
+  factory IntraProfileSummaryVM.fromEntity(UserEntity entity) {
     late final String titleFound;
-    late final CursusUser findCursus;
+    late final CursusUserEntity findCursus;
 
     try {
       final titleId = entity.titlesUsers.firstWhere((e) => e.selected).titleId;

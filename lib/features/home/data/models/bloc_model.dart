@@ -1,15 +1,15 @@
-import '../../domain/entities/cursus_coalitions_entity.dart';
+import '../../domain/entities/bloc_entity.dart';
 
-class CursusCoalitionsModel extends CursusCoalitionsEntity {
-  CursusCoalitionsModel({
+class BlocModel extends BlocEntity {
+  BlocModel({
     required super.id,
     required super.campusId,
     required super.cursusId,
     required super.coalitions,
   });
 
-  factory CursusCoalitionsModel.fromJson(Map<String, dynamic> json) {
-    return CursusCoalitionsModel(
+  factory BlocModel.fromJson(Map<String, dynamic> json) {
+    return BlocModel(
       id: json["id"] ?? -1,
       campusId: json["campus_id"] ?? -1,
       cursusId: json["cursus_id"] ?? -1,
@@ -19,8 +19,8 @@ class CursusCoalitionsModel extends CursusCoalitionsEntity {
     );
   }
 
-  CursusCoalitionsEntity toEntity() {
-    return CursusCoalitionsEntity(
+  BlocEntity toEntity() {
+    return BlocEntity(
       id: id,
       campusId: campusId,
       cursusId: cursusId,

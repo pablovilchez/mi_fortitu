@@ -1,8 +1,8 @@
-import 'package:mi_fortitu/features/home/domain/entities/cluster_user_entity.dart';
+import 'package:mi_fortitu/features/home/domain/entities/location_entity.dart';
 
 class ProjectsUsersVm {
   final String projectName;
-  final List<ClusterUserEntity> users;
+  final List<LocationEntity> users;
 
   ProjectsUsersVm({
     required this.projectName,

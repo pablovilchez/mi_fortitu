@@ -1,159 +1,112 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
-import 'package:mi_fortitu/core/services/intra_api_service.dart';
-import 'package:mi_fortitu/features/home/data/models/cluster_user_model.dart';
-import 'package:mi_fortitu/features/home/data/models/intra_event_model.dart';
-import 'package:mi_fortitu/features/home/data/models/intra_profile_model.dart';
+import 'package:mi_fortitu/core/services/intra_api_client.dart';
+import 'package:mi_fortitu/features/home/data/exceptions.dart';
+import 'package:mi_fortitu/features/home/data/models/models.dart';
 
-import '../exceptions.dart';
-import '../models/cursus_coalitions_model.dart';
-import '../models/project_user_model.dart';
 
 class HomeIntraDatasource {
   final http.Client httpClient;
-  final IntraApiService intraApiService;
+  final IntraApiClient intraApiClient;
 
-  HomeIntraDatasource({required this.httpClient, required this.intraApiService});
+  HomeIntraDatasource({required this.httpClient, required this.intraApiClient});
 
-  Future<Either<HomeException, dynamic>> _makeRequest(String route) async {
-    final grantToken = await intraApiService.getGrantedToken();
-    if (grantToken.isLeft()) {
-      return Left(AuthException(code: '01', message: grantToken.fold((l) => l.toString(), (r) => '')));
-    }
-    final accessToken = grantToken.fold((l) => '', (r) => r);
-    try {
-      final response = await httpClient.get(
-        Uri.parse(route),
-        headers: {'Authorization': 'Bearer $accessToken'},
-      );
-      if (response.statusCode != 200) {
-        return Left(RequestException(code: '01', message: '${response.statusCode}: ${response.body}'));
+  Future<Either<Exception, UserModel>> getUser({required String loginName}) async {
+    final user = await intraApiClient.getUser(loginName);
+    return user.fold((exception) => Left(exception), (data) {
+      try {
+        final userModel = UserModel.fromJson(data);
+        return Right(userModel);
+      } catch (e) {
+        return Left(DataException(message: 'Exception parsing User: ${e.toString()}'));
       }
-      return Right(jsonDecode(response.body));
-    } catch (e) {
-      return Left(RequestException(code: '02', message: e.toString()));
-    }
+    });
   }
 
-  Future<Either<HomeException, IntraProfileModel>> getIntraProfile({
+  Future<Either<Exception, List<EventModel>>> getUserEvents({
     required String loginName,
   }) async {
-    late final String route;
-    loginName == 'me'
-        ? route = 'https://api.intra.42.fr/v2/me'
-        : route = 'https://api.intra.42.fr/v2/users/$loginName';
-    final result = await _makeRequest(route);
-    return result.fold((exception) => Left(exception), (data) {
-      try {
-        return Right(IntraProfileModel.fromJson(data as Map<String, dynamic>));
-      } catch (e) {
-        return Left(DataException(message: '(profile) ${e.toString()}'));
-      }
-    });
-  }
-
-  Future<Either<HomeException, List<IntraEventModel>>> getIntraUserEvents({
-    required String loginName,
-  }) async {
-    final route = 'https://api.intra.42.fr/v2/users/$loginName/events_users';
-    final response = await _makeRequest(route);
-    return response.fold((exception) => Left(exception), (data) {
+    final userEvents = await intraApiClient.getUserEvents(loginName);
+    return userEvents.fold((exception) => Left(exception), (data) {
       try {
         final events =
-            (data as List)
-                .map((event) => IntraEventModel.fromJson(event['event'] as Map<String, dynamic>))
-                .toList();
+            (data).map((event) {
+              return EventModel.fromJson(event as Map<String, dynamic>);
+            }).toList();
         return Right(events);
       } catch (e) {
-        return Left(DataException(message: '(user events) ${e.toString()}'));
+        return Left(DataException(message: 'Exception parsing User Events: ${e.toString()}'));
       }
     });
   }
 
-  Future<Either<HomeException, List<IntraEventModel>>> getIntraCampusEvents({
+  Future<Either<Exception, List<EventModel>>> getCampusEvents({
     required String campusId,
   }) async {
-    final route = 'https://api.intra.42.fr/v2/campus/$campusId/events';
-    final response = await _makeRequest(route);
-    return response.fold((exception) => Left(exception), (data) {
+    final campusEvents = await intraApiClient.getCampusEvents(campusId);
+    return campusEvents.fold((exception) => Left(exception), (data) {
       try {
         final events =
-            (data as List)
-                .map((event) => IntraEventModel.fromJson(event as Map<String, dynamic>))
-                .toList();
+            (data).map((event) {
+              return EventModel.fromJson(event as Map<String, dynamic>);
+            }).toList();
         return Right(events);
       } catch (e) {
-        return Left(DataException(message: '(campus events) ${e.toString()}'));
+        return Left(DataException(message: 'Exception parsing Campus Events: ${e.toString()}'));
       }
     });
   }
 
-  Future<Either<HomeException, List<ClusterUserModel>>> getIntraClusterUsers({
+  Future<Either<Exception, List<LocationModel>>> getCampusLocations({
     required String campusId,
   }) async {
-    final baseRoute = 'https://api.intra.42.fr/v2/campus/$campusId/locations';
-    const int pageSize = 100;
-    int pageNumber = 1;
-    List<ClusterUserModel> allUsers = [];
-
-    while (true) {
-      final filters = '?filter[active]=true&page[size]=$pageSize&page[number]=$pageNumber';
-      final response = await _makeRequest(baseRoute + filters);
-      if (response.isLeft()) {
-        return Left(response.fold((exception) => exception, (r) => r));
-      }
-      final data = response.fold((l) => l, (r) => r);
-      if (data.isEmpty) {
-        break;
-      }
+    final campusLocations = await intraApiClient.getCampusLocations(campusId);
+    return campusLocations.fold((exception) => Left(exception), (data) {
       try {
-        final users =
-            (data as List)
-                .map((user) => ClusterUserModel.fromJson(user as Map<String, dynamic>))
-                .toList();
-        allUsers.addAll(users);
-        pageNumber++;
+        print('DEBUG     before parsing locations $data');
+        final locations =
+            (data).map((location) {
+              return LocationModel.fromJson(location);
+            }).toList();
+        print('DEBUG     after parsing locations');
+        return Right(locations);
       } catch (e) {
-        return Left(DataException(message: '(clusters) ${e.toString()}'));
-      }
-    }
-    return Right(allUsers);
-  }
-
-  Future<Either<HomeException, List<CursusCoalitionsModel>>> getIntraCampusCoalitions({
-    required String campusId,
-  }) async {
-    final route = 'https://api.intra.42.fr/v2/blocs/?filter[campus_id]=$campusId';
-    final response = await _makeRequest(route);
-    return response.fold((exception) => Left(exception), (data) {
-      try {
-        final cursusCoalitions =
-            (data as List)
-                .map((coalition) => CursusCoalitionsModel.fromJson(coalition as Map<String, dynamic>))
-                .toList();
-        return Right(cursusCoalitions);
-      } catch (e) {
-        return Left(DataException(message: '(coalition) ${e.toString()}'));
+        return Left(DataException(message: 'Exception parsing Locations: ${e.toString()}'));
       }
     });
   }
 
-  Future<Either<HomeException, List<ProjectUserModel>>> getIntraProjectUsers({
-    required String projectId, required String campusId,
+  Future<Either<Exception, List<BlocModel>>> getCampusBlocs({
+    required String campusId,
   }) async {
-    final route = 'https://api.intra.42.fr/v2/projects/$projectId/project_users?filter[campus]=$campusId&filter[status]=in_progress&filter[marked]=false';
-    final response = await _makeRequest(route);
-    return response.fold((exception) => Left(exception), (data) {
+    final campusBlocs = await intraApiClient.getCampusBlocs(campusId);
+    return campusBlocs.fold((exception) => Left(exception), (data) {
+      try {
+        final blocs =
+            (data).map((coalition) {
+              return BlocModel.fromJson(coalition as Map<String, dynamic>);
+            }).toList();
+        return Right(blocs);
+      } catch (e) {
+        return Left(DataException(message: 'Exception parsing Blocs ${e.toString()}'));
+      }
+    });
+  }
+
+  Future<Either<Exception, List<ProjectUserModel>>> getProjectUsers({
+    required String projectId,
+    required String campusId,
+  }) async {
+    final projectUsers = await intraApiClient.getProjectUsers(projectId, campusId);
+    return projectUsers.fold((exception) => Left(exception), (data) {
       try {
         final projectUsers =
-            (data as List)
-                .map((user) => ProjectUserModel.fromJson(user as Map<String, dynamic>))
-                .toList();
+            (data).map((user) {
+              return ProjectUserModel.fromJson(user as Map<String, dynamic>);
+            }).toList();
         return Right(projectUsers);
       } catch (e) {
-        return Left(DataException(message: '(project users) ${e.toString()}'));
+        return Left(DataException(message: 'Exception parsing Project Users: ${e.toString()}'));
       }
     });
   }

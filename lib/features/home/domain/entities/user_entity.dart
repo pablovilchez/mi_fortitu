@@ -1,15 +1,14 @@
 import 'package:mi_fortitu/features/home/domain/entities/project_user_entity.dart';
 
-class IntraProfileEntity {
+import 'cursus_user_entity.dart';
+
+class UserEntity {
   int id;
   String email;
   String login;
   String firstName;
   String lastName;
-  String usualFullName;
-  String usualFirstName;
   String profileUrl;
-  String displayName;
   String kind;
   ProfileImages image;
   bool staff;
@@ -17,32 +16,23 @@ class IntraProfileEntity {
   String poolMonth;
   String poolYear;
   int wallet;
-  String createdAt;
-  String updatedAt;
-  String alumnizedAt;
   bool alumni;
   bool active;
-  List<dynamic> groups;
-  List<CursusUser> cursusUsers;
+  List<CursusUserEntity> cursusUsers;
   List<ProjectUserEntity> projectsUsers;
-  List<LanguagesUser> languagesUsers;
   List<Achievement> achievements;
   List<Title> titles;
   List<TitlesUser> titlesUsers;
-  List<ExpertisesUser> expertisesUsers;
   List<Campus> campus;
   List<CampusUser> campusUsers;
 
-  IntraProfileEntity({
+  UserEntity({
     required this.id,
     required this.email,
     required this.login,
     required this.firstName,
     required this.lastName,
-    required this.usualFullName,
-    required this.usualFirstName,
     required this.profileUrl,
-    required this.displayName,
     required this.kind,
     required this.image,
     required this.staff,
@@ -50,19 +40,13 @@ class IntraProfileEntity {
     required this.poolMonth,
     required this.poolYear,
     required this.wallet,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.alumnizedAt,
     required this.alumni,
     required this.active,
-    required this.groups,
     required this.cursusUsers,
     required this.projectsUsers,
-    required this.languagesUsers,
     required this.achievements,
     required this.titles,
     required this.titlesUsers,
-    required this.expertisesUsers,
     required this.campus,
     required this.campusUsers,
   });
@@ -92,79 +76,7 @@ class Versions {
   });
 }
 
-class CursusUser {
-  int id;
-  String beginAt;
-  String endAt;
-  String grade;
-  double level;
-  List<Skill> skills;
-  int cursusId;
-  bool hasCoalition;
-  String blackholedAt;
-  String createdAt;
-  String updatedAt;
-  Cursus cursus;
 
-  CursusUser({
-    required this.id,
-    required this.beginAt,
-    required this.endAt,
-    required this.grade,
-    required this.level,
-    required this.skills,
-    required this.cursusId,
-    required this.hasCoalition,
-    required this.blackholedAt,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.cursus,
-  });
-}
-
-class Skill {
-  int id;
-  String name;
-  double level;
-
-  Skill({
-    required this.id,
-    required this.name,
-    required this.level,
-  });
-}
-
-class Cursus {
-  int id;
-  String createdAt;
-  String name;
-  String slug;
-  String kind;
-
-  Cursus({
-    required this.id,
-    required this.createdAt,
-    required this.name,
-    required this.slug,
-    required this.kind,
-  });
-}
-
-class LanguagesUser {
-  int id;
-  int languageId;
-  int userId;
-  int position;
-  String createdAt;
-
-  LanguagesUser({
-    required this.id,
-    required this.languageId,
-    required this.userId,
-    required this.position,
-    required this.createdAt,
-  });
-}
 
 class Achievement {
   int id;
@@ -215,26 +127,6 @@ class TitlesUser {
     required this.selected,
     required this.createdAt,
     required this.updatedAt,
-  });
-}
-
-class ExpertisesUser {
-  int id;
-  int expertiseId;
-  bool interested;
-  int value;
-  bool contactMe;
-  String createdAt;
-  int userId;
-
-  ExpertisesUser({
-    required this.id,
-    required this.expertiseId,
-    required this.interested,
-    required this.value,
-    required this.contactMe,
-    required this.createdAt,
-    required this.userId,
   });
 }
 

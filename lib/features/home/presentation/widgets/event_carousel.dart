@@ -4,14 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:mi_fortitu/core/helpers/data_format_helper.dart';
 
-import '../../domain/entities/intra_event_entity.dart';
+import '../../domain/entities/event_entity.dart';
 import '../bloc/intra_events_bloc/intra_events_bloc.dart';
 import 'event_detail_sheet.dart';
 
 class EventCarousel extends StatelessWidget {
   final double width;
   final double height;
-  final List<IntraEventEntity> event = [];
+  final List<EventEntity> event = [];
 
   EventCarousel({super.key, this.width = 300, this.height = 200});
 
@@ -73,7 +73,7 @@ class EventCarousel extends StatelessWidget {
 }
 
 class EventCard extends StatelessWidget {
-  final IntraEventEntity event;
+  final EventEntity event;
 
   const EventCard({super.key, required this.event});
 

@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:mi_fortitu/features/home/domain/usecases/get_profile_usecase.dart';
 
-import '../../../domain/entities/intra_profile_entity.dart';
+import '../../../domain/entities/user_entity.dart';
 
 part 'intra_search_profile_event.dart';
 
