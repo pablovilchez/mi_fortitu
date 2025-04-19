@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 import '../../../../core/widgets/dev_info_widget.dart';
-import '../../../profiles/presentation/blocs/profiles_bloc/profiles_bloc.dart';
+import '../../../profiles/presentation/blocs/user_bloc/user_bloc.dart';
 import '../blocs/coalitions_blocs_bloc/coalitions_blocs_bloc.dart';
 import '../widgets/coalitions_layout.dart';
 
@@ -28,8 +28,8 @@ class CoalitionsScreen extends StatelessWidget {
       ),
       body: BlocBuilder<CoalitionsBlocsBloc, CoalitionsBlocsState>(builder: (context, state) {
         if (state is IntraCoalitionsInitial) {
-          final profileState = context.read<ProfilesBloc>().state;
-          if (profileState is ProfileSuccess) {
+          final profileState = context.read<UserBloc>().state;
+          if (profileState is UserSuccess) {
             final campusId = profileState.profile.campus[0].id.toString();
             context.read<CoalitionsBlocsBloc>().add(GetCoalitionsEvent(campusId: campusId));
           } else {

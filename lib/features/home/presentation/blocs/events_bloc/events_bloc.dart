@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:mi_fortitu/features/home/domain/usecases/get_events_usecase.dart';
 
 import '../../../domain/entities/event_entity.dart';
+import '../../viewmodels/event_viewmodel.dart';
 
 part 'events_event.dart';
 part 'events_state.dart';

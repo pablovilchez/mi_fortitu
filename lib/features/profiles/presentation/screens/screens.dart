@@ -1,2 +1,2 @@
-export 'profile_screen.dart';
-export 'search_students_screen.dart';
+export 'user_screen.dart';
+export 'search_screen.dart';

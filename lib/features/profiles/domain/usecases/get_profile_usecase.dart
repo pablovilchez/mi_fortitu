@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:mi_fortitu/features/home/domain/failures.dart';
 
 import '../entities/user_entity.dart';
+import '../profiles_failure.dart';
 import '../repositories/profiles_repository.dart';
 
 
@@ -10,7 +10,7 @@ class GetProfileUsecase {
 
   GetProfileUsecase(this.repository);
 
-  Future<Either<HomeFailure, UserEntity>> call(String loginName) async {
+  Future<Either<ProfilesFailure, UserEntity>> call(String loginName) async {
     return repository.getIntraProfile(loginName);
   }
 }

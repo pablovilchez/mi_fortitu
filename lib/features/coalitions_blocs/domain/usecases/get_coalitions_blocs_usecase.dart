@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../home/domain/failures.dart';
+import '../coalitions_bloc_failure.dart';
 import '../entities/coalitions_blocs_entity.dart';
 import '../repositories/coalitions_blocs_repository.dart';
 
@@ -9,7 +9,7 @@ class GetCoalitionsBlocsUsecase {
 
   GetCoalitionsBlocsUsecase(this.repository);
 
-  Future<Either<HomeFailure, CoalitionsBlocsEntity>> call(String campusId) async {
+  Future<Either<CoalitionsBlocFailure, CoalitionsBlocsEntity>> call(String campusId) async {
     final result = await repository.getCampusCoalitions(campusId);
     return result.fold(
       (failure) => Left(failure),
@@ -19,7 +19,7 @@ class GetCoalitionsBlocsUsecase {
           cursus.coalitions.sort((a, b) => b.score.compareTo(a.score));
           return Right(cursus);
         } else {
-          return Left(EmptyDataFailure("No coalitions found"));
+          return Left(EmptyDataFailure());
         }
       },
     );

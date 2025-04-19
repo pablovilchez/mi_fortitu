@@ -8,7 +8,7 @@ final class IntraEventsInitial extends EventsState {}
 final class IntraEventsLoading extends EventsState {}
 
 final class IntraEventsSuccess extends EventsState {
-  final List<EventEntity> events;
+  final List<EventVm> events;
 
   IntraEventsSuccess(this.events);
 }

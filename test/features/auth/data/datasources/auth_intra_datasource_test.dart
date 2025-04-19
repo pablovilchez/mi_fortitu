@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:mi_fortitu/core/config/env_config.dart';
 import 'package:mi_fortitu/core/services/url_launcher_service.dart';
 import 'package:mi_fortitu/features/auth/data/datasources/auth_intra_datasource.dart';
-import 'package:mi_fortitu/features/auth/data/exceptions.dart';
+import 'package:mi_fortitu/features/auth/data/auth_exception.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockHttpClient extends Mock implements http.Client {}

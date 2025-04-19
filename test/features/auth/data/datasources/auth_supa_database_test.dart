@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mi_fortitu/features/auth/data/datasources/auth_supa_datasource.dart';
-import 'package:mi_fortitu/features/auth/data/exceptions.dart' as exceptions;
+import 'package:mi_fortitu/features/auth/data/auth_exception.dart' as exceptions;
 import 'package:mi_fortitu/features/auth/data/models/db_login_model.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../home/domain/failures.dart';
-import '../entities/event_entity.dart';
+import '../../domain/home_failure.dart';
+import '../../presentation/viewmodels/event_viewmodel.dart';
 import '../repositories/home_repository.dart';
 
 class GetEventsUsecase {
@@ -9,29 +9,31 @@ class GetEventsUsecase {
 
   GetEventsUsecase(this.repository);
 
-  Future<Either<HomeFailure, List<EventEntity>>> call(String loginName, String campusId) async {
-    final campusEvents = await repository.getIntraCampusEvents(campusId);
-    final userEvents = await repository.getIntraUserEvents(loginName);
-
-    if (campusEvents.isLeft()) {
-      return Left(ServerDataFailure('Error fetching campus events: ${campusEvents.fold((l) => l.toString(), (r) => '')}'));
+  Future<Either<HomeFailure, List<EventVm>>> call(String loginName, String campusId) async {
+    final campusEventsResult = await repository.getCampusEvents(campusId);
+    if (campusEventsResult.isLeft()) {
+      return Left(campusEventsResult.swap().getOrElse(() => UnexpectedFailure()));
     }
-    if (userEvents.isLeft()) {
-      return Left(ServerDataFailure('Error fetching user events: ${userEvents.fold((l) => l.toString(), (r) => '')}'));
-    }
+    final campusEvents = campusEventsResult.getOrElse(() => []);
 
-    for (final campusEvent in campusEvents.getOrElse(() => [])) {
-      final foundEvent = userEvents
-          .getOrElse(() => [])
-          .firstWhere(
-            (userEvent) => userEvent.id == campusEvent.id,
-            orElse: () => EventEntity.empty(),
-          );
-      if (foundEvent.id != -1) {
-        campusEvent.isSubscribed = true;
-      }
+    final userEventsResult = await repository.getUserEvents(loginName);
+    if (userEventsResult.isLeft()) {
+      return Left(userEventsResult.swap().getOrElse(() => UnexpectedFailure()));
     }
+    final userEvents = userEventsResult.getOrElse(() => []);
 
-    return Right(campusEvents.getOrElse(() => []));
+    campusEvents.removeWhere((event) => event.beginAt.isBefore(DateTime.now()));
+    campusEvents.sort((a, b) => a.beginAt.compareTo(b.beginAt));
+
+    final eventsVm = campusEvents.map((event) {
+      final isSubscribed = userEvents.any((userEvent) => userEvent.id == event.id);
+      return EventVm(
+        details: EventDetailsVm.fromEntity(event),
+        isSubscribed: isSubscribed,
+        isFull: event.nbrSubscribers >= event.maxPeople,
+      );
+    },).toList();
+
+    return Right(eventsVm);
   }
 }

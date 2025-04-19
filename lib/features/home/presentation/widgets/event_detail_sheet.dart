@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:mi_fortitu/features/home/domain/entities/event_entity.dart';
+
+import '../viewmodels/event_viewmodel.dart';
 
 class EventDetailSheet extends StatefulWidget {
-  final EventEntity event;
+  final EventVm event;
 
   const EventDetailSheet({super.key, required this.event});
 
@@ -42,8 +42,7 @@ class _EventDetailSheetState extends State<EventDetailSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final day = DateFormat('MMMEd').format(widget.event.beginAt);
-    final time = DateFormat('HH:mm').format(widget.event.beginAt);
+    final details = widget.event.details;
     final contentStyle = TextStyle(fontSize: 15);
 
     return FractionallySizedBox(
@@ -57,26 +56,26 @@ class _EventDetailSheetState extends State<EventDetailSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.event.name,
+                widget.event.details.name,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),
               Row(
                 children: [
-                  EventDetailField(icon: Icons.calendar_today, text: day),
+                  EventDetailField(icon: Icons.calendar_today, text: details.beginDate),
                   SizedBox(width: 40),
-                  EventDetailField(icon: Icons.access_time, text: time),
+                  EventDetailField(icon: Icons.access_time, text: details.beginTime),
                 ],
               ),
               SizedBox(height: 10),
-              EventDetailField(icon: Icons.pin_drop, text: widget.event.location),
+              EventDetailField(icon: Icons.pin_drop, text: widget.event.details.location),
               SizedBox(height: 20),
               Expanded(
                 child: SingleChildScrollView(
                   controller: _scrollController,
                   child: Column(
                     children: [
-                      Text(widget.event.description, style: contentStyle),
+                      Text(details.description, style: contentStyle),
                       SizedBox(height: 40),
                     ],
                   ),
@@ -94,7 +93,7 @@ class _EventDetailSheetState extends State<EventDetailSheet> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [EventDetailButton(event: widget.event)],
+                children: [EventDetailButton(isSubscribed: widget.event.isSubscribed)],
               ),
             ],
           ),
@@ -133,22 +132,22 @@ class EventDetailField extends StatelessWidget {
 }
 
 class EventDetailButton extends StatelessWidget {
-  final EventEntity event;
+  final bool isSubscribed;
 
-  const EventDetailButton({super.key, required this.event});
+  const EventDetailButton({super.key, required this.isSubscribed});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor:
-            event.isSubscribed
+            isSubscribed
                 ? WidgetStateProperty.all(Colors.red.shade300)
                 : WidgetStateProperty.all(Colors.green.shade300),
       ),
       onPressed: () {},
       child: Text(
-        event.isSubscribed ? "Unsubscribe" : "Subscribe",
+        isSubscribed ? "Unsubscribe" : "Subscribe",
         style: TextStyle(fontSize: 16, color: Colors.white),
       ),
     );

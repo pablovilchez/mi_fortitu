@@ -1,11 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:mi_fortitu/core/helpers/data_format_helper.dart';
 
 import '../../domain/entities/event_entity.dart';
 import '../blocs/events_bloc/events_bloc.dart';
+import '../viewmodels/event_viewmodel.dart';
 import 'event_detail_sheet.dart';
 
 class EventCarousel extends StatelessWidget {
@@ -27,10 +25,6 @@ class EventCarousel extends StatelessWidget {
           if (state.events.isEmpty) {
             return Text('No events');
           }
-          state.events.removeWhere(
-            (event) => event.endAt.isBefore(DateTime.now()),
-          );
-          state.events.sort((a, b) => a.beginAt.compareTo(b.beginAt));
           return SizedBox(
             width: width,
             height: height,
@@ -39,12 +33,7 @@ class EventCarousel extends StatelessWidget {
                 return LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  colors: [
-                    Colors.black,
-                    Colors.transparent,
-                    Colors.transparent,
-                    Colors.black,
-                  ],
+                  colors: [Colors.black, Colors.transparent, Colors.transparent, Colors.black],
                   stops: [0.0, 0.05, 0.95, 1.0],
                 ).createShader(bounds);
               },
@@ -73,7 +62,7 @@ class EventCarousel extends StatelessWidget {
 }
 
 class EventCard extends StatelessWidget {
-  final EventEntity event;
+  final EventVm event;
 
   const EventCard({super.key, required this.event});
 
@@ -104,10 +93,7 @@ class EventCard extends StatelessWidget {
             // Color del efecto de toque
             highlightColor: Colors.transparent,
             // Evita que se vea un color sólido al tocar
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: _buildEventInfo(),
-            ),
+            child: Padding(padding: const EdgeInsets.all(16.0), child: _buildEventInfo()),
           ),
         ),
       ),
@@ -115,64 +101,27 @@ class EventCard extends StatelessWidget {
   }
 
   Widget _buildEventInfo() {
-    final begin = event.beginAt;
-    final end = event.endAt;
-    final days = end.difference(begin).inDays;
-    final hours = (end.difference(begin).inMinutes / 60).truncate();
-    final minutes = end.difference(begin).inMinutes % 60;
-
+    final details = event.details;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            HeaderEventElement(
-              icon: Icons.calendar_month,
-              text: () {
-                if (begin.day == DateTime.now().day) {
-                  return tr('home.events.today');
-                } else if (begin.day == DateTime.now().day + 1) {
-                  return tr('home.events.tomorrow');
-                } else {
-                  return DataFormatHelper.shortFormatDate(begin);
-                }
-              }(),
-            ),
-            HeaderEventElement(
-              icon: Icons.access_time,
-              text: DateFormat('HH:mm').format(begin),
-            ),
-            HeaderEventElement(
-              icon: Icons.timelapse,
-              text: () {
-                if (days > 0) {
-                  return '${days}d';
-                } else if (hours == 0) {
-                  return '${minutes}m';
-                } else if (minutes == 0) {
-                  return '${hours}h';
-                } else {
-                  return '${hours}h ${minutes}m';
-                }
-              }(),
-            ),
+            HeaderEventElement(icon: Icons.calendar_month, text: details.beginDate),
+            HeaderEventElement(icon: Icons.access_time, text: details.beginTime),
+            HeaderEventElement(icon: Icons.timelapse, text: details.duration),
           ],
         ),
         const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            HeaderEventElement(
-              icon: Icons.pin_drop,
-              text: event.location.split(' ').first,
-            ),
+            HeaderEventElement(icon: Icons.pin_drop, text: details.location.split(' ').first),
             HeaderEventElement(
               icon: Icons.people,
-              text: event.maxPeople > 0 ? '${event.maxPeople}' : '~',
-              alert:
-                  event.maxPeople > 0 &&
-                  event.maxPeople <= event.nbrSubscribers,
+              text: details.maxPeople > 0 ? '${details.maxPeople}' : '~',
+              alert: event.isFull,
             ),
           ],
         ),
@@ -182,13 +131,10 @@ class EventCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                event.name,
+                details.name,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               ),
             ],
           ),

@@ -10,11 +10,7 @@ class EventEntity {
   DateTime endAt;
   List<int> campusIds;
   List<int> cursusIds;
-  String createdAt;
-  String updatedAt;
-  dynamic prohibitionOfCancellation;
-  Waitlist? waitlist;
-  bool isSubscribed = false;
+  WaitlistEntity? waitlist;
 
   EventEntity({
     required this.id,
@@ -28,9 +24,6 @@ class EventEntity {
     required this.endAt,
     required this.campusIds,
     required this.cursusIds,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.prohibitionOfCancellation,
     required this.waitlist,
   });
 
@@ -47,27 +40,20 @@ class EventEntity {
       endAt: DateTime.now(),
       campusIds: [],
       cursusIds: [],
-      createdAt: '',
-      updatedAt: '',
-      prohibitionOfCancellation: null,
       waitlist: null,
     );
   }
 }
 
 
-class Waitlist {
+class WaitlistEntity {
   int id;
   int waitlistableId;
   String waitlistableType;
-  String createdAt;
-  String updatedAt;
 
-  Waitlist({
+  WaitlistEntity({
     required this.id,
     required this.waitlistableId,
     required this.waitlistableType,
-    required this.createdAt,
-    required this.updatedAt,
   });
 }

@@ -1,8 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
+
 import '../../../../core/services/intra_api_client.dart';
-import '../../../home/data/exceptions.dart';
 import '../models/user_model.dart';
+import '../profiles_exception.dart';
 
 class ProfilesDatasource {
   final http.Client httpClient;
@@ -17,7 +18,7 @@ class ProfilesDatasource {
         final userModel = UserModel.fromJson(data);
         return Right(userModel);
       } catch (e) {
-        return Left(DataException(message: 'Exception parsing User: ${e.toString()}'));
+        return Left(ProfilesException(code: 'P01', details: e.toString()));
       }
     });
   }

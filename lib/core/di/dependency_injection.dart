@@ -9,7 +9,7 @@ import 'package:mi_fortitu/core/helpers/secure_storage_helper.dart';
 import 'package:mi_fortitu/core/services/intra_api_client.dart';
 import 'package:mi_fortitu/core/services/url_launcher_service.dart';
 // Features
-import 'package:mi_fortitu/features/auth/auth.dart';
+import 'package:mi_fortitu/features/access/auth.dart';
 import 'package:mi_fortitu/features/clusters/clusters.dart';
 import 'package:mi_fortitu/features/coalitions_blocs/coalitions_blocs.dart';
 import 'package:mi_fortitu/features/home/home.dart';
@@ -37,11 +37,11 @@ void initDi() {
   sl.registerLazySingleton<UrlLauncherService>(() => UrlLauncherServiceImpl());
 
   // Auth feature - Datasources
-  sl.registerLazySingleton<AuthSupaDatasource>(() => AuthSupaDatasource(supabaseClient));
-  sl.registerLazySingleton<AuthIntraDatasource>(() => AuthIntraDatasource(sl(), sl(), sl(), sl()));
+  sl.registerLazySingleton<AccessSupaDatasource>(() => AccessSupaDatasource(supabaseClient));
+  sl.registerLazySingleton<AccessIntraDatasource>(() => AccessIntraDatasource(sl(), sl(), sl(), sl()));
   // Auth feature - Repositories
-  sl.registerLazySingleton<AuthIntraRepository>(() => AuthIntraRepositoryImpl(sl(), sl()));
-  sl.registerLazySingleton<AuthDbRepository>(() => AuthDbRepositoryImpl(sl()));
+  sl.registerLazySingleton<AccessIntraRepository>(() => AccessIntraRepositoryImpl(sl(), sl()));
+  sl.registerLazySingleton<AccessDbRepository>(() => AccessDbRepositoryImpl(sl()));
   // Auth feature - Usecases
   sl.registerLazySingleton<AuthUsecase>(() => AuthUsecase(sl(), sl()));
   sl.registerLazySingleton<GetRoleUsecase>(() => GetRoleUsecase(sl()));
@@ -93,5 +93,6 @@ void initDi() {
   // Profile feature - Use cases
   sl.registerLazySingleton<GetProfileUsecase>(() => GetProfileUsecase(sl()));
   // Profile feature - Blocs
-  sl.registerLazySingleton<ProfilesBloc>(() => ProfilesBloc(sl()));
+  sl.registerLazySingleton<UserBloc>(() => UserBloc(sl()));
+  sl.registerLazySingleton<SearchBloc>(() => SearchBloc(sl()));
 }

@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../home/domain/failures.dart';
 import '../entities/user_entity.dart';
+import '../profiles_failure.dart';
 
 abstract class ProfilesRepository {
-  Future<Either<HomeFailure,UserEntity>> getIntraProfile(String loginName);
+  Future<Either<ProfilesFailure,UserEntity>> getIntraProfile(String loginName);
 }

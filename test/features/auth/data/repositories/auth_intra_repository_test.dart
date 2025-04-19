@@ -4,9 +4,9 @@ import 'package:mi_fortitu/core/errors/exceptions.dart';
 import 'package:mi_fortitu/core/helpers/secure_storage_helper.dart';
 import 'package:mi_fortitu/core/services/intra_api_client.dart';
 import 'package:mi_fortitu/features/auth/data/datasources/auth_intra_datasource.dart';
-import 'package:mi_fortitu/features/auth/data/exceptions.dart';
+import 'package:mi_fortitu/features/auth/data/auth_exception.dart';
 import 'package:mi_fortitu/features/auth/data/repositories/repositories.dart';
-import 'package:mi_fortitu/features/auth/domain/failures.dart';
+import 'package:mi_fortitu/features/auth/domain/auth_failure.dart';
 import 'package:mi_fortitu/features/auth/domain/repositories/auth_intra_repository.dart';
 import 'package:mocktail/mocktail.dart';
 

@@ -1,4 +1,4 @@
-import 'package:mi_fortitu/features/home/domain/entities/event_entity.dart';
+import '../../domain/entities/event_entity.dart';
 
 class EventModel extends EventEntity {
   EventModel({
@@ -13,28 +13,22 @@ class EventModel extends EventEntity {
     required super.endAt,
     required super.campusIds,
     required super.cursusIds,
-    required super.createdAt,
-    required super.updatedAt,
-    required super.prohibitionOfCancellation,
     required super.waitlist,
   });
 
   factory EventModel.fromJson(Map<String, dynamic> json) {
     return EventModel(
       id: json["id"],
-      name: json["name"] ?? "unknown",
-      description: json["description"] ?? "unknown",
-      location: json["location"] ?? "unknown",
-      kind: json["kind"] ?? "unknown",
-      maxPeople: json["max_people"] ?? 0,
-      nbrSubscribers: json["nbr_subscribers"] ?? 0,
+      name: json["name"] ?? "No name",
+      description: json["description"] ?? "Undefined description",
+      location: json["location"] ?? "Undefined location",
+      kind: json["kind"] ?? "Undefined kind",
+      maxPeople: json["max_people"] ?? -1,
+      nbrSubscribers: json["nbr_subscribers"] ?? -1,
       beginAt: DateTime.parse(json["begin_at"]).toLocal(),
       endAt: DateTime.parse(json["end_at"]).toLocal(),
       campusIds: List<int>.from(json["campus_ids"].map((x) => x)),
       cursusIds: List<int>.from(json["cursus_ids"].map((x) => x)),
-      createdAt: json["created_at"],
-      updatedAt: json["updated_at"],
-      prohibitionOfCancellation: json["prohibition_of_cancellation"],
       waitlist: json["waitlist"] == null ? null : WaitlistModel.fromJson(json["waitlist"]),
     );
   }
@@ -52,21 +46,16 @@ class EventModel extends EventEntity {
       endAt: endAt,
       campusIds: campusIds,
       cursusIds: cursusIds,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-      prohibitionOfCancellation: prohibitionOfCancellation,
       waitlist: waitlist,
     );
   }
 }
 
-class WaitlistModel extends Waitlist {
+class WaitlistModel extends WaitlistEntity {
   WaitlistModel({
     required super.id,
     required super.waitlistableId,
     required super.waitlistableType,
-    required super.createdAt,
-    required super.updatedAt,
   });
 
   factory WaitlistModel.fromJson(Map<String, dynamic> json) {
@@ -74,8 +63,6 @@ class WaitlistModel extends Waitlist {
       id: json["id"],
       waitlistableId: json["waitlistable_id"] ?? 0,
       waitlistableType: json["waitlistable_type"] ?? "unknown",
-      createdAt: json["created_at"],
-      updatedAt: json["updated_at"],
     );
   }
 }

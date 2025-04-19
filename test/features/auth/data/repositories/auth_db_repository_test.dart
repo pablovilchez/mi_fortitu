@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mi_fortitu/features/auth/data/datasources/auth_supa_datasource.dart';
-import 'package:mi_fortitu/features/auth/data/exceptions.dart';
+import 'package:mi_fortitu/features/auth/data/auth_exception.dart';
 import 'package:mi_fortitu/features/auth/data/repositories/auth_db_repository_impl.dart';
 import 'package:mi_fortitu/features/auth/domain/entities/db_login_entity.dart';
-import 'package:mi_fortitu/features/auth/domain/failures.dart';
+import 'package:mi_fortitu/features/auth/domain/auth_failure.dart';
 import 'package:mi_fortitu/features/auth/data/models/db_login_model.dart';
 import 'package:mocktail/mocktail.dart';
 

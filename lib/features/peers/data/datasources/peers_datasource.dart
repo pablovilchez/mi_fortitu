@@ -2,8 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/services/intra_api_client.dart';
-import '../../../home/data/exceptions.dart';
 import '../../../profiles/data/models/project_user_model.dart';
+import '../peers_exception.dart';
 
 class PeersDatasource {
   final http.Client httpClient;
@@ -24,7 +24,7 @@ class PeersDatasource {
         }).toList();
         return Right(projectUsers);
       } catch (e) {
-        return Left(DataException(message: 'Exception parsing Project Users: ${e.toString()}'));
+        return Left(PeersException(code: 'P01', details: e.toString()));
       }
     });
   }

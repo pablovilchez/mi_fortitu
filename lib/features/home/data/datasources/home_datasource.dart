@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:mi_fortitu/core/services/intra_api_client.dart';
-import 'package:mi_fortitu/features/home/data/exceptions.dart';
 
+import '../home_exception.dart';
 import '../models/event_model.dart';
 
 class HomeDatasource {
@@ -11,11 +11,9 @@ class HomeDatasource {
 
   HomeDatasource(this.httpClient, this.intraApiClient);
 
-  Future<Either<Exception, List<EventModel>>> getUserEvents({
-    required String loginName,
-  }) async {
+  Future<Either<HomeException, List<EventModel>>> getUserEvents({required String loginName}) async {
     final userEvents = await intraApiClient.getUserEvents(loginName);
-    return userEvents.fold((exception) => Left(exception), (data) {
+    return userEvents.fold((e) => Left(HomeException(code: 'H00', details: e.toString())), (data) {
       try {
         final events =
             (data).map((event) {
@@ -23,16 +21,16 @@ class HomeDatasource {
             }).toList();
         return Right(events);
       } catch (e) {
-        return Left(DataException(message: 'Exception parsing User Events: ${e.toString()}'));
+        return Left(HomeException(code: 'H01', details: e.toString()));
       }
     });
   }
 
-  Future<Either<Exception, List<EventModel>>> getCampusEvents({
-    required String campusId,
-  }) async {
+  Future<Either<HomeException, List<EventModel>>> getCampusEvents({required String campusId}) async {
     final campusEvents = await intraApiClient.getCampusEvents(campusId);
-    return campusEvents.fold((exception) => Left(exception), (data) {
+    return campusEvents.fold((e) => Left(HomeException(code: 'H00', details: e.toString())), (
+      data,
+    ) {
       try {
         final events =
             (data).map((event) {
@@ -40,7 +38,7 @@ class HomeDatasource {
             }).toList();
         return Right(events);
       } catch (e) {
-        return Left(DataException(message: 'Exception parsing Campus Events: ${e.toString()}'));
+        return Left(HomeException(code: 'H02', details: e.toString()));
       }
     });
   }

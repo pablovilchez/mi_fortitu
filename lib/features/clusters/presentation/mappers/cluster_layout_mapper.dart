@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:mi_fortitu/features/home/domain/failures.dart';
 
+import '../../domain/clusters_failure.dart';
 import '../../domain/entities/location_entity.dart';
 import '../viewmodels/campus_layout_vm.dart';
 import '../viewmodels/cluster_vm.dart';
@@ -11,12 +11,12 @@ class ClusterLayoutMapper {
 
   ClusterLayoutMapper(this.campusLayout, this.users);
 
-  static Either<HomeFailure, List<ClusterVm>> map(
+  static Either<MapFailure, List<ClusterVm>> map(
     CampusLayoutVm campusLayout,
     List<LocationEntity> users,
   ) {
     if (campusLayout.campusId == 0) {
-      return Left(ParsingDataFailure('Working in progress with no campus layout'));
+      return Left(MapFailure('No campus layout'));
     }
     try {
       final userMap = {
@@ -50,7 +50,7 @@ class ClusterLayoutMapper {
 
       return Right(clusters);
     } catch (e) {
-      return Left(ParsingDataFailure('Error mapping clusters: $e'));
+      return Left(MapFailure('Error mapping clusters: $e'));
     }
   }
 }

@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:mi_fortitu/core/config/env_config.dart';
 
-import '../errors/exceptions.dart';
 import '../helpers/secure_storage_helper.dart';
 
 class IntraApiClient {
@@ -41,14 +40,14 @@ class IntraApiClient {
     final expirationTime = DateTime.now().add(Duration(seconds: data['expires_in']));
 
     if (accessToken == null || refreshToken == null) {
-      return Left(SaveTokenException('Invalid token data'));
+      return Left(Exception('Invalid token data'));
     }
     try {
       await secureStorage.save('intra_access_token', accessToken);
       await secureStorage.save('intra_refresh_token', refreshToken);
       await secureStorage.save('intra_token_expiration', expirationTime.toIso8601String());
     } catch (e) {
-      return Left(SaveTokenException('Failed to save tokens: $e'));
+      return Left(Exception('Failed to save tokens: $e'));
     }
 
     return Right(unit);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mi_fortitu/features/auth/presentation/screens/screens.dart';
+import 'package:mi_fortitu/features/access/presentation/screens/screens.dart';
 import 'package:mi_fortitu/features/clusters/presentation/screens/screens.dart';
 import 'package:mi_fortitu/features/coalitions_blocs/presentation/screens/screens.dart';
 import 'package:mi_fortitu/features/home/presentation/screens/screens.dart';

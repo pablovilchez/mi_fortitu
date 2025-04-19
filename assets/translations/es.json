@@ -8,6 +8,8 @@
     "events": {
       "today": "Hoy",
       "tomorrow": "Mñn",
+      "in": "en",
+      "days": "días",
       "no_events": "No hay eventos próximos."
     },
     "titles": {

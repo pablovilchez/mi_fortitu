@@ -1,9 +1,8 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/services/intra_api_client.dart';
-import '../../../home/data/exceptions.dart';
+import '../coalitions_bloc_exception.dart';
 import '../models/coalitions_blocs_model.dart';
 
 class CoalitionsBlocsDatasource {
@@ -24,7 +23,7 @@ class CoalitionsBlocsDatasource {
         }).toList();
         return Right(blocs);
       } catch (e) {
-        return Left(DataException(message: 'Exception parsing Blocs ${e.toString()}'));
+        return Left(CoalitionsBlocException(code: 'C01', details: e.toString()));
       }
     });
   }

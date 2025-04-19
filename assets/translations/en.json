@@ -8,6 +8,8 @@
     "events": {
       "today": "Today",
       "tomorrow": "Tmrw",
+      "in": "in",
+      "days": "days",
       "no_events": "No upcoming events."
     },
     "titles": {
