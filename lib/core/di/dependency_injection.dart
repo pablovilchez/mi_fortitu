@@ -82,9 +82,9 @@ void initDi() {
   // Peers feature - Repositories
   sl.registerLazySingleton<PeersRepository>(() => PeersRepositoryImpl(sl()));
   // Peers feature - Use cases
-  sl.registerLazySingleton<GetProjectUsersUseCase>(() => GetProjectUsersUseCase(sl()));
+  sl.registerLazySingleton<GetProjectsPeersUsecase>(() => GetProjectsPeersUsecase(sl()));
   // Peers feature - Blocs
-  sl.registerLazySingleton<ProjectsBloc>(() => ProjectsBloc(sl()));
+
 
   // Profile feature - Datasources
   sl.registerLazySingleton<ProfilesDatasource>(() => ProfilesDatasource(sl(), sl()));

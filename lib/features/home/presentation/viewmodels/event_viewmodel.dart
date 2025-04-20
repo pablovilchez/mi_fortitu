@@ -30,6 +30,9 @@ class EventDetailsVm {
   final DateTime beginAt;
   final String beginLapse;
   final String beginDate;
+  final String beginWeekDay;
+  final String beginDay;
+  final String beginMonth;
   final String beginTime;
   final String duration;
 
@@ -44,6 +47,9 @@ class EventDetailsVm {
     required this.beginAt,
     required this.beginLapse,
     required this.beginDate,
+    required this.beginWeekDay,
+    required this.beginDay,
+    required this.beginMonth,
     required this.beginTime,
     required this.duration,
   });
@@ -60,6 +66,9 @@ class EventDetailsVm {
       beginAt: entity.beginAt,
       beginLapse: DateFormatHelper.timeToStartStr(entity.beginAt),
       beginDate: DateFormat('Md', tr('language')).format(entity.beginAt),
+      beginWeekDay: DateFormat('EEEE', tr('language')).format(entity.beginAt),
+      beginDay: DateFormat('d', tr('language')).format(entity.beginAt),
+      beginMonth: DateFormat('MMMM', tr('language')).format(entity.beginAt),
       beginTime: DateFormat('HH:mm', tr('language')).format(entity.beginAt),
       duration: DateFormatHelper.timeLapseStr(entity.beginAt, entity.endAt),
     );

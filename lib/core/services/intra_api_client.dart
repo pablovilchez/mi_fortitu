@@ -14,23 +14,27 @@ class IntraApiClient {
   IntraApiClient(this.httpClient, this.env, this.secureStorage);
 
   Future<Either<Exception, String>> getGrantedToken() async {
-    try {
-      final accessToken = await secureStorage.read('intra_access_token');
-      final intraRefreshToken = await secureStorage.read('intra_refresh_token');
-      final expirationTimeStr = await secureStorage.read('intra_token_expiration');
+    final accessToken = await secureStorage.read('intra_access_token');
+    final intraRefreshToken = await secureStorage.read('intra_refresh_token');
+    final expirationTimeStr = await secureStorage.read('intra_token_expiration');
 
-      if (accessToken == null || intraRefreshToken == null || expirationTimeStr == null) {
-        return Left(Exception('No access token found in storage. Please log in again.'));
-      }
-      final expirationTime = DateTime.parse(expirationTimeStr);
-      if (expirationTime.isBefore(DateTime.now())) {
-        final newTokens = await _refreshToken(intraRefreshToken);
-        await saveTokens(newTokens);
-        return Right(newTokens['access_token']);
-      }
+    if (accessToken == null || intraRefreshToken == null || expirationTimeStr == null) {
+      return Left(Exception('No access token found in storage. Please log in again.'));
+    }
+
+    final expirationTime = DateTime.parse(expirationTimeStr);
+
+    if (expirationTime.isBefore(DateTime.now())) {
+      final newTokens = await _refreshToken(intraRefreshToken);
+      return newTokens.fold(
+        (exception) => Left(exception),
+        (newTokens) async {
+          await saveTokens(newTokens);
+          return Right(newTokens['access_token']);
+        },
+      );
+    } else {
       return Right(accessToken);
-    } catch (e) {
-      return Left(Exception(e));
     }
   }
 
@@ -53,7 +57,7 @@ class IntraApiClient {
     return Right(unit);
   }
 
-  Future<Map<String, dynamic>> _refreshToken(String refreshToken) async {
+  Future<Either<Exception, Map<String, dynamic>>> _refreshToken(String refreshToken) async {
     final refreshTokenFunctionUrl = env.refreshTokenFunctionUrl;
     final response = await httpClient.post(
       Uri.parse(refreshTokenFunctionUrl),
@@ -61,7 +65,7 @@ class IntraApiClient {
       body: jsonEncode({'refresh_token': refreshToken}),
     );
     if (response.statusCode != 200) {
-      throw Exception('Failed to refresh token: ${response.statusCode} ${response.body}');
+      return Left(Exception('Failed to refresh token: ${response.statusCode} ${response.body}'));
     }
     return jsonDecode(response.body);
   }
@@ -175,16 +179,19 @@ class IntraApiClient {
     });
   }
 
-  Future<Either<Exception, List<dynamic>>> getProjectUsers(
-    String projectId,
-    String campusId,
+  Future<Either<Exception, List<Map<String, dynamic>>>> getProjectUsers(
+    int projectId,
+    int campusId,
   ) async {
-    final url = 'https://api.intra.42.fr/v2/projects/$projectId/project_users';
+    final url = 'https://api.intra.42.fr/v2/projects/$projectId/projects_users';
     final filters = '?filter[campus]=$campusId&filter[status]=in_progress&filter[marked]=false';
     final response = await _makeGetRequest('$url$filters');
+
     return response.fold((exception) => Left(exception), (data) {
       try {
-        return Right(data as List<dynamic>);
+        final list = data as List;
+        final userList = list.map((user) => (user as Map<String, dynamic>)['user'] as Map<String, dynamic>).toList();
+        return Right(userList);
       } catch (e) {
         return Left(Exception('Exception getting Intra Project Users: ${e.toString()}'));
       }

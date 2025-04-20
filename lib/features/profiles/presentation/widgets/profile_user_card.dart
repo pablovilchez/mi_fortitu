@@ -30,7 +30,8 @@ class ProfileUserCard extends StatelessWidget {
                   backgroundColor: Colors.grey,
                   child: ClipOval(
                     child: FadeInImage.assetNetwork(
-                      placeholder: 'assets/images/loading.png',
+                      placeholder: 'assets/images/photo_placeholder.png',
+                      placeholderFit: BoxFit.cover,
                       image: profile.image.link,
                       fit: BoxFit.cover,
                       width: 70,

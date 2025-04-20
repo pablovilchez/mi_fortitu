@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/services/intra_api_client.dart';
-import '../../../profiles/data/models/project_user_model.dart';
+import '../models/peer_model.dart';
 import '../peers_exception.dart';
 
 class PeersDatasource {
@@ -11,18 +11,15 @@ class PeersDatasource {
 
   PeersDatasource(this.httpClient, this.intraApiClient);
 
-  Future<Either<Exception, List<ProjectUserModel>>> getProjectUsers({
-    required String projectId,
-    required String campusId,
+  Future<Either<Exception, List<PeerModel>>> getProjectUsers({
+    required int projectId,
+    required int campusId,
   }) async {
     final projectUsers = await intraApiClient.getProjectUsers(projectId, campusId);
-    return projectUsers.fold((exception) => Left(exception), (data) {
+    return projectUsers.fold((exception) => Left(exception), (userList) {
       try {
-        final projectUsers =
-        (data).map((user) {
-          return ProjectUserModel.fromJson(user as Map<String, dynamic>);
-        }).toList();
-        return Right(projectUsers);
+        final peers = userList.map((user) => PeerModel.fromJson(user)).toList();
+        return Right(peers);
       } catch (e) {
         return Left(PeersException(code: 'P01', details: e.toString()));
       }

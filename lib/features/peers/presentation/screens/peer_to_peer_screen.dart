@@ -1,41 +1,116 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mi_fortitu/features/peers/presentation/viewmodels/project_peers_viewmodel.dart';
+import 'package:mi_fortitu/features/profiles/presentation/blocs/user_profile_bloc/user_profile_bloc.dart';
+import '../../domain/usecases/get_projects_peers_usecase.dart';
 
-import '../../../profiles/presentation/blocs/user_profile_bloc/user_profile_bloc.dart';
 import '../../../../core/presentation/widgets/dialogs/dev_info_widget.dart';
+import '../widgets/peer_grid.dart';
 
-class PeerToPeerScreen extends StatelessWidget {
+class PeerToPeerScreen extends StatefulWidget {
   const PeerToPeerScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<PeerToPeerScreen> createState() => _PeerToPeerScreenState();
+}
+
+class _PeerToPeerScreenState extends State<PeerToPeerScreen> {
+  final GetProjectsPeersUsecase _getProjectsPeersUsecase = GetIt.I();
+  List<ProjectPeersVm> _projectsPeers = [];
+  bool _isLoading = true;
+  bool _hasError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
     final userState = context.read<UserProfileBloc>().state;
-    final projects = userState is UserProfileSuccess ? userState.profile.projectsUsers : null;
-    final openProjects = projects?.where((project) => project.status == 'in_progress' && project.marked == false).toList();
+    if (userState is! UserProfileSuccess) {
+      setState(() {
+        _isLoading = false;
+        _hasError = true;
+      });
+      return;
+    }
+
+    final peersPerProject = await _getProjectsPeersUsecase.call(userState.profile);
+    print('DEBUG    state: ${peersPerProject.runtimeType}');
+
+    peersPerProject.fold(
+      (failure) {
+        setState(() {
+          _isLoading = false;
+          _hasError = true;
+        });
+      },
+      (projects) {
+        setState(() {
+          _projectsPeers = projects;
+          _isLoading = false;
+          _hasError = false;
+        });
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(tr('home.tiles.peer2peer')),
-        actions: [IconButton(onPressed: (){
-          showDevInfoDialog(context, 'peer2peerTestInfo');
-        }, icon: Icon(Icons.adb),
-          color: Colors.red,)],
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.adb, color: Colors.red),
+            onPressed: () => showDevInfoDialog(context, 'peer2peerTestInfo'),
+          ),
+        ],
       ),
-      body: openProjects == null
-          ? const Center(child: Text('Error loading projects'))
-          : openProjects.isEmpty
-              ? Center(
-                  child: Text('No projects found'),
-                )
-              : ListView.builder(
-                  itemCount: openProjects.length,
-                  itemBuilder: (context, index) {
-                    final project = openProjects[index];
-                    return ListTile(
-                      title: Text(project.project.name),
-                    );
-                  },
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _hasError
+          ? const Center(child: Text('Error loading data'))
+          : _projectsPeers.isEmpty
+          ? const Center(child: Text('No open projects found'))
+          : ListView.builder(
+        itemCount: _projectsPeers.length,
+        itemBuilder: (context, index) {
+          final project = _projectsPeers[index];
+          final peers = project.peers;
+
+          final connectedPeers = peers.where((p) => p.isOnline).toList();
+          final disconnectedPeers = peers.where((p) => !p.isOnline).toList();
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    project.projectName,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
+                const SizedBox(height: 12),
+                PeerGrid(peers: connectedPeers),
+                if (disconnectedPeers.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  PeerGrid(peers: disconnectedPeers, showAsDisconnected: true),
+                ],
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

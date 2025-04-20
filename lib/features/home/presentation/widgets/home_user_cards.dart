@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-
-import '../../../profiles/presentation/viewmodels/intra_profile_summary_vm.dart';
 import '../../../../core/presentation/widgets/dialogs/dev_info_widget.dart';
-
+import '../../../profiles/presentation/viewmodels/intra_profile_summary_vm.dart';
 
 class HomeUserCards extends StatelessWidget {
   final IntraProfileSummaryVM profile;
@@ -26,7 +24,7 @@ class HomeUserCards extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 25,
-                          backgroundImage: NetworkImage(profile.imageUrl),
+                          backgroundImage: AssetImage('assets/images/default_avatar.jpg'),
                         ),
                         const SizedBox(width: 15),
                         Column(
@@ -34,17 +32,11 @@ class HomeUserCards extends StatelessWidget {
                           children: [
                             Text(
                               profile.name,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             Text(
                               profile.title,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w300,
-                              ),
+                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
                             ),
                           ],
                         ),
@@ -66,14 +58,12 @@ class HomeUserCards extends StatelessWidget {
                             value: profile.level - profile.level.truncate(),
                             backgroundColor: Colors.grey[300],
                             borderRadius: BorderRadius.circular(10),
-                            valueColor: AlwaysStoppedAnimation(Colors
-                                .lightBlue),
+                            valueColor: AlwaysStoppedAnimation(Colors.lightBlue),
                           ),
                         ),
                         SizedBox(width: 10),
                         Text(
-                          '${((profile.level * 100).truncate() % 100)
-                              .toString()}%',
+                          '${((profile.level * 100).truncate() % 100).toString()}%',
                           style: const TextStyle(fontSize: 12),
                         ),
                       ],
@@ -95,10 +85,13 @@ class HomeUserCards extends StatelessWidget {
             Positioned(
               right: 0,
               top: 0,
-              child: IconButton(onPressed: (){
-                showDevInfoDialog(context, 'homeTestInfo');
-              }, icon: Icon(Icons.adb),
-                color: Colors.red,)
+              child: IconButton(
+                onPressed: () {
+                  showDevInfoDialog(context, 'homeTestInfo');
+                },
+                icon: Icon(Icons.adb),
+                color: Colors.red,
+              ),
             ),
           ],
         ),
@@ -115,17 +108,11 @@ class HomeUserCards extends StatelessWidget {
                     children: [
                       Text(
                         '₳ Wallet',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w300,
-                        ),
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
                       ),
                       Text(
                         profile.wallet.toString(),
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -137,17 +124,11 @@ class HomeUserCards extends StatelessWidget {
                     children: [
                       Text(
                         'Ev. Points',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w300,
-                        ),
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
                       ),
                       Text(
                         profile.correctionPoints.toString(),
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -159,17 +140,11 @@ class HomeUserCards extends StatelessWidget {
                     children: [
                       Text(
                         'Ranking',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w300,
-                        ),
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
                       ),
                       Text(
                         '0', // TODO: Add ranking
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -177,7 +152,7 @@ class HomeUserCards extends StatelessWidget {
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }
