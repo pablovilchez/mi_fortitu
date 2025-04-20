@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../clusters/domain/entities/location_entity.dart';
 
 class StationUserDialog extends StatelessWidget {
@@ -26,6 +27,16 @@ class StationUserDialog extends StatelessWidget {
         ],
       ),
       actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+            Future.delayed(Duration.zero, () {
+              if (!context.mounted) return;
+              GoRouter.of(context).push('/search-students/${u.login}');
+            });
+          },
+          child: Text(tr('buttons.profile')),
+        ),
         TextButton(
           onPressed: () => Navigator.pop(context),
           child: Text(tr('buttons.close')),

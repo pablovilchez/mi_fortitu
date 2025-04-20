@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/widgets/dev_info_widget.dart';
+import '../../../../core/presentation/widgets/dialogs/dev_info_widget.dart';
 
 class AppBarSearch extends StatelessWidget implements PreferredSizeWidget {
   final TextEditingController controller;

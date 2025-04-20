@@ -10,7 +10,10 @@
       "tomorrow": "Mñn",
       "in": "en",
       "days": "días",
-      "no_events": "No hay eventos próximos."
+      "no_events": "No hay eventos próximos.",
+      "subscribe": "Suscribirme",
+      "unsubscribe": "Desuscribirme",
+      "waitlist": "Esperar"
     },
     "titles": {
       "events": "Eventos",
@@ -28,6 +31,8 @@
       "leagues": "Ligas"
     },
     "project_states": {
+      "not_started": "no comenzado",
+      "creating_group": "creando grupo",
       "finished": "terminado",
       "in_progress": "en progreso",
       "waiting_to_start": "a comenzar",
@@ -73,7 +78,8 @@
     "next": "Siguiente",
     "finish": "Finalizar",
     "yes": "Sí",
-    "no": "No"
+    "no": "No",
+    "profile": "Perfil"
   },
   "lang": {
     "months": {

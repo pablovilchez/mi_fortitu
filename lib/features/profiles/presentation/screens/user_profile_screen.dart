@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mi_fortitu/features/profiles/presentation/widgets/cursus_profile.dart';
 
-import '../../../../core/widgets/dev_info_widget.dart';
-import '../blocs/user_bloc/user_bloc.dart';
+import '../../../../core/presentation/widgets/dialogs/dev_info_widget.dart';
+import '../blocs/user_profile_bloc/user_profile_bloc.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class UserProfileScreen extends StatelessWidget {
+  const UserProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +24,9 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocBuilder<UserBloc, UserState>(
+      body: BlocBuilder<UserProfileBloc, UserProfileState>(
         builder: (context, state) {
-          if (state is UserSuccess) {
+          if (state is UserProfileSuccess) {
             final intraProfile = state.profile;
             return CursusProfile(profile: intraProfile);
           }

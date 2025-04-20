@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '../../../../core/helpers/preferences_helper.dart';
-import '../../../../core/widgets/dev_info_widget.dart';
+import '../../../../core/presentation/widgets/dialogs/dev_info_widget.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});

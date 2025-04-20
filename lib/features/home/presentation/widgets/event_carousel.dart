@@ -90,9 +90,7 @@ class EventCard extends StatelessWidget {
               );
             },
             splashColor: Colors.black12,
-            // Color del efecto de toque
             highlightColor: Colors.transparent,
-            // Evita que se vea un color sólido al tocar
             child: Padding(padding: const EdgeInsets.all(16.0), child: _buildEventInfo()),
           ),
         ),

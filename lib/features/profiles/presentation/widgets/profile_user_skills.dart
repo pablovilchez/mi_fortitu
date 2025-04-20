@@ -14,10 +14,7 @@ class ProfileUserSkills extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            children:
-            List.generate(
-                cursus.skills.length,
-                    (index) => skillBuilder(context, index)),
+            children: List.generate(cursus.skills.length, (index) => skillBuilder(context, index)),
           ),
         ),
       ),
@@ -31,8 +28,11 @@ class ProfileUserSkills extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(skill.name, style: const TextStyle(fontSize: 13)),
-            Text(skill.level.toString(), style: const TextStyle(fontSize: 13)),
+            Text(
+              skill.name.length <= 35 ? skill.name : '${skill.name.substring(0, 33)}...',
+              style: const TextStyle(fontSize: 13),
+            ),
+            Text(skill.level.toStringAsFixed(2), style: const TextStyle(fontSize: 13)),
           ],
         ),
         Row(

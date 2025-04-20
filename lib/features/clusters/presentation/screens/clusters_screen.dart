@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mi_fortitu/features/clusters/presentation/blocs/clusters_bloc/clusters_bloc.dart';
 
-import '../../../profiles/presentation/blocs/user_bloc/user_bloc.dart';
+import '../../../profiles/presentation/blocs/user_profile_bloc/user_profile_bloc.dart';
 import '../widgets/cluster_layout.dart';
-import '../../../../core/widgets/dev_info_widget.dart';
+import '../../../../core/presentation/widgets/dialogs/dev_info_widget.dart';
 
 class ClustersScreen extends StatelessWidget {
   const ClustersScreen({super.key});
@@ -34,8 +34,8 @@ class ClustersScreen extends StatelessWidget {
       body: BlocBuilder<ClustersBloc, ClustersState>(
         builder: (context, state) {
           if (state is ClustersInitial) {
-            final profileState = context.read<UserBloc>().state;
-            if (profileState is UserSuccess) {
+            final profileState = context.read<UserProfileBloc>().state;
+            if (profileState is UserProfileSuccess) {
               final campusId = profileState.profile.campus[0].id.toString();
               context.read<ClustersBloc>().add(GetCampusClustersEvent(campusId: campusId));
             } else {

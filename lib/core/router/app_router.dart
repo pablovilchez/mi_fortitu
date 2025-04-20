@@ -11,7 +11,6 @@ import 'package:mi_fortitu/features/settings/presentation/screens/screens.dart';
 import 'package:mi_fortitu/features/shop/presentation/screens/screens.dart';
 import 'package:mi_fortitu/features/slots/presentation/screens/screens.dart';
 
-
 final appRouter = GoRouter(
   initialLocation: '/auth',
   routes: [
@@ -27,22 +26,29 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/profile',
-      pageBuilder: (context, state) => MaterialPage(child: ProfileScreen()),
+      pageBuilder: (context, state) => MaterialPage(child: UserProfileScreen()),
     ),
     GoRoute(
       path: '/search-students',
       pageBuilder: (context, state) => MaterialPage(child: SearchStudentsScreen()),
     ),
     GoRoute(
-      path: '/slots',
-      pageBuilder: (context, state) => MaterialPage(child: SlotsScreen()),
+      path: '/search-students/:loginName',
+      pageBuilder: (context, state) {
+        final loginName = state.pathParameters['loginName'];
+        return MaterialPage(child: SearchStudentsScreen(loginName: loginName));
+      },
     ),
+    GoRoute(path: '/slots', pageBuilder: (context, state) => MaterialPage(child: SlotsScreen())),
     GoRoute(path: '/shop', pageBuilder: (context, state) => MaterialPage(child: ShopScreen())),
     GoRoute(
       path: '/settings',
       pageBuilder: (context, state) => MaterialPage(child: SettingsScreen()),
     ),
-    GoRoute(path: '/finder', pageBuilder: (context, state) => MaterialPage(child: PeerToPeerScreen())),
+    GoRoute(
+      path: '/finder',
+      pageBuilder: (context, state) => MaterialPage(child: PeerToPeerScreen()),
+    ),
     GoRoute(
       path: '/clusters',
       pageBuilder: (context, state) => MaterialPage(child: ClustersScreen()),

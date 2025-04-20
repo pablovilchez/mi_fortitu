@@ -10,7 +10,10 @@
       "tomorrow": "Tmrw",
       "in": "in",
       "days": "days",
-      "no_events": "No upcoming events."
+      "no_events": "No upcoming events.",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "waitlist": "Waitlist"
     },
     "titles": {
       "events": "Events",
@@ -28,6 +31,8 @@
       "leagues": "Leagues"
     },
     "project_states": {
+      "not_started": "not started",
+      "creating_group": "creating group",
       "finished": "finished",
       "in_progress": "in progress",
       "waiting_to_start": "to start",
@@ -73,7 +78,8 @@
     "next": "Next",
     "finish": "Finish",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "profile": "Profile"
   },
   "lang": {
     "months": {

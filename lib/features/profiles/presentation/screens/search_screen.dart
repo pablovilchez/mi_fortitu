@@ -1,48 +1,91 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mi_fortitu/features/profiles/domain/entities/user_entity.dart';
 
-import '../blocs/search_bloc/search_bloc.dart';
+import '../../domain/usecases/get_profile_usecase.dart';
 import '../widgets/app_bar_search.dart';
 
-import '../blocs/user_bloc/user_bloc.dart';
 import '../widgets/cursus_profile.dart';
 
+enum SearchStatus { initial, loading, success, error }
+
 class SearchStudentsScreen extends StatefulWidget {
-  const SearchStudentsScreen({super.key});
+  final String? loginName;
+
+  const SearchStudentsScreen({super.key, this.loginName});
 
   @override
-  State<SearchStudentsScreen> createState() => SearchStudentsScreenState();
+  State<SearchStudentsScreen> createState() => _SearchStudentsScreenState();
 }
 
-class SearchStudentsScreenState extends State<SearchStudentsScreen> {
+class _SearchStudentsScreenState extends State<SearchStudentsScreen> {
   final _searchController = TextEditingController();
+  final GetProfileUsecase getProfileUsecase = GetIt.I();
+
+  SearchStatus _status = SearchStatus.initial;
+  UserEntity? _profile;
+  String _errorMessage = '';
+  late bool _showSearchBar;
+
+  Future<void> _searchStudent(String loginName) async {
+    setState(() => _status = SearchStatus.loading);
+
+    final result = await getProfileUsecase(loginName);
+    result.fold(
+          (failure) {
+        setState(() {
+          _status = SearchStatus.error;
+          _errorMessage = failure.toString();
+        });
+      },
+          (profile) {
+        setState(() {
+          _status = SearchStatus.success;
+          _profile = profile;
+        });
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _showSearchBar = widget.loginName == null;
+
+    if (widget.loginName != null) {
+      _searchStudent(widget.loginName!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarSearch(
-        controller: _searchController,
-        onSearch: () {
-          final searchText = _searchController.text;
-          if (searchText.isNotEmpty) {
-            context.read<SearchBloc>().add(GetSearchProfileEvent(searchText));
+      appBar: _showSearchBar
+          ? AppBarSearch(
+            controller: _searchController,
+            onSearch: () {
+              final searchText = _searchController.text.trim();
+              if (searchText.isNotEmpty) {
+                _searchStudent(searchText);
+              }
+            },
+          )
+          : AppBar(),
+      body: Builder(
+        builder: (_) {
+          switch (_status) {
+            case SearchStatus.initial:
+              return _SearchView();
+            case SearchStatus.loading:
+              return _LoadingView();
+            case SearchStatus.error:
+              return _ErrorView(message: _errorMessage);
+            case SearchStatus.success:
+              return _profile != null
+                  ? CursusProfile(profile: _profile!)
+                  : const SizedBox();
           }
-        },
-      ),
-      body: BlocBuilder<SearchBloc, SearchState>(
-        builder: (context, state) {
-          if (state is UserInitial) {
-            return _SearchView();
-          } else if (state is SearchLoading) {
-            return _LoadingView();
-          } else if (state is SearchError) {
-            return _ErrorView(message: state.message);
-          } else if (state is SearchSuccess) {
-            final intraProfile = state.profile;
-            return CursusProfile(profile: intraProfile);
-          }
-          return const SizedBox();
         },
       ),
     );

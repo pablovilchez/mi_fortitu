@@ -93,6 +93,5 @@ void initDi() {
   // Profile feature - Use cases
   sl.registerLazySingleton<GetProfileUsecase>(() => GetProfileUsecase(sl()));
   // Profile feature - Blocs
-  sl.registerLazySingleton<UserBloc>(() => UserBloc(sl()));
-  sl.registerLazySingleton<SearchBloc>(() => SearchBloc(sl()));
+  sl.registerLazySingleton<UserProfileBloc>(() => UserProfileBloc(sl()));
 }

@@ -9,5 +9,4 @@ export 'domain/repositories/profiles_repository.dart';
 export 'domain/usecases/get_profile_usecase.dart';
 
 // Blocs
-export 'presentation/blocs/user_bloc/user_bloc.dart';
-export 'presentation/blocs/search_bloc/search_bloc.dart';
+export 'presentation/blocs/user_profile_bloc/user_profile_bloc.dart';

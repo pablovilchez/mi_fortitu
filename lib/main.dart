@@ -11,8 +11,7 @@ import 'core/di/dependency_injection.dart';
 import 'features/clusters/presentation/blocs/clusters_bloc/clusters_bloc.dart';
 import 'features/coalitions_blocs/presentation/blocs/coalitions_blocs_bloc/coalitions_blocs_bloc.dart';
 import 'features/home/presentation/blocs/events_bloc/events_bloc.dart';
-import 'features/profiles/presentation/blocs/user_bloc/user_bloc.dart';
-import 'features/profiles/presentation/blocs/search_bloc/search_bloc.dart';
+import 'features/profiles/presentation/blocs/user_profile_bloc/user_profile_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,8 +41,7 @@ class MainApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => AuthBloc(sl(), sl(), sl(), sl(),),),
-        BlocProvider(create: (_) => UserBloc(sl())),
-        BlocProvider(create: (_) => SearchBloc(sl())),
+        BlocProvider(create: (_) => UserProfileBloc(sl())),
         BlocProvider(create: (_) => EventsBloc(sl())),
         BlocProvider(create: (_) => ClustersBloc(sl())),
         BlocProvider(create: (_) => CoalitionsBlocsBloc(sl())),

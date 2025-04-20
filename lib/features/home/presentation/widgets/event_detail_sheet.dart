@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../viewmodels/event_viewmodel.dart';
@@ -147,7 +148,7 @@ class EventDetailButton extends StatelessWidget {
       ),
       onPressed: () {},
       child: Text(
-        isSubscribed ? "Unsubscribe" : "Subscribe",
+        isSubscribed ? tr('home.events.unsubscribe') : tr('home.events.subscribe'),
         style: TextStyle(fontSize: 16, color: Colors.white),
       ),
     );

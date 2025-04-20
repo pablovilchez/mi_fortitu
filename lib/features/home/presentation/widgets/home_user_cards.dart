@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 
 import '../../../profiles/presentation/viewmodels/intra_profile_summary_vm.dart';
-import '../../../../core/widgets/dev_info_widget.dart';
+import '../../../../core/presentation/widgets/dialogs/dev_info_widget.dart';
 
 
 class HomeUserCards extends StatelessWidget {

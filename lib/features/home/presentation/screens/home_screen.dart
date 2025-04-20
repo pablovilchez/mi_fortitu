@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:mi_fortitu/features/home/presentation/widgets/tiles_list.dart';
 
-import '../../../profiles/presentation/blocs/user_bloc/user_bloc.dart';
+import '../../../profiles/presentation/blocs/user_profile_bloc/user_profile_bloc.dart';
 import '../../../profiles/presentation/viewmodels/intra_profile_summary_vm.dart';
 import '../blocs/events_bloc/events_bloc.dart';
 import '../widgets/home_user_cards.dart';
@@ -14,9 +14,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserBloc, UserState>(
+    return BlocConsumer<UserProfileBloc, UserProfileState>(
       listener: (context, state) {
-        if (state is UserSuccess) {
+        if (state is UserProfileSuccess) {
           context.read<EventsBloc>().add(
             GetIntraEventsEvent(
               state.profile.login,
@@ -26,14 +26,14 @@ class HomeScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is UserInitial) {
-          context.read<UserBloc>().add(GetUserProfileEvent());
+        if (state is UserProfileInitial) {
+          context.read<UserProfileBloc>().add(GetUserProfileEvent());
           return _LoadingView();
-        } else if (state is UserLoading) {
+        } else if (state is UserProfileLoading) {
           return _LoadingView();
-        } else if (state is UserError) {
+        } else if (state is UserProfileError) {
           return _ErrorView(message: state.message);
-        } else if (state is UserSuccess) {
+        } else if (state is UserProfileSuccess) {
           return _HomeView(profile: state.profileSummary);
         }
         return const SizedBox();
@@ -116,7 +116,7 @@ class _ErrorView extends StatelessWidget {
             Text(message),
             ElevatedButton(
               onPressed: () {
-                context.read<UserBloc>().add(GetUserProfileEvent());
+                context.read<UserProfileBloc>().add(GetUserProfileEvent());
               },
               child: Text(tr('buttons.retry')),
             ),
