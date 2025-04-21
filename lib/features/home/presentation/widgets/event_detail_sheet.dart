@@ -48,56 +48,53 @@ class _EventDetailSheetState extends State<EventDetailSheet> {
 
     return FractionallySizedBox(
       heightFactor: 0.7,
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: EdgeInsets.only(left: 24, right: 24, top: 20, bottom: 30),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.event.details.name,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  EventDetailField(icon: Icons.calendar_today, text: details.beginDate),
-                  SizedBox(width: 40),
-                  EventDetailField(icon: Icons.access_time, text: details.beginTime),
-                ],
-              ),
-              SizedBox(height: 10),
-              EventDetailField(icon: Icons.pin_drop, text: widget.event.details.location),
-              SizedBox(height: 20),
-              Expanded(
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  child: Column(
-                    children: [
-                      Text(details.description, style: contentStyle),
-                      SizedBox(height: 40),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+      child: Padding(
+        padding: EdgeInsets.only(left: 24, right: 24, top: 20, bottom: 30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.event.details.name,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                EventDetailField(icon: Icons.calendar_today, text: details.beginDate),
+                SizedBox(width: 40),
+                EventDetailField(icon: Icons.access_time, text: details.beginTime),
+              ],
+            ),
+            SizedBox(height: 10),
+            EventDetailField(icon: Icons.pin_drop, text: widget.event.details.location),
+            SizedBox(height: 20),
+            Expanded(
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: Column(
                   children: [
-                    if (_isScrollable && !_isAtBottom)
-                      Icon(Icons.keyboard_arrow_down),
+                    Text(details.description, style: contentStyle),
+                    SizedBox(height: 40),
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [EventDetailButton(isSubscribed: widget.event.isSubscribed)],
+            ),
+            SizedBox(
+              height: 30,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  if (_isScrollable && !_isAtBottom)
+                    Icon(Icons.keyboard_arrow_down),
+                ],
               ),
-            ],
-          ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [EventDetailButton(isSubscribed: widget.event.isSubscribed)],
+            ),
+          ],
         ),
       ),
     );

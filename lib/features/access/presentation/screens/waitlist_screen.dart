@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class WaitlistScreen extends StatelessWidget {
   const WaitlistScreen({super.key});
@@ -37,6 +38,19 @@ class WaitlistScreen extends StatelessWidget {
               'Tell me your email, and the reason why\nyou want to join the test version.',
               style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 35),
+            Text(
+              '(Or if you already have permission, ...)',
+              style: Theme.of(context).textTheme.bodyLarge,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                GoRouter.of(context).go('/auth');
+              },
+              child: Text('Retry'),
             ),
           ],
         ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mi_fortitu/core/helpers/snackbar_helper.dart';
-import 'package:mi_fortitu/features/access/presentation/blocs/supa_login_bloc/auth_bloc.dart';
+import 'package:mi_fortitu/features/access/presentation/blocs/access_bloc/access_bloc.dart';
 import 'package:mi_fortitu/features/access/presentation/widgets/login_text_fields.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -10,8 +10,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<AuthBloc>().add(LandingEvent());
-    return BlocListener<AuthBloc, AuthState>(
+    context.read<AccessBloc>().add(LandingEvent());
+    return BlocListener<AccessBloc, AccessState>(
       listener: (context, state) {
         if (state is RegisterSuccess) {
           SnackbarHelper.showSnackbar(
@@ -25,6 +25,8 @@ class LoginScreen extends StatelessWidget {
         } else if (state is LoginError) {
           SnackbarHelper.showSnackbar(context, state.message, isError: true);
         } else if (state is RegisterError) {
+          SnackbarHelper.showSnackbar(context, state.message, isError: true);
+        } else if (state is IntraAuthRequired) {
           SnackbarHelper.showSnackbar(context, state.message, isError: true);
         }
       },

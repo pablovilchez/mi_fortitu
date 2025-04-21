@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mi_fortitu/core/helpers/preferences_helper.dart';
 import 'package:mi_fortitu/core/router/app_router.dart';
-import 'package:mi_fortitu/features/access/presentation/blocs/supa_login_bloc/auth_bloc.dart';
+import 'package:mi_fortitu/features/access/presentation/blocs/access_bloc/access_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/di/dependency_injection.dart';
@@ -40,7 +40,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => AuthBloc(sl(), sl(), sl(), sl(),),),
+        BlocProvider(create: (_) => AccessBloc(sl(), sl(), sl(), sl(),),),
         BlocProvider(create: (_) => UserProfileBloc(sl())),
         BlocProvider(create: (_) => EventsBloc(sl())),
         BlocProvider(create: (_) => ClustersBloc(sl())),

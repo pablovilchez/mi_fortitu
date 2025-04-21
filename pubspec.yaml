@@ -43,6 +43,7 @@ flutter:
     - .env
     - assets/images/
     - assets/images/gif/
+    - assets/images/home_tiles/
     - assets/translations/
     - test/resources/
     - assets/campus_layouts/

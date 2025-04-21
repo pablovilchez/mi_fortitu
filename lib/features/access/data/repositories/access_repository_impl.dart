@@ -1,17 +1,17 @@
 import 'package:dartz/dartz.dart';
-import 'package:mi_fortitu/features/access/data/datasources/access_supa_datasource.dart';
+import 'package:mi_fortitu/features/access/data/datasources/access_datasource.dart';
 import 'package:mi_fortitu/features/access/domain/access_failure.dart';
-import 'package:mi_fortitu/features/access/domain/repositories/access_db_repository.dart';
+import 'package:mi_fortitu/features/access/domain/repositories/access_repository.dart';
 
-import '../../domain/entities/db_login_entity.dart';
+import '../../domain/entities/login_entity.dart';
 
-class AccessDbRepositoryImpl implements AccessDbRepository {
-  final AccessSupaDatasource datasource;
+class AccessRepositoryImpl implements AccessRepository {
+  final AccessDatasource datasource;
 
-  AccessDbRepositoryImpl(this.datasource);
+  AccessRepositoryImpl(this.datasource);
 
   @override
-  Future<Either<AccessFailure, DbLoginEntity>> login(String email, String password) async {
+  Future<Either<AccessFailure, LoginEntity>> login(String email, String password) async {
     final response = await datasource.login(email, password);
     return response
         .leftMap((exception) => DbLoginFailure(exception.code))
@@ -19,7 +19,7 @@ class AccessDbRepositoryImpl implements AccessDbRepository {
   }
 
   @override
-  Future<Either<AccessFailure, DbLoginEntity>> register(String email, String password) async {
+  Future<Either<AccessFailure, LoginEntity>> register(String email, String password) async {
     final response = await datasource.register(email, password);
     return response
         .leftMap((exception) => RegisterFailure(exception.code))

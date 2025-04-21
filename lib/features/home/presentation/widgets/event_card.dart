@@ -14,6 +14,7 @@ class EventCard extends StatelessWidget {
 
     return Container(
       width: 200,
+      height: 200,
       decoration: BoxDecoration(
         color: event.isSubscribed ? Colors.green[50] : Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -23,6 +24,7 @@ class EventCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         onTap: () {
           showModalBottomSheet(
+            useSafeArea: false,
             context: context,
             isScrollControlled: true,
             shape: const RoundedRectangleBorder(
@@ -51,13 +53,19 @@ class EventCard extends StatelessWidget {
                           details.beginWeekDay,
                           style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                         ),
-                        Text(details.beginDay, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 30)),
+                        Text(
+                          details.beginDay,
+                          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
+                        ),
                         Text(
                           details.beginMonth,
                           style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                         ),
                         const SizedBox(height: 2),
-                        Text(details.beginLapse, style: const TextStyle(color: Colors.blue, fontSize: 11)),
+                        Text(
+                          details.beginLapse,
+                          style: const TextStyle(color: Colors.blue, fontSize: 11),
+                        ),
                       ],
                     ),
                   ),
@@ -70,7 +78,13 @@ class EventCard extends StatelessWidget {
                       const SizedBox(height: 6),
                       _IconText(icon: Icons.timelapse, text: details.duration),
                       const SizedBox(height: 6),
-                      _IconText(icon: Icons.pin_drop, text: details.location.split(' ').first),
+                      _IconText(
+                        icon: Icons.pin_drop,
+                        text:
+                            details.location.length <= 9
+                                ? details.location
+                                : details.location.split(' ').first,
+                      ),
                       const SizedBox(height: 6),
                       _IconText(
                         icon: Icons.people,
@@ -81,7 +95,7 @@ class EventCard extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               Text(
                 details.name,
                 maxLines: 2,

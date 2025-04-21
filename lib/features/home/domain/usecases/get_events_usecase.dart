@@ -30,7 +30,7 @@ class GetEventsUsecase {
       return EventVm(
         details: EventDetailsVm.fromEntity(event),
         isSubscribed: isSubscribed,
-        isFull: event.nbrSubscribers >= event.maxPeople,
+        isFull: event.nbrSubscribers >= event.maxPeople && event.maxPeople > 0,
       );
     },).toList();
 

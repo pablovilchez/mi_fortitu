@@ -16,14 +16,14 @@ class EventCarousel extends StatelessWidget {
     return BlocBuilder<EventsBloc, EventsState>(
       builder: (context, state) {
         if (state is IntraEventsInitial || state is IntraEventsLoading) {
-          return _ShimmerCarousel(width: width, height: height);
+          return _ShimmerCarousel(height: height);
         } else if (state is IntraEventsSuccess) {
           if (state.events.isEmpty) {
             return Text('No events');
           }
           return SizedBox(
             width: width,
-            height: height,
+            height: height + 24,
             child: ShaderMask(
               shaderCallback: (bounds) {
                 return LinearGradient(
@@ -35,7 +35,7 @@ class EventCarousel extends StatelessWidget {
               },
               blendMode: BlendMode.dstOut,
               child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.fromLTRB(20, 0, 10, 24),
                 scrollDirection: Axis.horizontal,
                 itemCount: state.events.length,
                 itemBuilder: (context, index) {
@@ -48,9 +48,15 @@ class EventCarousel extends StatelessWidget {
                       builder: (context, value, child) {
                         return Opacity(
                           opacity: value,
-                          child: Transform.translate(
-                            offset: Offset(0, 20 * (1 - value)),
-                            child: EventCard(event: event),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            child: Material(
+                              elevation: 8,
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              clipBehavior: Clip.none,
+                              child: EventCard(event: event),
+                            ),
                           ),
                         );
                       },
@@ -71,10 +77,9 @@ class EventCarousel extends StatelessWidget {
 }
 
 class _ShimmerCarousel extends StatelessWidget {
-  final double width;
   final double height;
 
-  const _ShimmerCarousel({required this.width, required this.height});
+  const _ShimmerCarousel({required this.height});
 
   @override
   Widget build(BuildContext context) {

@@ -9,3 +9,5 @@ class GetIntraEventsEvent extends EventsEvent {
 
   GetIntraEventsEvent(this.loginName, this.campusId);
 }
+
+class RefreshIntraEventsEvent extends EventsEvent {}

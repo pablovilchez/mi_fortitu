@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mi_fortitu/features/settings/domain/usecases/logout_usecase.dart';
 
 import '../../../../core/helpers/preferences_helper.dart';
+import '../../../../core/helpers/snackbar_helper.dart';
 import '../../../../core/presentation/widgets/dialogs/dev_info_widget.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -57,10 +58,22 @@ class SettingsScreen extends StatelessWidget {
               title: Text(tr('settings.logout')),
               trailing: IconButton(
                 icon: Icon(Icons.logout),
-                onPressed: () {
-                  _logoutUsecase();
-                  GoRouter.of(context).go('/auth');
+                onPressed: () async {
+                  final result = await _logoutUsecase();
+                  result.fold(
+                    (failure) => SnackbarHelper.showSnackbar(context, failure.message, isError: true),
+                    (_) => GoRouter.of(context).go('/auth'),
+                  );
                 },
+              ),
+            ),
+            SizedBox(height: 20),
+            ListTile(
+              title: Text('Version'),
+              subtitle: Text('0.1.0'),
+              trailing: IconButton(
+                icon: Icon(Icons.arrow_circle_down_rounded),
+                onPressed: null,
               ),
             )
           ],

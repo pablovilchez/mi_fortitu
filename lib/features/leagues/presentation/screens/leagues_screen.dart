@@ -21,7 +21,40 @@ class LeaguesScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Text('Leagues Screen'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.grey[400],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black,
+                    blurRadius: 15,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset(
+                  'assets/images/default_leagues.jpg',
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+            Text(
+              tr('home.messages.coming_soon'),
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
+          ],
+        ),
+      )
     );
   }
 }

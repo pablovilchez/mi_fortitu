@@ -1,3 +1,7 @@
+import 'package:dartz/dartz.dart';
+
+import '../settings_failure.dart';
+
 abstract class SettingsRepository {
-  Future<void> logoutDatabase();
+  Future<Either<SettingsFailure, Unit>> logoutDatabase();
 }

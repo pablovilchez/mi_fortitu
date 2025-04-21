@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mi_fortitu/features/access/presentation/blocs/supa_login_bloc/auth_bloc.dart';
+import 'package:mi_fortitu/features/access/presentation/blocs/access_bloc/access_bloc.dart';
 import 'package:mi_fortitu/features/access/presentation/widgets/validators.dart';
 
 class LoginForm extends StatefulWidget {
@@ -18,9 +18,9 @@ class _SupaForm extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final loginBloc = context.read<AuthBloc>();
+    final loginBloc = context.read<AccessBloc>();
 
-    return BlocBuilder<AuthBloc, AuthState>(
+    return BlocBuilder<AccessBloc, AccessState>(
       builder: (context, state) {
         final isRegister = state is RegisterFormState;
 
@@ -80,7 +80,7 @@ class _SupaForm extends State<LoginForm> {
   }
 
   Widget _buildSubmitButton() {
-    return BlocBuilder<AuthBloc, AuthState>(
+    return BlocBuilder<AccessBloc, AccessState>(
       builder: (context, state) {
         final isLoading = state is LoadingState || state is LandingState;
         final isRegister = state is RegisterFormState;
@@ -89,14 +89,14 @@ class _SupaForm extends State<LoginForm> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               if (isRegister) {
-                context.read<AuthBloc>().add(
+                context.read<AccessBloc>().add(
                   RequestDbRegisterEvent(
                     email: _emailController.text,
                     password: _passwordController.text,
                   ),
                 );
               } else {
-                context.read<AuthBloc>().add(
+                context.read<AccessBloc>().add(
                   RequestDbLoginEvent(
                     email: _emailController.text,
                     password: _passwordController.text,
@@ -118,7 +118,7 @@ class _SupaForm extends State<LoginForm> {
     );
   }
 
-  Widget _buildToggleButton(AuthBloc bloc) {
+  Widget _buildToggleButton(AccessBloc bloc) {
     final state = bloc.state;
     return TextButton(
       onPressed: state is LandingState || state is LoadingState

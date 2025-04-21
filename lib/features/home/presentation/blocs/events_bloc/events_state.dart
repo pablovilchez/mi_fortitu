@@ -9,8 +9,10 @@ final class IntraEventsLoading extends EventsState {}
 
 final class IntraEventsSuccess extends EventsState {
   final List<EventVm> events;
+  final String loginName;
+  final String campusId;
 
-  IntraEventsSuccess(this.events);
+  IntraEventsSuccess(this.events, this.loginName, this.campusId);
 }
 
 final class IntraEventsError extends EventsState {

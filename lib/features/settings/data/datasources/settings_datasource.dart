@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SettingsDatasource {
@@ -5,7 +6,12 @@ class SettingsDatasource {
 
   SettingsDatasource(this._supabase);
 
-  Future<void> logoutSupa() async {
-    await _supabase.auth.signOut();
+  Future<Either<Exception, Unit>> logoutSupa() async {
+    try {
+      await _supabase.auth.signOut();
+      return Right(unit);
+    } catch (e) {
+      return Left(Exception('Supabase logout failed: $e'));
+    }
   }
 }

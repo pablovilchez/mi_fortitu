@@ -1,60 +1,136 @@
 import 'dart:convert';
 
+import 'package:app_links/app_links.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:mi_fortitu/core/config/env_config.dart';
+import 'package:mi_fortitu/core/services/url_launcher_service.dart';
+import 'package:mi_fortitu/features/access/data/access_exception.dart';
 
 import '../helpers/secure_storage_helper.dart';
 
 class IntraApiClient {
   final http.Client httpClient;
+  final AppLinks appLinks;
+  final UrlLauncherService launcher;
   final EnvConfig env;
   final SecureStorageHelper secureStorage;
 
-  IntraApiClient(this.httpClient, this.env, this.secureStorage);
+  IntraApiClient(this.httpClient, this.appLinks, this.launcher, this.env, this.secureStorage);
 
   Future<Either<Exception, String>> getGrantedToken() async {
     final accessToken = await secureStorage.read('intra_access_token');
-    final intraRefreshToken = await secureStorage.read('intra_refresh_token');
+    final refreshToken = await secureStorage.read('intra_refresh_token');
     final expirationTimeStr = await secureStorage.read('intra_token_expiration');
-
-    if (accessToken == null || intraRefreshToken == null || expirationTimeStr == null) {
-      return Left(Exception('No access token found in storage. Please log in again.'));
+    if (accessToken == null || refreshToken == null || expirationTimeStr == null) {
+      return _startOAuth2Flow();
     }
 
-    final expirationTime = DateTime.parse(expirationTimeStr);
+    final expirationTime = DateTime.tryParse(expirationTimeStr);
+    if (expirationTime == null) {
+      return _startOAuth2Flow();
+    }
 
-    if (expirationTime.isBefore(DateTime.now())) {
-      final newTokens = await _refreshToken(intraRefreshToken);
-      return newTokens.fold(
-        (exception) => Left(exception),
-        (newTokens) async {
-          await saveTokens(newTokens);
-          return Right(newTokens['access_token']);
-        },
-      );
-    } else {
+    if (expirationTime.isAfter(DateTime.now())) {
       return Right(accessToken);
     }
+
+    final newTokens = await _refreshToken(refreshToken);
+    return await newTokens.fold((e) => _startOAuth2Flow(), (newTokens) async {
+      await _saveTokens(newTokens);
+      return Right(newTokens['access_token']);
+    });
   }
 
-  Future<Either<Exception, Unit>> saveTokens(Map<String, dynamic> data) async {
-    final accessToken = data['access_token'];
-    final refreshToken = data['refresh_token'];
-    final expirationTime = DateTime.now().add(Duration(seconds: data['expires_in']));
+  Future<Either<Exception, String>> _startOAuth2Flow() async {
+    final response = await requestNewTokens();
+    return response.fold(
+      (e) => Left(Exception('OAuth2 authorization failed: $e')),
+      (newTokens) async {
+        await _saveTokens(newTokens);
+        return Right(newTokens['access_token']);
+      },
+    );
+  }
 
-    if (accessToken == null || refreshToken == null) {
-      return Left(Exception('Invalid token data'));
+  Future<Either<Exception, Map<String, dynamic>>> requestNewTokens() async {
+    // Check if the environment variables are set.
+    final redirectUri = env.redirectUri;
+    final codeForTokenFunctionUrl = env.codeForTokenFunctionUrl;
+
+    // Get the authorization URL from the server and launch it in the browser.
+    final responseAuthUrl = await _getAuthorizationUrl();
+    if (responseAuthUrl.isLeft()) {
+      return Left(responseAuthUrl.fold((l) => l, (r) => throw UnimplementedError()));
     }
-    try {
-      await secureStorage.save('intra_access_token', accessToken);
-      await secureStorage.save('intra_refresh_token', refreshToken);
-      await secureStorage.save('intra_token_expiration', expirationTime.toIso8601String());
-    } catch (e) {
-      return Left(Exception('Failed to save tokens: $e'));
+    final authUrl = responseAuthUrl.getOrElse(() => '');
+    await launcher.redirect(Uri.parse(authUrl));
+
+    // Listen for the redirect URI.
+    final responseRedirectUrl = await _listenForRedirect(Uri.parse(redirectUri));
+    if (responseRedirectUrl.isLeft()) {
+      return Left(responseRedirectUrl.fold((l) => l, (r) => throw UnimplementedError()));
+    }
+    final responseUrl = responseRedirectUrl.getOrElse(() => Uri.parse(''));
+
+    // Extract the authorization code and change it for an access token.
+    final code = responseUrl.queryParameters['code'];
+    if (code == null) {
+      return Left(IntraException(code: 'AI04'));
+    }
+    final response = await httpClient.post(
+      Uri.parse(codeForTokenFunctionUrl),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'code': code}),
+    );
+    if (response.statusCode != 200) {
+      return Left(
+        IntraException(code: 'AI05', details: '${response.statusCode}: ${response.body}'),
+      );
     }
 
-    return Right(unit);
+    return Right(jsonDecode(response.body));
+  }
+
+  /// Gets the authorization URL for Intra authentication.
+  Future<Either<AccessException, String>> _getAuthorizationUrl() async {
+    final getAuthUrlFunctionUrl = env.getAuthUrlFunctionUrl;
+    final tokenScope = env.intraTokenScope;
+
+    final response = await httpClient.post(
+      Uri.parse(getAuthUrlFunctionUrl),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'scope': tokenScope}),
+    );
+
+    if (response.statusCode != 200) {
+      return Left(
+        IntraException(code: 'AI01', details: '${response.statusCode}: ${response.body}'),
+      );
+    }
+
+    final data = jsonDecode(response.body);
+
+    if (data['url'] == null) {
+      return Left(IntraException(code: 'AI02'));
+    }
+
+    return Right(data['url']);
+  }
+
+  /// Listens for the redirect URL.
+  Future<Either<AccessException, Uri>> _listenForRedirect(Uri redirectUri) async {
+    bool redirectProcessed = false;
+    await for (final uri in appLinks.uriLinkStream) {
+      if (redirectProcessed) {
+        break;
+      }
+      if (uri.toString().startsWith(redirectUri.toString())) {
+        redirectProcessed = true;
+        return Right(uri);
+      }
+    }
+    return Left(IntraException(code: 'AI03'));
   }
 
   Future<Either<Exception, Map<String, dynamic>>> _refreshToken(String refreshToken) async {
@@ -70,15 +146,52 @@ class IntraApiClient {
     return jsonDecode(response.body);
   }
 
-  Future<Either<Exception, dynamic>> _makeGetRequest(String route) async {
-    final token = await getGrantedToken();
+  Future<Either<Exception, Unit>> _saveTokens(Map<String, dynamic> data) async {
+    final accessToken = data['access_token'];
+    final refreshToken = data['refresh_token'];
+    final expirationTime = DateTime.now().add(Duration(seconds: data['expires_in'] - 30));
 
-    return token.fold((exception) => Left(exception), (accessToken) async {
+    if (accessToken == null || refreshToken == null) {
+      return Left(Exception('Invalid token data'));
+    }
+    try {
+      await secureStorage.save('intra_access_token', accessToken);
+      await secureStorage.save('intra_refresh_token', refreshToken);
+      await secureStorage.save('intra_token_expiration', expirationTime.toIso8601String());
+    } catch (e) {
+      return Left(Exception('Failed to save tokens: $e'));
+    }
+
+    return Right(unit);
+  }
+
+  Future<Either<Exception, Unit>> logoutIntra() async {
+    try {
+      await secureStorage.delete('intra_access_token');
+      await secureStorage.delete('intra_refresh_token');
+      await secureStorage.delete('intra_token_expiration');
+    } catch (e) {
+      return Left(Exception('Failed to clear tokens: $e'));
+    }
+    return Right(unit);
+  }
+
+  Future<Either<Exception, dynamic>> _makeGetRequest(String route) async {
+    final tokenResult = await getGrantedToken();
+
+    return tokenResult.fold((e) => Left(e), (accessToken) async {
       try {
         final response = await httpClient.get(
           Uri.parse(route),
           headers: {'Authorization': 'Bearer $accessToken'},
         );
+
+        if (response.statusCode == 401) {
+          await secureStorage.delete('intra_access_token');
+          await secureStorage.delete('intra_refresh_token');
+          return Left(Exception('Token rejected by server. Need re-login.'));
+        }
+
         if (response.statusCode != 200) {
           return Left(Exception('Api Error(${response.statusCode}): ${response.body}'));
         }
@@ -190,7 +303,10 @@ class IntraApiClient {
     return response.fold((exception) => Left(exception), (data) {
       try {
         final list = data as List;
-        final userList = list.map((user) => (user as Map<String, dynamic>)['user'] as Map<String, dynamic>).toList();
+        final userList =
+            list
+                .map((user) => (user as Map<String, dynamic>)['user'] as Map<String, dynamic>)
+                .toList();
         return Right(userList);
       } catch (e) {
         return Left(Exception('Exception getting Intra Project Users: ${e.toString()}'));

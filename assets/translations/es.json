@@ -3,11 +3,12 @@
   "home": {
     "messages": {
       "loading_profile": "Cargando datos de perfil...",
-      "loading_error": "Error al cargar datos de perfil."
+      "loading_error": "Error al cargar datos de perfil.",
+      "coming_soon": "Muy pronto..."
     },
     "events": {
       "today": "Hoy",
-      "tomorrow": "Mñn",
+      "tomorrow": "Mañana",
       "in": "en",
       "days": "días",
       "no_events": "No hay eventos próximos.",
@@ -18,7 +19,7 @@
     "titles": {
       "events": "Eventos",
       "intra42": "Intra 42",
-      "out_code": "Out of Code"
+      "out_box": "Out of the Box"
     },
     "tiles": {
       "me": "Mi Perfil",
@@ -28,7 +29,8 @@
       "peer2peer": "Peer2Peer",
       "clusters": "Clusters",
       "coalitions": "Coaliciones",
-      "leagues": "Ligas"
+      "leagues": "Ligas",
+      "games": "Juegos"
     },
     "project_states": {
       "not_started": "no comenzado",

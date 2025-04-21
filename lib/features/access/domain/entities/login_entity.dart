@@ -1,10 +1,10 @@
-class DbLoginEntity {
+class LoginEntity {
   final String? id;
   final String? email;
   final String? accessToken;
   final String? refreshToken;
 
-  DbLoginEntity({
+  LoginEntity({
     this.id,
     this.email,
     this.accessToken,

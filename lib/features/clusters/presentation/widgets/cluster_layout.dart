@@ -53,6 +53,7 @@ class ClusterLayout extends StatelessWidget {
                                           borderRadius: BorderRadius.circular(6),
                                           child: FadeInImage.assetNetwork(
                                             placeholder: 'assets/images/photo_placeholder.png',
+                                            placeholderFit: BoxFit.contain,
                                             image: station.user!.user.imageUrl,
                                             fit: BoxFit.cover,
                                           ),

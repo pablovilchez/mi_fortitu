@@ -9,7 +9,7 @@ import 'package:mi_fortitu/core/helpers/secure_storage_helper.dart';
 import 'package:mi_fortitu/core/services/intra_api_client.dart';
 import 'package:mi_fortitu/core/services/url_launcher_service.dart';
 // Features
-import 'package:mi_fortitu/features/access/auth.dart';
+import 'package:mi_fortitu/features/access/access.dart';
 import 'package:mi_fortitu/features/clusters/clusters.dart';
 import 'package:mi_fortitu/features/coalitions_blocs/coalitions_blocs.dart';
 import 'package:mi_fortitu/features/home/home.dart';
@@ -37,22 +37,20 @@ void initDi() {
 
   // Helpers and services
   sl.registerLazySingleton<SecureStorageHelper>(() => SecureStorageHelper(FlutterSecureStorage()));
-  sl.registerLazySingleton<IntraApiClient>(() => IntraApiClient(sl(), sl(), sl()));
+  sl.registerLazySingleton<IntraApiClient>(() => IntraApiClient(sl(), sl(), sl(), sl(), sl()));
   sl.registerLazySingleton<UrlLauncherService>(() => UrlLauncherServiceImpl());
 
   // Auth feature - Datasources
-  sl.registerLazySingleton<AccessSupaDatasource>(() => AccessSupaDatasource(sl()));
-  sl.registerLazySingleton<AccessIntraDatasource>(() => AccessIntraDatasource(sl(), sl(), sl(), sl()));
+  sl.registerLazySingleton<AccessDatasource>(() => AccessDatasource(sl()));
   // Auth feature - Repositories
-  sl.registerLazySingleton<AccessIntraRepository>(() => AccessIntraRepositoryImpl(sl(), sl()));
-  sl.registerLazySingleton<AccessDbRepository>(() => AccessDbRepositoryImpl(sl()));
+  sl.registerLazySingleton<AccessRepository>(() => AccessRepositoryImpl(sl()));
   // Auth feature - Usecases
-  sl.registerLazySingleton<AuthUsecase>(() => AuthUsecase(sl(), sl()));
+  sl.registerLazySingleton<AuthUsecase>(() => AuthUsecase(sl()));
   sl.registerLazySingleton<GetRoleUsecase>(() => GetRoleUsecase(sl()));
-  sl.registerLazySingleton<DbLogInUsecase>(() => DbLogInUsecase(sl()));
-  sl.registerLazySingleton<DbRegisterUsecase>(() => DbRegisterUsecase(sl()));
+  sl.registerLazySingleton<LogInUsecase>(() => LogInUsecase(sl()));
+  sl.registerLazySingleton<RegisterUsecase>(() => RegisterUsecase(sl()));
   // Auth feature - Blocs
-  sl.registerLazySingleton<AuthBloc>(() => AuthBloc(sl(), sl(), sl(), sl()));
+  sl.registerLazySingleton<AccessBloc>(() => AccessBloc(sl(), sl(), sl(), sl()));
 
   // Clusters feature - Datasources
   sl.registerLazySingleton<ClustersDatasource>(() => ClustersDatasource(sl(), sl()));
@@ -103,5 +101,5 @@ void initDi() {
   // Settings feature - Repositories
   sl.registerLazySingleton<SettingsRepository>(() => SettingsRepositoryImpl(sl()));
   // Settings feature - Use cases
-  sl.registerLazySingleton<LogoutUsecase>(() => LogoutUsecase(sl()));
+  sl.registerLazySingleton<LogoutUsecase>(() => LogoutUsecase(sl(), sl()));
 }
