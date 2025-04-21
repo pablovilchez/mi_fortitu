@@ -39,7 +39,6 @@ class _PeerToPeerScreenState extends State<PeerToPeerScreen> {
     }
 
     final peersPerProject = await _getProjectsPeersUsecase.call(userState.profile);
-    print('DEBUG    state: ${peersPerProject.runtimeType}');
 
     peersPerProject.fold(
       (failure) {

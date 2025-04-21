@@ -62,7 +62,8 @@
   },
   "settings": {
     "title": "Settings",
-    "language": "Select language"
+    "language": "Select language",
+    "logout": "Logout"
   },
   "buttons": {
     "cancel": "Cancel",

@@ -15,6 +15,7 @@ import 'package:mi_fortitu/features/coalitions_blocs/coalitions_blocs.dart';
 import 'package:mi_fortitu/features/home/home.dart';
 import 'package:mi_fortitu/features/peers/peers.dart';
 import 'package:mi_fortitu/features/profiles/profiles.dart';
+import 'package:mi_fortitu/features/settings/settings.dart';
 // Database package helper
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -24,6 +25,9 @@ final SupabaseClient supabaseClient = Supabase.instance.client;
 
 /// Initialize the dependency injection
 void initDi() {
+  // Clients
+  sl.registerLazySingleton<SupabaseClient>(() => supabaseClient);
+
   // External dependencies
   sl.registerLazySingleton<http.Client>(() => http.Client());
   sl.registerLazySingleton<AppLinks>(() => AppLinks());
@@ -37,7 +41,7 @@ void initDi() {
   sl.registerLazySingleton<UrlLauncherService>(() => UrlLauncherServiceImpl());
 
   // Auth feature - Datasources
-  sl.registerLazySingleton<AccessSupaDatasource>(() => AccessSupaDatasource(supabaseClient));
+  sl.registerLazySingleton<AccessSupaDatasource>(() => AccessSupaDatasource(sl()));
   sl.registerLazySingleton<AccessIntraDatasource>(() => AccessIntraDatasource(sl(), sl(), sl(), sl()));
   // Auth feature - Repositories
   sl.registerLazySingleton<AccessIntraRepository>(() => AccessIntraRepositoryImpl(sl(), sl()));
@@ -85,7 +89,6 @@ void initDi() {
   sl.registerLazySingleton<GetProjectsPeersUsecase>(() => GetProjectsPeersUsecase(sl()));
   // Peers feature - Blocs
 
-
   // Profile feature - Datasources
   sl.registerLazySingleton<ProfilesDatasource>(() => ProfilesDatasource(sl(), sl()));
   // Profile feature - Repositories
@@ -94,4 +97,11 @@ void initDi() {
   sl.registerLazySingleton<GetProfileUsecase>(() => GetProfileUsecase(sl()));
   // Profile feature - Blocs
   sl.registerLazySingleton<UserProfileBloc>(() => UserProfileBloc(sl()));
+
+  // Settings feature - Datasources
+  sl.registerLazySingleton<SettingsDatasource>(() => SettingsDatasource(sl()));
+  // Settings feature - Repositories
+  sl.registerLazySingleton<SettingsRepository>(() => SettingsRepositoryImpl(sl()));
+  // Settings feature - Use cases
+  sl.registerLazySingleton<LogoutUsecase>(() => LogoutUsecase(sl()));
 }
