@@ -4,10 +4,13 @@ import 'package:app_links/app_links.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:mi_fortitu/core/config/env_config.dart';
+import 'package:mi_fortitu/core/di/dependency_injection.dart';
 import 'package:mi_fortitu/core/services/url_launcher_service.dart';
 import 'package:mi_fortitu/features/access/data/access_exception.dart';
 
 import '../helpers/secure_storage_helper.dart';
+
+enum RequestType { get, post, patch, delete }
 
 class IntraApiClient {
   final http.Client httpClient;
@@ -18,10 +21,20 @@ class IntraApiClient {
 
   IntraApiClient(this.httpClient, this.appLinks, this.launcher, this.env, this.secureStorage);
 
-  Future<Either<Exception, String>> getGrantedToken() async {
+  Future<Either<Exception, Unit>> isLoggedIn() async {
+    return await _getGrantedToken().then((result) {
+      return result.fold(
+        (error) => Left(error),
+        (_) => Right(unit),
+      );
+    });
+  }
+
+  Future<Either<Exception, String>> _getGrantedToken() async {
     final accessToken = await secureStorage.read('intra_access_token');
     final refreshToken = await secureStorage.read('intra_refresh_token');
     final expirationTimeStr = await secureStorage.read('intra_token_expiration');
+
     if (accessToken == null || refreshToken == null || expirationTimeStr == null) {
       return _startOAuth2Flow();
     }
@@ -43,20 +56,18 @@ class IntraApiClient {
   }
 
   Future<Either<Exception, String>> _startOAuth2Flow() async {
-    final response = await requestNewTokens();
-    return response.fold(
-      (e) => Left(Exception('OAuth2 authorization failed: $e')),
-      (newTokens) async {
-        await _saveTokens(newTokens);
-        return Right(newTokens['access_token']);
-      },
-    );
+    final response = await _requestNewTokens();
+    return response.fold((e) => Left(Exception('OAuth2 authorization failed: $e')), (
+      newTokens,
+    ) async {
+      await _saveTokens(newTokens);
+      return Right(newTokens['access_token']);
+    });
   }
 
-  Future<Either<Exception, Map<String, dynamic>>> requestNewTokens() async {
+  Future<Either<Exception, Map<String, dynamic>>> _requestNewTokens() async {
     // Check if the environment variables are set.
     final redirectUri = env.redirectUri;
-    final codeForTokenFunctionUrl = env.codeForTokenFunctionUrl;
 
     // Get the authorization URL from the server and launch it in the browser.
     final responseAuthUrl = await _getAuthorizationUrl();
@@ -78,43 +89,33 @@ class IntraApiClient {
     if (code == null) {
       return Left(IntraException(code: 'AI04'));
     }
-    final response = await httpClient.post(
-      Uri.parse(codeForTokenFunctionUrl),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'code': code}),
-    );
-    if (response.statusCode != 200) {
+
+    final response = await supabaseClient.functions.invoke('exchange-code-for-token', body: {'code': code});
+
+    if (response.status != 200) {
       return Left(
-        IntraException(code: 'AI05', details: '${response.statusCode}: ${response.body}'),
+        IntraException(code: 'AI05', details: '${response.status}: ${response.data}'),
       );
     }
 
-    return Right(jsonDecode(response.body));
+    return Right(jsonDecode(response.data));
   }
 
   /// Gets the authorization URL for Intra authentication.
   Future<Either<AccessException, String>> _getAuthorizationUrl() async {
-    final getAuthUrlFunctionUrl = env.getAuthUrlFunctionUrl;
     final tokenScope = env.intraTokenScope;
+    final response = await supabaseClient.functions.invoke('get-auth-url', body: {'scope': tokenScope});
 
-    final response = await httpClient.post(
-      Uri.parse(getAuthUrlFunctionUrl),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'scope': tokenScope}),
-    );
-
-    if (response.statusCode != 200) {
+    if (response.status != 200) {
       return Left(
-        IntraException(code: 'AI01', details: '${response.statusCode}: ${response.body}'),
+        IntraException(code: 'AI01', details: '${response.status}: ${response.data}'),
       );
     }
-
-    final data = jsonDecode(response.body);
+    final data = jsonDecode(response.data);
 
     if (data['url'] == null) {
       return Left(IntraException(code: 'AI02'));
     }
-
     return Right(data['url']);
   }
 
@@ -134,16 +135,16 @@ class IntraApiClient {
   }
 
   Future<Either<Exception, Map<String, dynamic>>> _refreshToken(String refreshToken) async {
-    final refreshTokenFunctionUrl = env.refreshTokenFunctionUrl;
-    final response = await httpClient.post(
-      Uri.parse(refreshTokenFunctionUrl),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'refresh_token': refreshToken}),
-    );
-    if (response.statusCode != 200) {
-      return Left(Exception('Failed to refresh token: ${response.statusCode} ${response.body}'));
+    try {
+      final response = await supabaseClient.functions.invoke('refresh-token', body: {'refresh_token': refreshToken});
+      if (response.status != 200) {
+      return Left(Exception('Failed to refresh token: ${response.status} ${response.data}'));
     }
-    return jsonDecode(response.body);
+    return Right(jsonDecode(response.data));
+
+    } catch (e) {
+      return Left(Exception('Failed to refresh token: $e'));
+    }
   }
 
   Future<Either<Exception, Unit>> _saveTokens(Map<String, dynamic> data) async {
@@ -176,15 +177,30 @@ class IntraApiClient {
     return Right(unit);
   }
 
-  Future<Either<Exception, dynamic>> _makeGetRequest(String route) async {
-    final tokenResult = await getGrantedToken();
+  Future<Either<Exception, dynamic>> _makeApiRequest(RequestType type, String route) async {
+    final tokenResult = await _getGrantedToken();
 
     return tokenResult.fold((e) => Left(e), (accessToken) async {
       try {
-        final response = await httpClient.get(
-          Uri.parse(route),
-          headers: {'Authorization': 'Bearer $accessToken'},
-        );
+        final uri = Uri.parse(route);
+        final headers = {'Authorization': 'Bearer $accessToken'};
+
+        late http.Response response;
+
+        switch (type) {
+          case RequestType.get:
+            response = await httpClient.get(uri, headers: headers);
+            break;
+          case RequestType.post:
+            response = await httpClient.post(uri, headers: headers);
+            break;
+          case RequestType.patch:
+            response = await httpClient.patch(uri, headers: headers);
+            break;
+          case RequestType.delete:
+            response = await httpClient.delete(uri, headers: headers);
+            break;
+        }
 
         if (response.statusCode == 401) {
           await secureStorage.delete('intra_access_token');
@@ -204,7 +220,7 @@ class IntraApiClient {
 
   Future<Either<Exception, dynamic>> getTokenInfo() async {
     final url = 'https://api.intra.42.fr/oauth/token';
-    return await _makeGetRequest(url);
+    return await _makeApiRequest(RequestType.get, url);
   }
 
   Future<Either<Exception, Map<String, dynamic>>> getUser(String loginName) async {
@@ -213,7 +229,7 @@ class IntraApiClient {
         ? url = 'https://api.intra.42.fr/v2/me'
         : url = 'https://api.intra.42.fr/v2/users/$loginName';
 
-    final response = await _makeGetRequest(url);
+    final response = await _makeApiRequest(RequestType.get, url);
     return response.fold((exception) => Left(exception), (data) {
       try {
         return Right(data as Map<String, dynamic>);
@@ -229,7 +245,7 @@ class IntraApiClient {
         ? url = 'https://api.intra.42.fr/v2/me'
         : url = 'https://api.intra.42.fr/v2/users/$loginName/events_users';
 
-    final response = await _makeGetRequest(url);
+    final response = await _makeApiRequest(RequestType.get, url);
     return response.fold((exception) => Left(exception), (data) {
       try {
         final events =
@@ -243,7 +259,7 @@ class IntraApiClient {
 
   Future<Either<Exception, List<dynamic>>> getCampusEvents(String campusId) async {
     final url = 'https://api.intra.42.fr/v2/campus/$campusId/events';
-    final response = await _makeGetRequest(url);
+    final response = await _makeApiRequest(RequestType.get, url);
     return response.fold((exception) => Left(exception), (data) {
       try {
         final events = (data as List).map((event) => event as Map<String, dynamic>).toList();
@@ -262,7 +278,7 @@ class IntraApiClient {
 
     while (true) {
       final url = '$baseRoute?filter[active]=true&page=$pageNumber&per_page=$pageSize';
-      final response = await _makeGetRequest(url);
+      final response = await _makeApiRequest(RequestType.get, url);
       if (response.isLeft()) {
         return Left(response.fold((exception) => exception, (r) => Exception('Error')));
       }
@@ -282,7 +298,7 @@ class IntraApiClient {
   Future<Either<Exception, List<dynamic>>> getCampusBlocs(String campusId) async {
     final url = 'https://api.intra.42.fr/v2/blocs/';
     final filters = '?filter[campus_id]=$campusId';
-    final response = await _makeGetRequest('$url$filters');
+    final response = await _makeApiRequest(RequestType.get, '$url$filters');
     return response.fold((exception) => Left(exception), (data) {
       try {
         return Right(data as List<dynamic>);
@@ -298,7 +314,7 @@ class IntraApiClient {
   ) async {
     final url = 'https://api.intra.42.fr/v2/projects/$projectId/projects_users';
     final filters = '?filter[campus]=$campusId&filter[status]=in_progress&filter[marked]=false';
-    final response = await _makeGetRequest('$url$filters');
+    final response = await _makeApiRequest(RequestType.get, '$url$filters');
 
     return response.fold((exception) => Left(exception), (data) {
       try {
@@ -310,6 +326,73 @@ class IntraApiClient {
         return Right(userList);
       } catch (e) {
         return Left(Exception('Exception getting Intra Project Users: ${e.toString()}'));
+      }
+    });
+  }
+
+  Future<Either<Exception, List<dynamic>>> getUserOpenSlots(String loginName) async {
+    final user = loginName == 'me' ? await getUser('me') : await getUser('users/$loginName');
+    final url = 'https://api.intra.42.fr/v2/$user/slots';
+    final filters = '?filter[future]=true';
+
+    final response = await _makeApiRequest(RequestType.get, '$url$filters');
+    return response.fold((exception) => Left(exception), (data) {
+      try {
+        final slots = (data as List).map((slot) => slot as Map<String, dynamic>).toList();
+        return Right(slots);
+      } catch (e) {
+        return Left(Exception('Exception getting User Slots: ${e.toString()}'));
+      }
+    });
+  }
+
+  Future<Either<Exception, List<dynamic>>> getUserEvaluations(String loginName) async {
+    final user = loginName == 'me' ? await getUser('me') : await getUser('users/$loginName');
+    final url = 'https://api.intra.42.fr/v2/$user/slots';
+    final filters = '?filter[future]=false&filter[end]=false';
+
+    final response = await _makeApiRequest(RequestType.get, '$url$filters');
+    return response.fold((exception) => Left(exception), (data) {
+      try {
+        final slots = (data as List).map((slot) => slot as Map<String, dynamic>).toList();
+        return Right(slots);
+      } catch (e) {
+        return Left(Exception('Exception getting User Slots: ${e.toString()}'));
+      }
+    });
+  }
+
+  Future<Either<Exception, List<dynamic>>> getUserProjects(String loginName) async {
+    final user = loginName == 'me' ? await getUser('me') : await getUser('users/$loginName');
+    final url = 'https://api.intra.42.fr/v2/$user/projects_users';
+    final filters = '?filter[marked]=false';
+
+    final response = await _makeApiRequest(RequestType.get, '$url$filters');
+    return response.fold((exception) => Left(exception), (data) {
+      try {
+        final projects = (data as List).map((project) => project as Map<String, dynamic>).toList();
+        return Right(projects);
+      } catch (e) {
+        return Left(Exception('Exception getting User Projects: ${e.toString()}'));
+      }
+    });
+  }
+
+  Future<Either<Exception, List<dynamic>>> createEvaluationSlot(
+    String userId, {
+    required DateTime begin,
+    required DateTime end,
+  }) async {
+    final url = 'https://api.intra.42.fr/v2/slots';
+    final filters = '?slot[user_id]=$userId&slot[begin_at]=$begin&slot[end_at]=$end';
+
+    final response = await _makeApiRequest(RequestType.post, '$url$filters');
+    return response.fold((exception) => Left(exception), (data) {
+      try {
+        final coalitions = (data as List).map((slot) => slot as Map<String, dynamic>).toList();
+        return Right(coalitions);
+      } catch (e) {
+        return Left(Exception('Exception creating Evaluation Slots: ${e.toString()}'));
       }
     });
   }

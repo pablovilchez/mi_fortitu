@@ -36,6 +36,11 @@ class TilesList extends StatelessWidget {
           route: '/search-students',
         ),
         _OptionTile(
+          title: tr('home.tiles.peer2peer'),
+          image: AssetImage('assets/images/home_tiles/peer2peer.png'),
+          route: '/finder',
+        ),
+        _OptionTile(
           title: tr('home.tiles.eval_slots'),
           image: AssetImage('assets/images/home_tiles/slots.png'),
           route: '/slots',
@@ -46,11 +51,6 @@ class TilesList extends StatelessWidget {
         //   route: '/shop',
         // ),
         SectionHeader(title: 'Campus'),
-        _OptionTile(
-          title: tr('home.tiles.peer2peer'),
-          image: AssetImage('assets/images/home_tiles/peer2peer.png'),
-          route: '/finder',
-        ),
         _OptionTile(
           title: tr('home.tiles.clusters'),
           image: AssetImage('assets/images/home_tiles/clusters.png'),

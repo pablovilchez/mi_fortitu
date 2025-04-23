@@ -65,7 +65,11 @@
   "settings": {
     "title": "Configuración",
     "language": "Selecciona idioma",
-    "logout": "Cerrar sesión"
+    "change_avatar": "Cambiar avatar",
+    "logout": "Cerrar sesión",
+    "messages": {
+      "avatar_saved": "Imagen de perfil guardada"
+    }
   },
   "buttons": {
     "cancel": "Cancelar",
@@ -108,6 +112,7 @@
       "saturday": "Sáb",
       "sunday": "Dom"
     },
-    "number_format": "#.###,##"
+    "number_format": "#.###,##",
+    "separator": "."
   }
 }

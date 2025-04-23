@@ -9,10 +9,8 @@ final class UserProfileLoading extends UserProfileState {}
 
 final class UserProfileSuccess extends UserProfileState {
   final UserEntity profile;
-  final IntraProfileSummaryVM profileSummary;
 
-  UserProfileSuccess(this.profile)
-  : profileSummary = IntraProfileSummaryVM.fromEntity(profile);
+  UserProfileSuccess(this.profile);
 }
 
 final class UserProfileError extends UserProfileState {

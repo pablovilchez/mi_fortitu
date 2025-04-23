@@ -1,9 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:mi_fortitu/features/profiles/domain/usecases/get_profile_usecase.dart';
+import '../../../domain/usecases/get_profile_usecase.dart';
 
 import '../../../domain/entities/user_entity.dart';
-import '../../viewmodels/intra_profile_summary_vm.dart';
 
 
 part 'user_profile_event.dart';

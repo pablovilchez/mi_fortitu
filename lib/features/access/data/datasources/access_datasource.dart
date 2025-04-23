@@ -38,6 +38,14 @@ class AccessDatasource {
       if (session == null) {
         return Left(DbException(code: 'AD03'));
       }
+      if (session.expiresAt != null &&
+          DateTime.fromMillisecondsSinceEpoch(session.expiresAt! * 1000)
+              .isBefore(DateTime.now())) {
+        final refreshResponse = await _supabase.auth.refreshSession();
+        if (refreshResponse.session == null) {
+          return Left(DbException(code: 'AD04', details: 'Session expired and refresh failed'));
+        }
+      }
       return Right(unit);
     } catch (e) {
       return Left(DbException(code: 'AD04', details: e.toString()));

@@ -16,7 +16,7 @@ class EventCard extends StatelessWidget {
       width: 200,
       height: 200,
       decoration: BoxDecoration(
-        color: event.isSubscribed ? Colors.green[50] : Colors.white,
+        color: event.isSubscribed ? Colors.green[100] : Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(2, 4))],
       ),
@@ -51,7 +51,7 @@ class EventCard extends StatelessWidget {
                       children: [
                         Text(
                           details.beginWeekDay,
-                          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
                         ),
                         Text(
                           details.beginDay,
@@ -59,7 +59,7 @@ class EventCard extends StatelessWidget {
                         ),
                         Text(
                           details.beginMonth,
-                          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
                         ),
                         const SizedBox(height: 2),
                         Text(

@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mi_fortitu/core/services/avatar_notifier.dart';
 import 'package:mi_fortitu/features/settings/domain/usecases/logout_usecase.dart';
 
+import '../../../../core/helpers/avatar_storage_helper.dart';
 import '../../../../core/helpers/preferences_helper.dart';
 import '../../../../core/helpers/snackbar_helper.dart';
 import '../../../../core/presentation/widgets/dialogs/dev_info_widget.dart';
@@ -54,6 +59,21 @@ class SettingsScreen extends StatelessWidget {
                 ],
               ),
             ),
+            ListTile(
+              title: Text(tr('settings.change_avatar')),
+              trailing: Icon(Icons.photo_camera),
+              onTap: () async {
+                final picker = ImagePicker();
+                final picked = await picker.pickImage(source: ImageSource.gallery);
+                if (picked != null) {
+                  final file = File(picked.path);
+                  await AvatarStorageHelper.saveAvatar(file);
+                  avatarNotifier.update(file);
+                  if (!context.mounted) return;
+                  SnackbarHelper.showSnackbar(context, tr('settings.messages.avatar_saved'));}
+              },
+            ),
+            SizedBox(height: 40),
             ListTile(
               title: Text(tr('settings.logout')),
               trailing: IconButton(

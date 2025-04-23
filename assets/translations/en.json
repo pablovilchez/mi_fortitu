@@ -65,7 +65,11 @@
   "settings": {
     "title": "Settings",
     "language": "Select language",
-    "logout": "Logout"
+    "change_avatar": "Change avatar",
+    "logout": "Logout",
+    "messages": {
+      "avatar_saved": "Profile picture saved"
+    }
   },
   "buttons": {
     "cancel": "Cancel",
@@ -108,6 +112,7 @@
       "saturday": "Sat",
       "sunday": "Sun"
     },
-    "number_format": "#,###.##"
+    "number_format": "#,###.##",
+    "separator": ","
   }
 }
