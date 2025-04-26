@@ -76,8 +76,10 @@ void initDi() {
   sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(sl()));
   // Home feature - Use cases
   sl.registerLazySingleton<GetEventsUsecase>(() => GetEventsUsecase(sl()));
+  sl.registerLazySingleton<SubscribeEventUsecase>(() => SubscribeEventUsecase(sl()));
+  sl.registerLazySingleton<UnsubscribeEventUsecase>(() => UnsubscribeEventUsecase(sl()));
   // Home feature - Blocs
-  sl.registerLazySingleton<EventsBloc>(() => EventsBloc(sl()));
+  sl.registerLazySingleton<EventsBloc>(() => EventsBloc(sl(), sl(), sl()));
 
   // Peers feature - Datasources
   sl.registerLazySingleton<PeersDatasource>(() => PeersDatasource(sl(), sl()));

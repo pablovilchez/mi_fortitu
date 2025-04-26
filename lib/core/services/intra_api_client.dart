@@ -23,10 +23,7 @@ class IntraApiClient {
 
   Future<Either<Exception, Unit>> isLoggedIn() async {
     return await _getGrantedToken().then((result) {
-      return result.fold(
-        (error) => Left(error),
-        (_) => Right(unit),
-      );
+      return result.fold((error) => Left(error), (_) => Right(unit));
     });
   }
 
@@ -90,12 +87,13 @@ class IntraApiClient {
       return Left(IntraException(code: 'AI04'));
     }
 
-    final response = await supabaseClient.functions.invoke('exchange-code-for-token', body: {'code': code});
+    final response = await supabaseClient.functions.invoke(
+      'exchange-code-for-token',
+      body: {'code': code},
+    );
 
     if (response.status != 200) {
-      return Left(
-        IntraException(code: 'AI05', details: '${response.status}: ${response.data}'),
-      );
+      return Left(IntraException(code: 'AI05', details: '${response.status}: ${response.data}'));
     }
 
     return Right(jsonDecode(response.data));
@@ -104,12 +102,13 @@ class IntraApiClient {
   /// Gets the authorization URL for Intra authentication.
   Future<Either<AccessException, String>> _getAuthorizationUrl() async {
     final tokenScope = env.intraTokenScope;
-    final response = await supabaseClient.functions.invoke('get-auth-url', body: {'scope': tokenScope});
+    final response = await supabaseClient.functions.invoke(
+      'get-auth-url',
+      body: {'scope': tokenScope},
+    );
 
     if (response.status != 200) {
-      return Left(
-        IntraException(code: 'AI01', details: '${response.status}: ${response.data}'),
-      );
+      return Left(IntraException(code: 'AI01', details: '${response.status}: ${response.data}'));
     }
     final data = jsonDecode(response.data);
 
@@ -136,12 +135,14 @@ class IntraApiClient {
 
   Future<Either<Exception, Map<String, dynamic>>> _refreshToken(String refreshToken) async {
     try {
-      final response = await supabaseClient.functions.invoke('refresh-token', body: {'refresh_token': refreshToken});
+      final response = await supabaseClient.functions.invoke(
+        'refresh-token',
+        body: {'refresh_token': refreshToken},
+      );
       if (response.status != 200) {
-      return Left(Exception('Failed to refresh token: ${response.status} ${response.data}'));
-    }
-    return Right(jsonDecode(response.data));
-
+        return Left(Exception('Failed to refresh token: ${response.status} ${response.data}'));
+      }
+      return Right(jsonDecode(response.data));
     } catch (e) {
       return Left(Exception('Failed to refresh token: $e'));
     }
@@ -202,13 +203,19 @@ class IntraApiClient {
             break;
         }
 
-        if (response.statusCode == 401) {
+        final code = response.statusCode;
+
+        if (code == 401) {
           await secureStorage.delete('intra_access_token');
           await secureStorage.delete('intra_refresh_token');
           return Left(Exception('Token rejected by server. Need re-login.'));
         }
+        
+        if (code == 204) {
+          return Right({});
+        }
 
-        if (response.statusCode != 200) {
+        if (code != 200 && code != 201) {
           return Left(Exception('Api Error(${response.statusCode}): ${response.body}'));
         }
         return Right(jsonDecode(response.body));
@@ -248,8 +255,7 @@ class IntraApiClient {
     final response = await _makeApiRequest(RequestType.get, url);
     return response.fold((exception) => Left(exception), (data) {
       try {
-        final events =
-            (data as List).map((event) => event['event'] as Map<String, dynamic>).toList();
+        final events = (data as List).map((event) => event as Map<String, dynamic>).toList();
         return Right(events);
       } catch (e) {
         return Left(Exception('Exception getting User Events: ${e.toString()}'));
@@ -257,7 +263,7 @@ class IntraApiClient {
     });
   }
 
-  Future<Either<Exception, List<dynamic>>> getCampusEvents(String campusId) async {
+  Future<Either<Exception, List<dynamic>>> getCampusEvents(int campusId) async {
     final url = 'https://api.intra.42.fr/v2/campus/$campusId/events';
     final response = await _makeApiRequest(RequestType.get, url);
     return response.fold((exception) => Left(exception), (data) {
@@ -393,6 +399,40 @@ class IntraApiClient {
         return Right(coalitions);
       } catch (e) {
         return Left(Exception('Exception creating Evaluation Slots: ${e.toString()}'));
+      }
+    });
+  }
+
+  Future<Either<Exception, Map<String, int>>> subscribeToEvent({
+    required int userId,
+    required int eventId,
+  }) async {
+    final url = 'https://api.intra.42.fr/v2/events_users';
+    final filters = '?events_user[user_id]=$userId&events_user[event_id]=$eventId';
+
+    final response = await _makeApiRequest(RequestType.post, '$url$filters');
+    return response.fold((exception) => Left(exception), (data) {
+      try {
+        return Right({
+          'id': data['id'] as int,
+          'event_id': data['event_id'] as int,
+          'user_id': data['user_id'] as int,
+        });
+      } catch (e) {
+        return Left(Exception('Exception subscribing to Event: ${e.toString()}'));
+      }
+    });
+  }
+
+  Future<Either<Exception, Unit>> unsubscribeFromEvent(int eventUserId) async {
+    final url = 'https://api.intra.42.fr/v2/events_users/$eventUserId';
+
+    final response = await _makeApiRequest(RequestType.delete, url);
+    return response.fold((exception) => Left(exception), (data) {
+      try {
+        return Right(unit);
+      } catch (e) {
+        return Left(Exception('Exception unsubscribing from Event: ${e.toString()}'));
       }
     });
   }

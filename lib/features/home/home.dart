@@ -7,6 +7,8 @@ export 'domain/repositories/home_repository.dart';
 
 // Usecases
 export 'domain/usecases/get_events_usecase.dart';
+export 'domain/usecases/subscribe_event_usecase.dart';
+export 'domain/usecases/unsubscribe_event_usecase.dart';
 
 // Blocs
 export 'presentation/blocs/events_bloc/events_bloc.dart';

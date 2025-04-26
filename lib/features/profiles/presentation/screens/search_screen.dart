@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mi_fortitu/core/themes/backgrounds.dart';
 import 'package:mi_fortitu/features/profiles/domain/entities/user_entity.dart';
 
 import '../../domain/usecases/get_profile_usecase.dart';
@@ -60,33 +61,36 @@ class _SearchStudentsScreenState extends State<SearchStudentsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _showSearchBar
-          ? AppBarSearch(
-            controller: _searchController,
-            onSearch: () {
-              final searchText = _searchController.text.trim();
-              if (searchText.isNotEmpty) {
-                _searchStudent(searchText);
-              }
-            },
-          )
-          : AppBar(),
-      body: Builder(
-        builder: (_) {
-          switch (_status) {
-            case SearchStatus.initial:
-              return _SearchView();
-            case SearchStatus.loading:
-              return _LoadingView();
-            case SearchStatus.error:
-              return _ErrorView(message: _errorMessage);
-            case SearchStatus.success:
-              return _profile != null
-                  ? CursusProfile(profile: _profile!)
-                  : const SizedBox();
-          }
-        },
+    return MainBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: _showSearchBar
+            ? AppBarSearch(
+              controller: _searchController,
+              onSearch: () {
+                final searchText = _searchController.text.trim();
+                if (searchText.isNotEmpty) {
+                  _searchStudent(searchText);
+                }
+              },
+            )
+            : AppBar(),
+        body: Builder(
+          builder: (_) {
+            switch (_status) {
+              case SearchStatus.initial:
+                return _SearchView();
+              case SearchStatus.loading:
+                return _LoadingView();
+              case SearchStatus.error:
+                return _ErrorView(message: _errorMessage);
+              case SearchStatus.success:
+                return _profile != null
+                    ? CursusProfile(profile: _profile!)
+                    : const SizedBox();
+            }
+          },
+        ),
       ),
     );
   }

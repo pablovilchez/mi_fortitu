@@ -42,7 +42,7 @@ class MainApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => AccessBloc(sl(), sl(), sl(), sl(),),),
         BlocProvider(create: (_) => UserProfileBloc(sl())),
-        BlocProvider(create: (_) => EventsBloc(sl())),
+        BlocProvider(create: (_) => EventsBloc(sl(), sl(), sl())),
         BlocProvider(create: (_) => ClustersBloc(sl())),
         BlocProvider(create: (_) => CoalitionsBlocsBloc(sl())),
       ],

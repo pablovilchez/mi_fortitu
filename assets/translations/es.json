@@ -13,8 +13,14 @@
       "days": "días",
       "no_events": "No hay eventos próximos.",
       "subscribe": "Suscribirme",
-      "unsubscribe": "Desuscribirme",
-      "waitlist": "Esperar"
+      "unsubscribe": "Borrarme",
+      "waitlist": "Esperar",
+      "messages": {
+        "subscribed": "Estás suscrito a este evento.",
+        "unsubscribed": "Te has borrado de este evento.",
+        "waitlisted": "Estás en la lista de espera para este evento.",
+        "unwaitlisted": "Has sido eliminado de la lista de espera."
+        }
     },
     "titles": {
       "events": "Eventos",

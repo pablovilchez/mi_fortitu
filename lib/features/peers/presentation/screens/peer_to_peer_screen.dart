@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mi_fortitu/core/themes/backgrounds.dart';
 import 'package:mi_fortitu/features/peers/presentation/viewmodels/project_peers_viewmodel.dart';
 import 'package:mi_fortitu/features/profiles/presentation/blocs/user_profile_bloc/user_profile_bloc.dart';
 import '../../domain/usecases/get_projects_peers_usecase.dart';
@@ -59,56 +60,60 @@ class _PeerToPeerScreenState extends State<PeerToPeerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(tr('home.tiles.peer2peer')),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.adb, color: Colors.red),
-            onPressed: () => showDevInfoDialog(context, 'peer2peerTestInfo'),
-          ),
-        ],
-      ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _hasError
-          ? const Center(child: Text('Error loading data'))
-          : _projectsPeers.isEmpty
-          ? const Center(child: Text('No open projects found'))
-          : ListView.builder(
-        itemCount: _projectsPeers.length,
-        itemBuilder: (context, index) {
-          final project = _projectsPeers[index];
-          final peers = project.peers;
-
-          final connectedPeers = peers.where((p) => p.isOnline).toList();
-          final disconnectedPeers = peers.where((p) => !p.isOnline).toList();
-
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                    project.projectName,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+    return MainBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          title: Text(tr('home.tiles.peer2peer')),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.adb, color: Colors.red),
+              onPressed: () => showDevInfoDialog(context, 'peer2peerTestInfo'),
+            ),
+          ],
+        ),
+        body: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : _hasError
+            ? const Center(child: Text('Error loading data'))
+            : _projectsPeers.isEmpty
+            ? const Center(child: Text('No open projects found'))
+            : ListView.builder(
+          itemCount: _projectsPeers.length,
+          itemBuilder: (context, index) {
+            final project = _projectsPeers[index];
+            final peers = project.peers;
+      
+            final connectedPeers = peers.where((p) => p.isOnline).toList();
+            final disconnectedPeers = peers.where((p) => !p.isOnline).toList();
+      
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      project.projectName,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                PeerGrid(peers: connectedPeers),
-                if (disconnectedPeers.isNotEmpty) ...[
                   const SizedBox(height: 12),
-                  PeerGrid(peers: disconnectedPeers, showAsDisconnected: true),
+                  PeerGrid(peers: connectedPeers),
+                  if (disconnectedPeers.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    PeerGrid(peers: disconnectedPeers, showAsDisconnected: true),
+                  ],
                 ],
-              ],
-            ),
-          );
-        },
+              ),
+            );
+          },
+        ),
       ),
     );
   }

@@ -1,5 +1,5 @@
 class EventEntity {
-  int id;
+  int eventId;
   String name;
   String description;
   String location;
@@ -13,7 +13,7 @@ class EventEntity {
   WaitlistEntity? waitlist;
 
   EventEntity({
-    required this.id,
+    required this.eventId,
     required this.name,
     required this.description,
     required this.location,
@@ -29,7 +29,7 @@ class EventEntity {
 
   factory EventEntity.empty() {
     return EventEntity(
-      id: -1,
+      eventId: -1,
       name: '',
       description: '',
       location: '',

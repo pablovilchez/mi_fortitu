@@ -5,18 +5,74 @@ import '../../domain/entities/event_entity.dart';
 
 class EventVm {
   final EventDetailsVm details;
-  final bool isSubscribed;
   final bool isFull;
   final bool isWaitlisted;
   final bool isClosed;
+  final int userId;
+  final EventStatus status;
+  final int registerId;
 
   EventVm({
     required this.details,
-    required this.isSubscribed,
     required this.isFull,
     this.isWaitlisted = false,
     this.isClosed = false,
+    required this.userId,
+    required this.status,
+    required this.registerId,
   });
+
+  EventVm copyWith({
+    EventStatus? status,
+    int? registerId,
+  }) {
+    return EventVm(
+      details: details,
+      isFull: isFull,
+      isWaitlisted: isWaitlisted,
+      isClosed: isClosed,
+      userId: userId,
+      status: status ?? this.status,
+      registerId: registerId ?? this.registerId,
+    );
+  }
+
+  factory EventVm.empty() {
+    return EventVm(
+      details: EventDetailsVm(
+        id: 0,
+        name: '',
+        description: '',
+        location: '',
+        kind: '',
+        maxPeople: 0,
+        nbrSubscribers: 0,
+        beginAt: DateTime.now(),
+        beginLapse: '',
+        beginDate: '',
+        beginWeekDay: '',
+        beginDay: '',
+        beginMonth: '',
+        beginTime: '',
+        duration: '',
+      ),
+      isFull: false,
+      isWaitlisted: false,
+      isClosed: false,
+      userId: 0,
+      status: EventStatus.loading,
+      registerId: 0,
+    );
+  }
+
+}
+
+enum EventStatus {
+  subscribed,
+  notSubscribed,
+  waitlisted,
+  unwaitlisted,
+  loading,
 }
 
 class EventDetailsVm {
@@ -56,7 +112,7 @@ class EventDetailsVm {
 
   factory EventDetailsVm.fromEntity(EventEntity entity) {
     return EventDetailsVm(
-      id: entity.id,
+      id: entity.eventId,
       name: entity.name,
       description: entity.description,
       location: entity.location,

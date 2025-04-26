@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mi_fortitu/core/themes/backgrounds.dart';
 import 'package:mi_fortitu/features/home/presentation/viewmodels/home_user_data_viewmodel.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/tiles_list.dart';
 
@@ -23,7 +24,11 @@ class HomeScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is UserProfileSuccess) {
           context.read<EventsBloc>().add(
-            GetIntraEventsEvent(state.profile.login, state.profile.campus[0].id.toString()),
+            GetIntraEventsEvent(
+              state.profile.login,
+              state.profile.id,
+              state.profile.campus[0].id,
+            ),
           );
         }
       },
@@ -52,13 +57,15 @@ class _HomeView extends StatelessWidget {
       builder: (context, snapshot) {
         final avatarPath = snapshot.data ?? 'assets/images/default_avatar.png';
 
-        final profile = context.read<UserProfileBloc>().state is UserProfileSuccess
-            ? (context.read<UserProfileBloc>().state as UserProfileSuccess).profile
-            : null;
+        final profile =
+            context.read<UserProfileBloc>().state is UserProfileSuccess
+                ? (context.read<UserProfileBloc>().state as UserProfileSuccess).profile
+                : null;
 
-        final intraData = profile != null
-            ? HomeUserDataVm.fromEntity(profile).copyWith(customAvatar: avatarPath)
-            : HomeUserDataVm.empty();
+        final intraData =
+            profile != null
+                ? HomeUserDataVm.fromEntity(profile).copyWith(customAvatar: avatarPath)
+                : HomeUserDataVm.empty();
 
         return _buildHomeLayout(context, intraData);
       },
@@ -67,14 +74,7 @@ class _HomeView extends StatelessWidget {
 
   Widget _buildHomeLayout(BuildContext context, HomeUserDataVm intraData) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFE0E0E0), Color(0xFFA69CDC)],
-          ),
-        ),
+      body: MainBackground(
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -90,7 +90,7 @@ class _HomeView extends StatelessWidget {
                     return ProfileHeader(userData: updatedData);
                   },
                 ),
-
+        
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

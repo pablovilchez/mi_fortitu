@@ -16,11 +16,19 @@ class AppBarSearch extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: tr('search.hint'),
-          border: InputBorder.none,
+      backgroundColor: Colors.transparent,
+      title: SizedBox(
+        height: 50,
+        child: TextField(
+          textAlignVertical: TextAlignVertical.center,
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: tr('search.hint'),
+            border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              borderSide: BorderSide(color: Colors.white, width: 1.0),
+            ),
+          ),
         ),
       ),
       actions: [
