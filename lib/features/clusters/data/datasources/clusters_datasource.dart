@@ -17,10 +17,7 @@ class ClustersDatasource {
     final campusLocations = await intraApiClient.getCampusLocations(campusId);
     return campusLocations.fold((e) => Left(ClustersException(code: 'C00', details: e.toString())), (data) {
       try {
-        final locations =
-        (data).map((location) {
-          return LocationModel.fromJson(location);
-        }).toList();
+        final locations = (data).map((location) => LocationModel.fromJson(location)).toList();
         return Right(locations);
       } catch (e) {
         return Left(ClustersException(code: 'C01', details: e.toString()));

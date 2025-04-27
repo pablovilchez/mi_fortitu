@@ -16,6 +16,7 @@ import 'package:mi_fortitu/features/home/home.dart';
 import 'package:mi_fortitu/features/peers/peers.dart';
 import 'package:mi_fortitu/features/profiles/profiles.dart';
 import 'package:mi_fortitu/features/settings/settings.dart';
+import 'package:mi_fortitu/features/slots/slots.dart';
 // Database package helper
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -104,4 +105,14 @@ void initDi() {
   sl.registerLazySingleton<SettingsRepository>(() => SettingsRepositoryImpl(sl()));
   // Settings feature - Use cases
   sl.registerLazySingleton<LogoutUsecase>(() => LogoutUsecase(sl(), sl()));
+
+  // Slots feature - Datasources
+  sl.registerLazySingleton<SlotsDatasource>(() => SlotsDatasource(sl(), sl()));
+  // Slots feature - Repositories
+  sl.registerLazySingleton<SlotsRepository>(() => SlotsRepositoryImpl(sl()));
+  // Slots feature - Use cases
+  sl.registerLazySingleton<GetUserOpenSlotsUsecase>(() => GetUserOpenSlotsUsecase(sl()));
+  sl.registerLazySingleton<CreateNewSlotUsecase>(() => CreateNewSlotUsecase(sl()));
+  // Slots feature - Blocs
+  sl.registerLazySingleton<SlotsBloc>(() => SlotsBloc(sl(), sl()));
 }

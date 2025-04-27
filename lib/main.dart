@@ -12,6 +12,7 @@ import 'features/clusters/presentation/blocs/clusters_bloc/clusters_bloc.dart';
 import 'features/coalitions_blocs/presentation/blocs/coalitions_blocs_bloc/coalitions_blocs_bloc.dart';
 import 'features/home/presentation/blocs/events_bloc/events_bloc.dart';
 import 'features/profiles/presentation/blocs/user_profile_bloc/user_profile_bloc.dart';
+import 'features/slots/presentation/blocs/slots_bloc/slots_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +46,7 @@ class MainApp extends StatelessWidget {
         BlocProvider(create: (_) => EventsBloc(sl(), sl(), sl())),
         BlocProvider(create: (_) => ClustersBloc(sl())),
         BlocProvider(create: (_) => CoalitionsBlocsBloc(sl())),
+        BlocProvider(create: (_) => SlotsBloc(sl(), sl())),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

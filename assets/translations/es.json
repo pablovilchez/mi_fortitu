@@ -1,6 +1,14 @@
 {
   "language": "es",
+
   "home": {
+    "sections": {
+      "events": "Eventos",
+      "intra42": "Intra 42",
+      "out_box": "Out of the Box"
+    },
+
+
     "messages": {
       "loading_profile": "Cargando datos de perfil...",
       "loading_error": "Error al cargar datos de perfil.",
@@ -22,11 +30,7 @@
         "unwaitlisted": "Has sido eliminado de la lista de espera."
         }
     },
-    "titles": {
-      "events": "Eventos",
-      "intra42": "Intra 42",
-      "out_box": "Out of the Box"
-    },
+
     "tiles": {
       "me": "Mi Perfil",
       "search": "Buscar Estudiantes",
@@ -96,11 +100,11 @@
   },
   "lang": {
     "months": {
-      "january": "ene",
-      "february": "feb",
-      "march": "mar",
-      "april": "abr",
-      "may": "may",
+      "january": "Ene",
+      "february": "Feb",
+      "march": "Mar",
+      "april": "Abr",
+      "may": "May",
       "june": "Jun",
       "july": "Jul",
       "august": "Ago",
@@ -120,5 +124,25 @@
     },
     "number_format": "#.###,##",
     "separator": "."
+  },
+
+  "slots": {
+    "title": "Slots de Evaluación",
+
+    "dialog": {
+      "title": "Nuevo Slot",
+      "start_time": "Hora Inicio",
+      "end_time": "Hora Fin",
+      "duration": "Duración",
+      "create": "Crear Slot"
+    },
+
+    "message": {
+      "no_slots": "No hay slots para este día."
+    },
+
+    "error": {
+      "state": "Error. Estado desconocido."
+    }
   }
 }

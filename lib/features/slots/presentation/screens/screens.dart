@@ -1,1 +1,1 @@
-export 'slots_screen.dart';
+export 'manage_slots_screen.dart';

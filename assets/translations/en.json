@@ -1,6 +1,14 @@
 {
   "language": "en",
+
   "home": {
+    "sections": {
+      "events": "Events",
+      "intra42": "Intra 42",
+      "out_box": "Out of the Box"
+    },
+
+
     "messages": {
       "loading_profile": "Loading profile data...",
       "loading_error": "Error loading profile data.",
@@ -22,11 +30,7 @@
         "unwaitlisted": "You have been removed from the waitlist."
       }
     },
-    "titles": {
-      "events": "Events",
-      "intra42": "Intra 42",
-      "out_box": "Out of the Box"
-    },
+
     "tiles": {
       "me": "My Profile",
       "search": "Search Students",
@@ -120,5 +124,25 @@
     },
     "number_format": "#,###.##",
     "separator": ","
+  },
+
+  "slots": {
+    "title": "Evaluation Slots",
+
+    "dialog": {
+      "title": "New Slot",
+      "start_time": "Start Time",
+      "end_time": "End Time",
+      "duration": "Duration",
+      "create": "Create Slot"
+    },
+
+    "message": {
+      "no_slots": "No slots available for this day."
+    },
+
+    "error": {
+      "state": "Error. Unknown state."
+    }
   }
 }

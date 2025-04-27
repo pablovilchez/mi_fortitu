@@ -210,7 +210,7 @@ class IntraApiClient {
           await secureStorage.delete('intra_refresh_token');
           return Left(Exception('Token rejected by server. Need re-login.'));
         }
-        
+
         if (code == 204) {
           return Right({});
         }
@@ -336,22 +336,6 @@ class IntraApiClient {
     });
   }
 
-  Future<Either<Exception, List<dynamic>>> getUserOpenSlots(String loginName) async {
-    final user = loginName == 'me' ? await getUser('me') : await getUser('users/$loginName');
-    final url = 'https://api.intra.42.fr/v2/$user/slots';
-    final filters = '?filter[future]=true';
-
-    final response = await _makeApiRequest(RequestType.get, '$url$filters');
-    return response.fold((exception) => Left(exception), (data) {
-      try {
-        final slots = (data as List).map((slot) => slot as Map<String, dynamic>).toList();
-        return Right(slots);
-      } catch (e) {
-        return Left(Exception('Exception getting User Slots: ${e.toString()}'));
-      }
-    });
-  }
-
   Future<Either<Exception, List<dynamic>>> getUserEvaluations(String loginName) async {
     final user = loginName == 'me' ? await getUser('me') : await getUser('users/$loginName');
     final url = 'https://api.intra.42.fr/v2/$user/slots';
@@ -380,25 +364,6 @@ class IntraApiClient {
         return Right(projects);
       } catch (e) {
         return Left(Exception('Exception getting User Projects: ${e.toString()}'));
-      }
-    });
-  }
-
-  Future<Either<Exception, List<dynamic>>> createEvaluationSlot(
-    String userId, {
-    required DateTime begin,
-    required DateTime end,
-  }) async {
-    final url = 'https://api.intra.42.fr/v2/slots';
-    final filters = '?slot[user_id]=$userId&slot[begin_at]=$begin&slot[end_at]=$end';
-
-    final response = await _makeApiRequest(RequestType.post, '$url$filters');
-    return response.fold((exception) => Left(exception), (data) {
-      try {
-        final coalitions = (data as List).map((slot) => slot as Map<String, dynamic>).toList();
-        return Right(coalitions);
-      } catch (e) {
-        return Left(Exception('Exception creating Evaluation Slots: ${e.toString()}'));
       }
     });
   }
@@ -433,6 +398,57 @@ class IntraApiClient {
         return Right(unit);
       } catch (e) {
         return Left(Exception('Exception unsubscribing from Event: ${e.toString()}'));
+      }
+    });
+  }
+
+  /// SLOTS requests
+
+  Future<Either<Exception, List<dynamic>>> getUserSlots(String loginName) async {
+    late String url;
+    loginName == 'me' ? url = 'https://api.intra.42.fr/v2/$loginName/slots' : url = '';
+
+    final filters = '?filter[future]=true';
+    final response = await _makeApiRequest(RequestType.get, '$url$filters');
+
+    return response.fold((exception) => Left(exception), (data) {
+      try {
+        final slots = (data as List).map((slot) => slot as Map<String, dynamic>).toList();
+        return Right(slots);
+      } catch (e) {
+        return Left(Exception('Exception getting User Slots: ${e.toString()}'));
+      }
+    });
+  }
+
+  Future<Either<Exception, List<dynamic>>> createEvaluationSlot({
+    required int userId,
+    required DateTime begin,
+    required DateTime end,
+  }) async {
+    final url = 'https://api.intra.42.fr/v2/slots';
+    final filters = '?slot[user_id]=$userId&slot[begin_at]=$begin&slot[end_at]=$end';
+
+    final response = await _makeApiRequest(RequestType.post, '$url$filters');
+    return response.fold((exception) => Left(exception), (data) {
+      try {
+        final coalitions = (data as List).map((slot) => slot as Map<String, dynamic>).toList();
+        return Right(coalitions);
+      } catch (e) {
+        return Left(Exception('Exception creating Evaluation Slots: ${e.toString()}'));
+      }
+    });
+  }
+
+  Future<Either<Exception, Unit>> destroyEvaluationSlot(int slotId) async {
+    final url = 'https://api.intra.42.fr/v2/slots/$slotId';
+
+    final response = await _makeApiRequest(RequestType.delete, url);
+    return response.fold((exception) => Left(exception), (data) {
+      try {
+        return Right(unit);
+      } catch (e) {
+        return Left(Exception('Exception destroying Evaluation Slot: ${e.toString()}'));
       }
     });
   }

@@ -13,7 +13,7 @@ class TilesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SectionHeader(title: tr('home.titles.events'),
+        SectionHeader(title: tr('home.sections.events'),
           action: IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
@@ -24,7 +24,7 @@ class TilesList extends StatelessWidget {
         SizedBox(height: 12),
         EventCarousel(width: double.infinity,),
         SizedBox(height: 12),
-        SectionHeader(title: tr('home.titles.intra42')),
+        SectionHeader(title: tr('home.sections.intra42')),
         _OptionTile(
           title: tr('home.tiles.me'),
           image: AssetImage('assets/images/home_tiles/profile.png'),
@@ -61,7 +61,7 @@ class TilesList extends StatelessWidget {
           image: AssetImage('assets/images/home_tiles/coalitions.png'),
           route: '/coalitions',
         ),
-        SectionHeader(title: tr('home.titles.out_box')),
+        SectionHeader(title: tr('home.sections.out_box')),
         _OptionTile(
           title: tr('home.tiles.leagues'),
           image: AssetImage('assets/images/home_tiles/leagues.png'),

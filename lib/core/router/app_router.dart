@@ -39,7 +39,7 @@ final appRouter = GoRouter(
         return MaterialPage(child: SearchStudentsScreen(loginName: loginName));
       },
     ),
-    GoRoute(path: '/slots', pageBuilder: (context, state) => MaterialPage(child: SlotsScreen())),
+    GoRoute(path: '/slots', pageBuilder: (context, state) => MaterialPage(child: ManageSlotsScreen())),
     GoRoute(path: '/shop', pageBuilder: (context, state) => MaterialPage(child: ShopScreen())),
     GoRoute(
       path: '/settings',
