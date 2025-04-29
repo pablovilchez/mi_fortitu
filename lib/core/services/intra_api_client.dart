@@ -342,6 +342,7 @@ class IntraApiClient {
             list
                 .map((user) => (user as Map<String, dynamic>)['user'] as Map<String, dynamic>)
                 .toList();
+
         return Right(userList);
       } catch (e) {
         return Left(Exception('Exception getting Intra Project Users: ${e.toString()}'));
@@ -374,6 +375,7 @@ class IntraApiClient {
     return response.fold((exception) => Left(exception), (data) {
       try {
         final projects = (data as List).map((project) => project as Map<String, dynamic>).toList();
+
         return Right(projects);
       } catch (e) {
         return Left(Exception('Exception getting User Projects: ${e.toString()}'));

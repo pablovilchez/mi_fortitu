@@ -41,15 +41,12 @@ class _CreateSlotDialogState extends State<CreateSlotDialog> {
     late DateTime start;
 
     if (isToday) {
-      final nextQuarter = ((now.minute + 30) ~/ 15 + 1) * 15;
-      if (now.hour == 23 && nextQuarter >= 60) {
-        final tomorrow = now.add(const Duration(days: 1));
-        start = DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 0, 0);
-      } else if (nextQuarter < 60) {
-        start = DateTime(now.year, now.month, now.day, now.hour, nextQuarter);
-      } else {
-        start = DateTime(now.year, now.month, now.day, now.hour + 1, 0);
-      }
+      final future = now.add(const Duration(minutes: 30));
+      int adjustedMinute = ((future.minute ~/ 15) + 1) * 15;
+      int adjustedHour = future.hour + (adjustedMinute ~/ 60);
+      adjustedMinute = adjustedMinute % 60;
+
+      start = DateTime(future.year, future.month, future.day, adjustedHour, adjustedMinute);
     } else {
       start = DateTime(widget.selectedDate.year, widget.selectedDate.month, widget.selectedDate.day, 0, 0);
     }

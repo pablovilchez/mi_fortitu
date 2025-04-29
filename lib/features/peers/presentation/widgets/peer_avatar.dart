@@ -20,19 +20,15 @@ class PeerAvatar extends StatelessWidget {
           Stack(
             children: [
               CircleAvatar(radius: 28, backgroundImage: NetworkImage(peer.photoUrl)),
-              if (masked)
-                Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(32),
-                      border: Border.all(
-                        color: Colors.red.withValues(alpha: 0.5),
-                        width: 5,
-                      ),
-                    ),
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: masked ? Colors.black.withValues(alpha: 0.3) : Colors.transparent,
+                    borderRadius: BorderRadius.circular(32),
+                    border: Border.all(color: masked ? Colors.red.withValues(alpha: 0.5) : Colors.green.withValues(alpha: 0.5), width: 5),
                   ),
                 ),
+              ),
             ],
           ),
           const SizedBox(height: 4),
@@ -44,7 +40,11 @@ class PeerAvatar extends StatelessWidget {
           if (peer.isOnline && !masked)
             Text(
               peer.location,
-              style: const TextStyle(fontSize: 10, color: Colors.grey),
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.green,
+                fontWeight: FontWeight.w500,
+              ),
               overflow: TextOverflow.ellipsis,
             ),
         ],

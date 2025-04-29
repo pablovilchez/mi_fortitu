@@ -21,7 +21,7 @@ class PeerModel extends PeerEntity {
       loginName: user['login'] ?? 'unknown',
       photoUrl: versions['medium'] ?? 'default',
       location: user['location'] ?? 'disconnected',
-      isOnline: user['location'] ?? false,
+      isOnline: user['location'] != null ? true : false,
     );
   }
 
