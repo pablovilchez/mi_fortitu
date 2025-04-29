@@ -8,6 +8,7 @@ export 'domain/repositories/slots_repository.dart';
 // Usecases
 export 'domain/usecases/get_user_open_slots_usecase.dart';
 export 'domain/usecases/create_new_slot_usecase.dart';
+export 'domain/usecases/destroy_slots_usecase.dart';
 
 // Blocs
 export 'presentation/blocs/slots_bloc/slots_bloc.dart';

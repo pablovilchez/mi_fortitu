@@ -152,17 +152,17 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
     return ListView.builder(
       itemCount: daySlots.length,
       itemBuilder: (context, index) {
-        final slot = daySlots[index];
+        final slotsGroup = daySlots[index];
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: ListTile(
             title: Text(
-              '${DateFormat.Hm().format(slot.beginAt.toLocal())} - ${DateFormat.Hm().format(slot.endAt.toLocal())}',
+              '${DateFormat.Hm().format(slotsGroup.beginAt.toLocal())} - ${DateFormat.Hm().format(slotsGroup.endAt.toLocal())}',
             ),
             trailing: IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () {
-                setState(() {});
+                context.read<SlotsBloc>().add(DestroySlotsEvent(slotsGroup));
               },
             ),
           ),

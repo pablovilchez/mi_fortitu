@@ -32,4 +32,15 @@ class SlotsDatasource {
     final response = await intraApiClient.createEvaluationSlot(userId: userId, begin: begin, end: end);
     return response.map((r) => unit);
   }
+
+  Future<Either<Exception, Unit>> destroyEvaluationSlot(int slotId) async {
+    final response = await intraApiClient.destroyEvaluationSlot(slotId);
+    return response.map((r) => unit);
+  }
+
+  Future<Either<Exception, Unit>> destroySlotsWithScaleTeam(int scaleTeamId) async {
+    final response = await intraApiClient.destroySlotsWithScaleTeam(scaleTeamId);
+    return response.map((r) => unit);
+
+  }
 }

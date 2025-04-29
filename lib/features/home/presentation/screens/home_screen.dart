@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mi_fortitu/core/themes/backgrounds.dart';
+import 'package:mi_fortitu/features/coalitions_blocs/coalitions_blocs.dart';
 import 'package:mi_fortitu/features/home/presentation/viewmodels/home_user_data_viewmodel.dart';
 import 'package:mi_fortitu/features/home/presentation/widgets/tiles_list.dart';
 
@@ -15,9 +16,14 @@ import '../../../profiles/presentation/blocs/user_profile_bloc/user_profile_bloc
 import '../blocs/events_bloc/events_bloc.dart';
 import '../widgets/profile_header.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserProfileBloc, UserProfileState>(
@@ -41,6 +47,9 @@ class HomeScreen extends StatelessWidget {
         } else if (state is UserProfileError) {
           return _ErrorView(message: state.message);
         } else if (state is UserProfileSuccess) {
+          context.read<CoalitionsBlocsBloc>().add(
+            GetCoalitionsEvent(campusId: state.profile.campus[0].id),
+          );
           return _HomeView();
         }
         return const SizedBox();

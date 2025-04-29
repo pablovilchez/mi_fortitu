@@ -24,4 +24,16 @@ class SlotsRepositoryImpl implements SlotsRepository {
     final response = await datasource.createNewSlot(userId, begin, end);
     return response.leftMap((exception) => SlotsFailure(exception.toString()));
   }
+
+  @override
+  Future<Either<SlotsFailure, Unit>> destroySlot(int slotId) async {
+    final response = await datasource.destroyEvaluationSlot(slotId);
+    return response.leftMap((exception) => SlotsFailure(exception.toString()));
+  }
+
+  @override
+  Future<Either<SlotsFailure, Unit>> destroySlotsWithScaleTeam(int scaleTeamId) async {
+    final response = await datasource.destroySlotsWithScaleTeam(scaleTeamId);
+    return response.leftMap((exception) => SlotsFailure(exception.toString()));
+  }
 }

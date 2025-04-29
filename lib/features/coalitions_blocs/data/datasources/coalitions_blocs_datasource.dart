@@ -12,7 +12,7 @@ class CoalitionsBlocsDatasource {
   CoalitionsBlocsDatasource(this.httpClient, this.intraApiClient);
 
   Future<Either<Exception, List<CoalitionsBlocsModel>>> getCampusBlocs({
-    required String campusId,
+    required int campusId,
   }) async {
     final campusBlocs = await intraApiClient.getCampusBlocs(campusId);
     return campusBlocs.fold((exception) => Left(exception), (data) {

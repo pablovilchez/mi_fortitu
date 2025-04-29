@@ -9,7 +9,7 @@ class GetCoalitionsBlocsUsecase {
 
   GetCoalitionsBlocsUsecase(this.repository);
 
-  Future<Either<CoalitionsBlocFailure, CoalitionsBlocsEntity>> call(String campusId) async {
+  Future<Either<CoalitionsBlocFailure, CoalitionsBlocsEntity>> call(int campusId) async {
     final result = await repository.getCampusCoalitions(campusId);
     return result.fold(
       (failure) => Left(failure),

@@ -26,7 +26,13 @@ class GetUserOpenSlotsUsecase {
       final previous = currentGroup.last;
       final current = slots[i];
 
-      if (previous.endAt.difference(current.beginAt).inSeconds.abs() <= 60) {
+      final consecutive = previous.endAt == current.beginAt;
+      final sameStatus = (previous.scaleTeam != null) == (current.scaleTeam != null);
+      final sameReservation = previous.scaleTeam?.id == current.scaleTeam?.id;
+
+      final canJoin = consecutive && sameStatus && sameReservation;
+
+      if (canJoin) {
         currentGroup.add(current);
       } else {
         groups.add(
@@ -34,6 +40,7 @@ class GetUserOpenSlotsUsecase {
             beginAt: currentGroup.first.beginAt,
             endAt: currentGroup.last.endAt,
             slots: List.from(currentGroup),
+            isReserved: currentGroup.first.scaleTeam != null,
           ),
         );
         currentGroup = [current];
@@ -45,6 +52,7 @@ class GetUserOpenSlotsUsecase {
         beginAt: currentGroup.first.beginAt,
         endAt: currentGroup.last.endAt,
         slots: List.from(currentGroup),
+        isReserved: currentGroup.first.scaleTeam != null,
       ),
     );
 

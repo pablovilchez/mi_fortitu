@@ -34,7 +34,7 @@ class CoalitionsScreen extends StatelessWidget {
           if (state is IntraCoalitionsInitial) {
             final profileState = context.read<UserProfileBloc>().state;
             if (profileState is UserProfileSuccess) {
-              final campusId = profileState.profile.campus[0].id.toString();
+              final campusId = profileState.profile.campus[0].id;
               context.read<CoalitionsBlocsBloc>().add(GetCoalitionsEvent(campusId: campusId));
             } else {
               return const Center(child: Text('Error loading campus ID'));

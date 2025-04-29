@@ -12,7 +12,7 @@ class CoalitionsBlocsRepositoryImpl extends CoalitionsBlocsRepository {
   CoalitionsBlocsRepositoryImpl(this.datasource);
 
   @override
-  Future<Either<CoalitionsBlocFailure, List<CoalitionsBlocsEntity>>> getCampusCoalitions(String campusId) async {
+  Future<Either<CoalitionsBlocFailure, List<CoalitionsBlocsEntity>>> getCampusCoalitions(int campusId) async {
     final response = await datasource.getCampusBlocs(campusId: campusId);
     return response.fold(
       (exception) => Left(DataFailure(exception.toString())),

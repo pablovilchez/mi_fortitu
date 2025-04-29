@@ -15,8 +15,8 @@ class AddSlotEvent extends SlotsEvent {
   AddSlotEvent(this.userId, this.begin, this.end);
 }
 
-class DeleteSlotEvent extends SlotsEvent {
-  final int regId;
+class DestroySlotsEvent extends SlotsEvent {
+  final SlotGroupVm slotsGroup;
 
-  DeleteSlotEvent(this.regId);
+  DestroySlotsEvent(this.slotsGroup);
 }

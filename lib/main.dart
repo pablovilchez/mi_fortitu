@@ -46,7 +46,7 @@ class MainApp extends StatelessWidget {
         BlocProvider(create: (_) => EventsBloc(sl(), sl(), sl())),
         BlocProvider(create: (_) => ClustersBloc(sl())),
         BlocProvider(create: (_) => CoalitionsBlocsBloc(sl())),
-        BlocProvider(create: (_) => SlotsBloc(sl(), sl())),
+        BlocProvider(create: (_) => SlotsBloc(sl(), sl(), sl())),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

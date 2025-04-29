@@ -113,6 +113,7 @@ void initDi() {
   // Slots feature - Use cases
   sl.registerLazySingleton<GetUserOpenSlotsUsecase>(() => GetUserOpenSlotsUsecase(sl()));
   sl.registerLazySingleton<CreateNewSlotUsecase>(() => CreateNewSlotUsecase(sl()));
+  sl.registerLazySingleton<DestroySlotsUsecase>(() => DestroySlotsUsecase(sl()));
   // Slots feature - Blocs
-  sl.registerLazySingleton<SlotsBloc>(() => SlotsBloc(sl(), sl()));
+  sl.registerLazySingleton<SlotsBloc>(() => SlotsBloc(sl(), sl(), sl()));
 }

@@ -4,7 +4,7 @@ part of 'coalitions_blocs_bloc.dart';
 sealed class CoalitionsBlocsEvent {}
 
 class GetCoalitionsEvent extends CoalitionsBlocsEvent {
-  final String campusId;
+  final int campusId;
 
   GetCoalitionsEvent({required this.campusId});
 }

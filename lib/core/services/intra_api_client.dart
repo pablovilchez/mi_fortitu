@@ -182,46 +182,59 @@ class IntraApiClient {
     final tokenResult = await _getGrantedToken();
 
     return tokenResult.fold((e) => Left(e), (accessToken) async {
-      try {
-        final uri = Uri.parse(route);
-        final headers = {'Authorization': 'Bearer $accessToken'};
+      const maxRetries = 10;
+      const delayDuration = Duration(milliseconds: 600);
+      int retryCount = 0;
 
-        late http.Response response;
+      while (retryCount < maxRetries) {
+        try {
+          final uri = Uri.parse(route);
+          final headers = {'Authorization': 'Bearer $accessToken'};
 
-        switch (type) {
-          case RequestType.get:
-            response = await httpClient.get(uri, headers: headers);
-            break;
-          case RequestType.post:
-            response = await httpClient.post(uri, headers: headers);
-            break;
-          case RequestType.patch:
-            response = await httpClient.patch(uri, headers: headers);
-            break;
-          case RequestType.delete:
-            response = await httpClient.delete(uri, headers: headers);
-            break;
+          late http.Response response;
+
+          switch (type) {
+            case RequestType.get:
+              response = await httpClient.get(uri, headers: headers);
+              break;
+            case RequestType.post:
+              response = await httpClient.post(uri, headers: headers);
+              break;
+            case RequestType.patch:
+              response = await httpClient.patch(uri, headers: headers);
+              break;
+            case RequestType.delete:
+              response = await httpClient.delete(uri, headers: headers);
+              break;
+          }
+
+          final code = response.statusCode;
+
+          if (code == 429) {
+            await Future.delayed(delayDuration);
+            retryCount++;
+            continue;
+          }
+
+          if (code == 401) {
+            await secureStorage.delete('intra_access_token');
+            await secureStorage.delete('intra_refresh_token');
+            return Left(Exception('Token rejected by server. Need re-login.'));
+          }
+
+          if (code == 204) {
+            return Right({});
+          }
+
+          if (code != 200 && code != 201) {
+            return Left(Exception('Api Error(${response.statusCode}): ${response.body}'));
+          }
+          return Right(jsonDecode(response.body));
+        } catch (e) {
+          return Left(Exception('Api Request Error: ${e.toString()}'));
         }
-
-        final code = response.statusCode;
-
-        if (code == 401) {
-          await secureStorage.delete('intra_access_token');
-          await secureStorage.delete('intra_refresh_token');
-          return Left(Exception('Token rejected by server. Need re-login.'));
-        }
-
-        if (code == 204) {
-          return Right({});
-        }
-
-        if (code != 200 && code != 201) {
-          return Left(Exception('Api Error(${response.statusCode}): ${response.body}'));
-        }
-        return Right(jsonDecode(response.body));
-      } catch (e) {
-        return Left(Exception('Api Request Error: ${e.toString()}'));
       }
+      return Left(Exception('Max retries reached for API request'));
     });
   }
 
@@ -301,7 +314,7 @@ class IntraApiClient {
     return Right(allUsers);
   }
 
-  Future<Either<Exception, List<dynamic>>> getCampusBlocs(String campusId) async {
+  Future<Either<Exception, List<dynamic>>> getCampusBlocs(int campusId) async {
     final url = 'https://api.intra.42.fr/v2/blocs/';
     final filters = '?filter[campus_id]=$campusId';
     final response = await _makeApiRequest(RequestType.get, '$url$filters');
@@ -451,5 +464,20 @@ class IntraApiClient {
         return Left(Exception('Exception destroying Evaluation Slot: ${e.toString()}'));
       }
     });
+  }
+
+  Future<Either<Exception, List<dynamic>>> destroySlotsWithScaleTeam(int scaleTeamId) async {
+    final url = 'https://api.intra.42.fr/v2/scale_teams/$scaleTeamId';
+
+    final response = await _makeApiRequest(RequestType.get, url);
+    return response.fold((exception) => Left(exception), (data) {
+      try {
+        final slots = (data as List).map((slot) => slot as Map<String, dynamic>).toList();
+        return Right(slots);
+      } catch (e) {
+        return Left(Exception('Exception deleting Scale Team Slots: ${e.toString()}'));
+      }
+    });
+
   }
 }
