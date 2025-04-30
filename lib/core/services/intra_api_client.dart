@@ -296,7 +296,7 @@ class IntraApiClient {
     List<Map<String, dynamic>> allUsers = [];
 
     while (true) {
-      final url = '$baseRoute?filter[active]=true&page=$pageNumber&per_page=$pageSize';
+      final url = '$baseRoute?filter[active]=true&page[number]=$pageNumber&page[size]=$pageSize';
       final response = await _makeApiRequest(RequestType.get, url);
       if (response.isLeft()) {
         return Left(response.fold((exception) => exception, (r) => Exception('Error')));
@@ -332,22 +332,40 @@ class IntraApiClient {
     int campusId,
   ) async {
     final url = 'https://api.intra.42.fr/v2/projects/$projectId/projects_users';
-    final filters = '?filter[campus]=$campusId&filter[status]=in_progress&filter[marked]=false';
-    final response = await _makeApiRequest(RequestType.get, '$url$filters');
 
-    return response.fold((exception) => Left(exception), (data) {
+    const int pageSize = 100;
+    int pageNumber = 1;
+    List<Map<String, dynamic>> allUsers = [];
+
+    while (true) {
+      final filters = '?filter[campus]=$campusId&filter[status]=in_progress&filter[marked]=false';
+      final pagination = '&page[number]=$pageNumber&page[size]=$pageSize';
+
+      final response = await _makeApiRequest(RequestType.get, '$url$filters$pagination');
+      if (response.isLeft()) {
+        return Left(response.fold((exception) => exception, (r) => Exception('Error')));
+      }
       try {
-        final list = data as List;
+        final data = response.getOrElse(() => []);
+        if (data is! List) {
+          return Left(Exception('Unexpected data format: expected a List'));
+        }
+
         final userList =
-            list
-                .map((user) => (user as Map<String, dynamic>)['user'] as Map<String, dynamic>)
+            data
+                .map((item) => (item as Map<String, dynamic>)['user'] as Map<String, dynamic>)
                 .toList();
 
-        return Right(userList);
+        if (userList.isEmpty) break;
+        allUsers.addAll(userList);
+        if (userList.length < pageSize) break;
+
+        pageNumber++;
       } catch (e) {
-        return Left(Exception('Exception getting Intra Project Users: ${e.toString()}'));
+        return Left(Exception('Exception getting Project Users: ${e.toString()}'));
       }
-    });
+    }
+    return Right(allUsers);
   }
 
   Future<Either<Exception, List<dynamic>>> getUserEvaluations(String loginName) async {
@@ -480,6 +498,5 @@ class IntraApiClient {
         return Left(Exception('Exception deleting Scale Team Slots: ${e.toString()}'));
       }
     });
-
   }
 }

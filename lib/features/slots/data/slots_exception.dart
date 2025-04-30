@@ -23,5 +23,5 @@ class SlotsException implements Exception {
   }
 
   @override
-  String toString() => code;
+  String toString() => '$code: $title\n$details';
 }

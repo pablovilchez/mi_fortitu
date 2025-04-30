@@ -47,6 +47,7 @@
       "creating_group": "creating group",
       "finished": "finished",
       "in_progress": "in progress",
+      "searching_a_group": "searching a group",
       "waiting_to_start": "to start",
       "waiting_for_correction": "for correction"
     }

@@ -43,13 +43,18 @@ class ScaleTeamModel extends ScaleTeam {
   });
 
   factory ScaleTeamModel.fromJson(Map<String, dynamic> json) {
+    final correcteds = json['correcteds'];
+    final correctedsLogins = correcteds is List
+        ? correcteds.map((e) => e['login']).toList().cast<String>()
+        : <String>[];
+
     return ScaleTeamModel(
       id: json['id'],
       scaleId: json['scale_id'],
-      comment: json['comment'],
-      feedback: json['feedback'],
-      finalMark: json['final_mark'],
-      correctedsLogins: json['correcteds'].map((e) => e['login']).toList().cast<String>(),
+      comment: json['comment'] ?? '',
+      feedback: json['feedback'] ?? '',
+      finalMark: json['final_mark'] ?? 0,
+      correctedsLogins: correctedsLogins,
     );
   }
 
