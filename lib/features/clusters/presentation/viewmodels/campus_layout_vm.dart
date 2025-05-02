@@ -21,16 +21,15 @@ class CampusLayoutVm {
     final String path = 'assets/campus_layouts/$campusId.json';
 
     try {
-      return rootBundle.loadString(path).then((content) {
-        final json = jsonDecode(content);
-        return CampusLayoutVm(
-          campusId: json['campusId'],
-          campusName: json['campusName'],
-          country: json['country'],
-          city: json['city'],
-          clusters: (json['clusters'] as List).map((e) => ClusterLayout.fromJson(e)).toList(),
-        );
-    });
+      final content = await rootBundle.loadString(path);
+      final json = jsonDecode(content);
+      return CampusLayoutVm(
+        campusId: json['campusId'],
+        campusName: json['campusName'],
+        country: json['country'],
+        city: json['city'],
+        clusters: (json['clusters'] as List).map((e) => ClusterLayout.fromJson(e)).toList(),
+      );
     } catch (e) {
       return CampusLayoutVm(
         campusId: 0,

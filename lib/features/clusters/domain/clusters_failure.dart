@@ -12,5 +12,5 @@ class DataFailure extends ClustersFailure {
 }
 
 class MapFailure extends ClustersFailure {
-  MapFailure(String code) : super('Error $code parsing cluster data');
+  MapFailure(String error) : super('Error: $error');
 }

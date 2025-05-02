@@ -18,7 +18,7 @@ class ManageSlotsScreen extends StatefulWidget {
 class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
   late DateTime selectedDate;
   late List<DateTime> availableDates;
-  
+
   @override
   void initState() {
     super.initState();
@@ -153,16 +153,24 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
       itemCount: daySlots.length,
       itemBuilder: (context, index) {
         final slotsGroup = daySlots[index];
+        final beginAt = DateFormat.Hm().format(slotsGroup.beginAt.toLocal());
+        final endAt = DateFormat.Hm().format(slotsGroup.endAt.toLocal());
+        final evalTo = slotsGroup.isReserved ? ' 💻 ${slotsGroup.userToEvaluate}' : '';
+
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 8),
+          color: slotsGroup.isReserved ? Colors.red[100] : Colors.green[100],
           child: ListTile(
-            title: Text(
-              '${DateFormat.Hm().format(slotsGroup.beginAt.toLocal())} - ${DateFormat.Hm().format(slotsGroup.endAt.toLocal())}',
-            ),
+            title: Text('$beginAt - $endAt $evalTo'),
             trailing: IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
+              icon: Icon(
+                slotsGroup.isReserved ? Icons.desktop_access_disabled_rounded : Icons.delete,
+                color: Colors.red,
+              ),
               onPressed: () {
-                context.read<SlotsBloc>().add(DestroySlotsEvent(slotsGroup));
+                if (!slotsGroup.isReserved) {
+                  context.read<SlotsBloc>().add(DestroySlotsEvent(slotsGroup));
+                }
               },
             ),
           ),
@@ -172,6 +180,9 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
   }
 
   void _openCreateSlotDialog(BuildContext context) {
-    showDialog(context: context, builder: (context) => CreateSlotDialog(selectedDate: selectedDate));
+    showDialog(
+      context: context,
+      builder: (context) => CreateSlotDialog(selectedDate: selectedDate),
+    );
   }
 }
