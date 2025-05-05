@@ -24,3 +24,5 @@ class UnsubscribeFromEventEvent extends EventsEvent {
 
   UnsubscribeFromEventEvent(this.event);
 }
+
+class ClearEventErrorMessageEvent extends EventsEvent {}

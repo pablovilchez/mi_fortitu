@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:meta/meta.dart';
 import 'package:mi_fortitu/features/home/domain/usecases/get_events_usecase.dart';
 import 'package:mi_fortitu/features/home/domain/usecases/subscribe_event_usecase.dart';
@@ -27,7 +28,15 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
     final result = await getEventsUsecase.call(event.loginName, event.campusId);
     result.fold(
       (failure) => emit(IntraEventsError(failure.toString())),
-      (events) => emit(IntraEventsSuccess(events, event.loginName, event.userId, event.campusId)),
+      (events) => emit(
+        IntraEventsSuccess(
+          events,
+          event.loginName,
+          event.userId,
+          event.campusId,
+          errorMessage: null,
+        ),
+      ),
     );
   }
 
@@ -39,27 +48,41 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
       final currentState = state as IntraEventsSuccess;
       emit(IntraEventsLoading());
       final result = await getEventsUsecase.call(currentState.loginName, currentState.campusId);
+
       result.fold(
         (failure) => emit(IntraEventsError(failure.toString())),
-        (events) => emit(currentState.copyWithRefreshedEvents(events)),
+        (events) => emit(currentState.copyWith(events: events, errorMessage: null)),
       );
     }
   }
 
   Future<void> _onSubscribe(SubscribeToEventEvent event, Emitter<EventsState> emit) async {
     if (state is IntraEventsSuccess) {
-      final currentEventsState = state as IntraEventsSuccess;
+      final currentState = state as IntraEventsSuccess;
 
-      final result = await subscribeUsecase(userId: currentEventsState.userId, eventId: event.event.details.id);
-      result.fold((failure) => emit(IntraEventsError(failure.message)), (newRegister) {
-        final updatedEvent = event.event.copyWith(
-          status: EventStatus.subscribed,
-          registerId: newRegister.id,
-        );
+      final result = await subscribeUsecase(
+        userId: currentState.userId,
+        eventId: event.event.details.id,
+      );
 
-        final updatedState = currentEventsState.copyWithUpdatedEvent(updatedEvent);
-        emit(updatedState);
-      });
+      result.fold(
+        (failure) {
+          emit(currentState.copyWith(errorMessage: tr('home.events.messages.error')));
+        },
+        (newRegister) {
+          final updatedEvent = event.event.copyWith(
+            status: EventStatus.subscribed,
+            registerId: newRegister.id,
+          );
+
+          final updatedEvents =
+              currentState.events.map((e) {
+                return e.details.id == event.event.details.id ? updatedEvent : e;
+              }).toList();
+
+          emit(currentState.copyWith(events: updatedEvents, errorMessage: null));
+        },
+      );
     }
   }
 
@@ -68,12 +91,23 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
       final currentState = state as IntraEventsSuccess;
 
       final result = await unsubscribeUsecase(eventUserId: event.event.registerId);
-      result.fold((failure) => emit(IntraEventsError(failure.message)), (_) {
-        final updatedEvent = event.event.copyWith(status: EventStatus.notSubscribed, registerId: 0);
+      result.fold(
+        (failure) {
+          emit(currentState.copyWith(errorMessage: failure.message));
+        },
+        (_) {
+          final updatedEvent = event.event.copyWith(
+            status: EventStatus.notSubscribed,
+            registerId: 0,
+          );
 
-        final updatedState = currentState.copyWithUpdatedEvent(updatedEvent);
-        emit(updatedState);
-      });
+          final updatedEvents =
+              currentState.events.map((e) {
+                return e.details.id == event.event.details.id ? updatedEvent : e;
+              }).toList();
+          emit(currentState.copyWith(events: updatedEvents, errorMessage: null));
+        },
+      );
     }
   }
 }

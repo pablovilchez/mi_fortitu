@@ -12,21 +12,24 @@ final class IntraEventsSuccess extends EventsState {
   final String loginName;
   final int userId;
   final int campusId;
+  final String? errorMessage;
 
-  IntraEventsSuccess(this.events, this.loginName, this.userId, this.campusId);
+  IntraEventsSuccess(this.events, this.loginName, this.userId, this.campusId, {this.errorMessage});
 
-  IntraEventsSuccess copyWithRefreshedEvents(List<EventVm> refreshedEvents) {
-    return IntraEventsSuccess(refreshedEvents, loginName, userId, campusId);
+  IntraEventsSuccess copyWith(
+      {List<EventVm>? events,
+      String? loginName,
+      int? userId,
+      int? campusId,
+      String? errorMessage}) {
+    return IntraEventsSuccess(
+      events ?? this.events,
+      loginName ?? this.loginName,
+      userId ?? this.userId,
+      campusId ?? this.campusId,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
   }
-
-  IntraEventsSuccess copyWithUpdatedEvent(EventVm updatedEvent) {
-    final updatedList = events.map((event) {
-      return event.details.id == updatedEvent.details.id ? updatedEvent : event;
-    }).toList();
-
-    return IntraEventsSuccess(updatedList, loginName, userId, campusId);
-  }
-
 }
 
 final class IntraEventsError extends EventsState {
