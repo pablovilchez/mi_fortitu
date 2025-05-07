@@ -10,77 +10,143 @@ class ClusterLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: clusters.length,
-      controller: PageController(viewportFraction: 0.9),
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (context, index) {
-        final cluster = clusters[index];
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
-          child: Card(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+    return SafeArea(
+      child: PageView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: clusters.length,
+        controller: PageController(viewportFraction: 0.9),
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          final cluster = clusters[index];
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
+            child: Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: _ClusterContent(cluster: cluster),
+              ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                children: [
-                  Text(cluster.clusterName, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
-                  ...cluster.rows.map((row) => Column(
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ...row.stations.map((station) {
-                            final isOccupied = station.user != null;
-                            return Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: SizedBox(
-                                width: 25,
-                                height: 30,
-                                child: isOccupied
-                                    ? GestureDetector(
-                                        onTap: () => showDialog(
-                                          context: context,
-                                          builder: (_) => StationUserDialog(user: station.user!),
-                                        ),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(6),
-                                          child: FadeInImage.assetNetwork(
-                                            placeholder: 'assets/images/photo_placeholder.png',
-                                            placeholderFit: BoxFit.contain,
-                                            image: station.user!.user.imageUrl,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      )
-                                    : Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                          const SizedBox(width: 8),
-                          Text(row.rowId),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                    ],
-                  ))
-                ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _ClusterContent extends StatelessWidget {
+  final ClusterVm cluster;
+
+  const _ClusterContent({required this.cluster});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(
+        children: [
+          const SizedBox(height: 8),
+          Text(
+            cluster.clusterName,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Expanded(
+            child: ShaderMask(
+              shaderCallback: (bounds) {
+                return const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.black, Colors.transparent, Colors.transparent, Colors.black],
+                  stops: [0.0, 0.02, 0.98, 1.0],
+                ).createShader(bounds);
+              },
+              blendMode: BlendMode.dstOut,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Column(children: cluster.rows.map((row) => _RowWidget(row: row)).toList()),
+                ),
               ),
             ),
           ),
-        );
-      },
+          const SizedBox(height: 10),
+        ],
+      ),
+    );
+  }
+}
+
+class _RowWidget extends StatelessWidget {
+  final RowViewModel row;
+
+  const _RowWidget({required this.row});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ...row.stations.map((station) => _StationWidget(station: station)),
+          const SizedBox(width: 8),
+          SizedBox(
+            width: 25,
+            child: row.rowId != '_' ? Text(row.rowId, textAlign: TextAlign.center) : null,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StationWidget extends StatelessWidget {
+  final StationViewModel station;
+
+  const _StationWidget({required this.station});
+
+  @override
+  Widget build(BuildContext context) {
+    final user = station.user;
+    final isOccupied = user != null;
+    final imageUrl = user?.user.imageUrl;
+    final hasImage = imageUrl != null && imageUrl.isNotEmpty;
+
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: SizedBox(
+        width: 25,
+        height: 30,
+        child:
+            isOccupied
+                ? GestureDetector(
+                  onTap:
+                      () => showDialog(
+                        context: context,
+                        builder: (_) => StationUserDialog(user: user),
+                      ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(6),
+                    child:
+                        hasImage
+                            ? FadeInImage.assetNetwork(
+                              placeholder: 'assets/images/photo_placeholder.png',
+                              image: imageUrl,
+                              fit: BoxFit.cover,
+                            )
+                            : Image.asset('assets/images/photo_placeholder.png', fit: BoxFit.cover),
+                  ),
+                )
+                : Container(
+                  decoration: BoxDecoration(
+                    border: station.stationId != '_' ? Border.all(color: Colors.grey) : null,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                ),
+      ),
     );
   }
 }

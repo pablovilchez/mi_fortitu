@@ -16,7 +16,7 @@ class ClusterLayoutMapper {
     List<LocationEntity> users,
   ) {
     if (campusLayout.campusId == 0) {
-      return Left(MapFailure('No campus layout'));
+      return Left(MapFailure("There is no map of your campus yet."));
     }
     try {
       final userMap = {
@@ -37,7 +37,6 @@ class ClusterLayoutMapper {
                   return RowViewModel(
                     rowId: rowLayout.rowId,
                     stations: stations,
-                    starts: rowLayout.startsUp ? 'up' : 'down',
                   );
                 }).toList();
 

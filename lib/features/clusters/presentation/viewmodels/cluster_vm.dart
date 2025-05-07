@@ -11,9 +11,8 @@ class ClusterVm {
 class RowViewModel {
   final String rowId;
   final List<StationViewModel> stations;
-  final String starts;
 
-  RowViewModel({required this.rowId, required this.stations, required this.starts});
+  RowViewModel({required this.rowId, required this.stations});
 }
 
 class StationViewModel {

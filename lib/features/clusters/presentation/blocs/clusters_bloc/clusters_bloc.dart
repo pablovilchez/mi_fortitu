@@ -37,6 +37,4 @@ class ClustersBloc extends Bloc<ClustersEvent, ClustersState> {
       },
     );
   }
-
-
 }
