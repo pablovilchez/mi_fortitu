@@ -1,41 +1,13 @@
 {
-  "campusId": 37,
-  "campusName": "42 Málaga",
+  "campusId": 22,
+  "campusName": "42 Urduliz Bizkaia",
   "country": "Spain",
-  "city": "Málaga",
+  "city": "Urduliz",
   "clusters": [
     {
       "clusterId": "c1",
       "clusterName": "Cluster 1",
       "rows": [
-        {
-          "rowId": "r15",
-          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
-        },
-        {
-          "rowId": "r14",
-          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
-        },
-        {
-          "rowId": "r13",
-          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
-        },
-        {
-          "rowId": "r12",
-          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
-        },
-        {
-          "rowId": "r11",
-          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
-        },
-        {
-          "rowId": "r10",
-          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
-        },
-        {
-          "rowId": "r9",
-          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
-        },
         {
           "rowId": "r8",
           "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
@@ -75,14 +47,6 @@
       "clusterName": "Cluster 2",
       "rows": [
         {
-          "rowId": "r10",
-          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
-        },
-        {
-          "rowId": "r9",
-          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
-        },
-        {
           "rowId": "r8",
           "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
         },
@@ -121,44 +85,74 @@
       "clusterName": "Cluster 3",
       "rows": [
         {
-          "rowId": "r10",
-          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
-        },
-        {
-          "rowId": "r9",
-          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
-        },
-        {
           "rowId": "r8",
-          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
         },
         {
           "rowId": "r7",
-          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
         },
         {
           "rowId": "r6",
-          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
         },
         {
           "rowId": "r5",
-          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
         },
         {
           "rowId": "r4",
-          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
         },
         {
           "rowId": "r3",
-          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
         },
         {
           "rowId": "r2",
-          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
         },
         {
           "rowId": "r1",
-          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        }
+      ]
+    },
+    {
+      "clusterId": "c4",
+      "clusterName": "Cluster 4",
+      "rows": [
+        {
+          "rowId": "r8",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r7",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r6",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r5",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r4",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r3",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r2",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r1",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
         }
       ]
     }

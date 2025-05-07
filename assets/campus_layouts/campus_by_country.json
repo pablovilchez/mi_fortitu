@@ -1,0 +1,32 @@
+[
+  {
+    "country": "France",
+    "campus": [
+      {
+        "campus_id": 31,
+        "city": "Angouleme"
+      }
+    ]
+  },
+  {
+    "country": "Spain",
+    "campus": [
+      {
+        "campus_id": 22,
+        "city": "Madrid"
+      },
+      {
+        "campus_id": 37,
+        "city": "Málaga"
+      },
+      {
+        "campus_id": 40,
+        "city": "Urduliz"
+      },
+      {
+        "campus_id": 46,
+        "city": "Barcelona"
+      }
+    ]
+  }
+]

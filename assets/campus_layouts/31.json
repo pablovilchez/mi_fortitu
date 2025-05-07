@@ -1,0 +1,126 @@
+{
+  "campusId": 31,
+  "campusName": "42 Angouleme",
+  "country": "France",
+  "city": "Angoulême",
+  "clusters": [
+    {
+      "clusterId": "1",
+      "clusterName": "Cluster 1",
+      "rows": [
+        {
+          "rowId": "A",
+          "stationsId": ["1", "2", "3", "4", "5", "6", "7"]
+        },
+        {
+          "rowId": "B",
+          "stationsId": ["1", "2", "3", "_", "4", "5", "6"]
+        },
+        {
+          "rowId": "C",
+          "stationsId": ["1", "2", "3", "4", "5", "6", "7"]
+        },
+        {
+          "rowId": "D",
+          "stationsId": ["1", "2", "3", "_", "4", "5", "6"]
+        },
+        {
+          "rowId": "E",
+          "stationsId": ["1", "2", "3", "4", "5", "6", "7"]
+        },
+        {
+          "rowId": "F",
+          "stationsId": ["1", "2", "3", "_", "4", "5", "6"]
+        },
+        {
+          "rowId": "G",
+          "stationsId": ["1", "2", "3", "4", "5", "6", "7"]
+        },
+        {
+          "rowId": "H",
+          "stationsId": ["1", "2", "3", "4", "5", "6", "7"]
+        }
+      ]
+    },
+    {
+      "clusterId": "2",
+      "clusterName": "Cluster 2",
+      "rows": [
+        {
+          "rowId": "A",
+          "stationsId": ["1", "2", "3", "4", "_", "5", "6", "7"]
+        },
+        {
+          "rowId": "B",
+          "stationsId": ["1", "2", "3", "4", "_", "5", "6", "7"]
+        },
+        {
+          "rowId": "C",
+          "stationsId": ["1", "2", "3", "4", "_", "5", "6", "7"]
+        },
+        {
+          "rowId": "_",
+          "stationsId": ["_"]
+        },
+        {
+          "rowId": "D",
+          "stationsId": ["1", "2", "3", "4", "_", "5", "6", "7"]
+        },
+        {
+          "rowId": "E",
+          "stationsId": ["1", "2", "3", "4", "_", "5", "6", "7"]
+        },
+        {
+          "rowId": "F",
+          "stationsId": ["1", "2", "3", "4", "_", "5", "6", "7"]
+        },
+        {
+          "rowId": "G",
+          "stationsId": ["1", "2", "3", "4", "_", "5", "6", "7"]
+        }
+      ]
+    },
+    {
+      "clusterId": "3",
+      "clusterName": "Cluster 3",
+      "rows": [
+        {
+          "rowId": "A",
+          "stationsId": ["1", "2", "3", "4", "_", "5", "6", "7"]
+        },
+        {
+          "rowId": "B",
+          "stationsId": ["1", "2", "3", "4", "_", "5", "6", "7"]
+        },
+        {
+          "rowId": "_",
+          "stationsId": ["_"]
+        },
+        {
+          "rowId": "C",
+          "stationsId": ["1", "2", "3", "4", "_", "5", "6", "7"]
+        },
+        {
+          "rowId": "D",
+          "stationsId": ["1", "2", "3", "4", "_", "5", "6", "7"]
+        },
+        {
+          "rowId": "_",
+          "stationsId": ["_"]
+        },
+        {
+          "rowId": "E",
+          "stationsId": ["1", "2", "3", "4", "_", "5", "6", "7"]
+        },
+        {
+          "rowId": "F",
+          "stationsId": ["1", "2", "3", "4", "_", "5", "6", "7"]
+        },
+        {
+          "rowId": "G",
+          "stationsId": ["1", "2", "3", "4", "_", "5", "6", "7"]
+        }
+      ]
+    }
+  ]
+}
