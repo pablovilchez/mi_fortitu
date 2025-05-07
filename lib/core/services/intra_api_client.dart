@@ -151,7 +151,7 @@ class IntraApiClient {
   Future<Either<Exception, Unit>> _saveTokens(Map<String, dynamic> data) async {
     final accessToken = data['access_token'];
     final refreshToken = data['refresh_token'];
-    final expirationTime = DateTime.now().add(Duration(seconds: data['expires_in'] - 30));
+    final expirationTime = DateTime.now().add(Duration(seconds: data['expires_in'] - 300));
 
     if (accessToken == null || refreshToken == null) {
       return Left(Exception('Invalid token data'));
@@ -446,7 +446,15 @@ class IntraApiClient {
 
     return response.fold((exception) => Left(exception), (data) {
       try {
-        final slots = (data as List).map((slot) => slot as Map<String, dynamic>).toList();
+        if (data is! List) {
+          throw Exception('Expected List but got ${data.runtimeType}');
+        }
+        final slots = data.map((slot) {
+          if (slot is! Map<String, dynamic>) {
+            throw Exception('Slot is not a Map: ${slot.runtimeType}');
+          }
+          return slot;
+        }).toList();
         return Right(slots);
       } catch (e) {
         return Left(Exception('Exception getting User Slots: ${e.toString()}'));
