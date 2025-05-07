@@ -131,6 +131,7 @@ class EventDetailButton extends StatefulWidget {
 
 class _EventDetailButtonState extends State<EventDetailButton> {
   String? confirmationMessage;
+  bool isError = false;
 
   void showConfirmation(String message) {
     setState(() => confirmationMessage = message);
@@ -199,6 +200,16 @@ class _EventDetailButtonState extends State<EventDetailButton> {
             width: 32,
             height: 32,
             child: CircularProgressIndicator(strokeWidth: 2),
+          );
+        }
+
+        if (event.status == EventStatus.failed) {
+          return SizedBox(
+            height: 40,
+            child: Text(
+              tr('home.events.messages.failed'),
+              style: const TextStyle(fontSize: 16, color: Colors.orange, fontWeight: FontWeight.bold),
+            ),
           );
         }
 

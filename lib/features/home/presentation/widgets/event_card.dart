@@ -16,7 +16,12 @@ class EventCard extends StatelessWidget {
       width: 200,
       height: 200,
       decoration: BoxDecoration(
-        color: event.status == EventStatus.subscribed ? Colors.green[100] : Colors.white,
+        color:
+            event.status == EventStatus.subscribed
+                ? Colors.green[100]
+                : event.status == EventStatus.failed
+                ? Colors.red[100]
+                : Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(2, 4))],
       ),

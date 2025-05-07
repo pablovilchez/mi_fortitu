@@ -31,7 +31,7 @@ class ProfileLevelUserProjects extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 4),
-                    Text(cursus.grade, style: const TextStyle(fontSize: 16)),
+                    Text(cursus.grade, style: const TextStyle(fontSize: 13)),
                   ],
                 ),
               ),

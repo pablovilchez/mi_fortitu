@@ -67,7 +67,19 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
 
       result.fold(
         (failure) {
-          emit(currentState.copyWith(errorMessage: tr('home.events.messages.error')));
+          final updatedEvent = event.event.copyWith(status: EventStatus.failed);
+
+          final updatedEvents =
+              currentState.events.map((e) {
+                return e.details.id == event.event.details.id ? updatedEvent : e;
+              }).toList();
+
+          emit(
+            currentState.copyWith(
+              events: updatedEvents,
+              errorMessage: tr('home.events.messages.failed'),
+            ),
+          );
         },
         (newRegister) {
           final updatedEvent = event.event.copyWith(

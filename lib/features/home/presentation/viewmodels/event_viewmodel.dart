@@ -73,6 +73,7 @@ enum EventStatus {
   waitlisted,
   unwaitlisted,
   loading,
+  failed,
 }
 
 class EventDetailsVm {
