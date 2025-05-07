@@ -28,7 +28,7 @@
         "unsubscribed": "Te has borrado de este evento.",
         "waitlisted": "Estás en la lista de espera para este evento.",
         "unwaitlisted": "Has sido eliminado de la lista de espera.",
-        "error": "No tienes permiso, o el evento está completo."
+        "failed": "No tienes permiso / aforo completo."
         }
     },
 

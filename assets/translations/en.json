@@ -28,7 +28,7 @@
         "unsubscribed": "You have unsubscribed from this event.",
         "waitlisted": "You are on the waitlist for this event.",
         "unwaitlisted": "You have been removed from the waitlist.",
-        "error": "You do not have permission, or the event is full."
+        "failed" : "You do not have permission / full capacity."
       }
     },
 
