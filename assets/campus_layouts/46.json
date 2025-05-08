@@ -1,0 +1,172 @@
+{
+  "campusId": 46,
+  "campusName": "42 Barcelona",
+  "country": "Spain",
+  "city": "Barcelona",
+  "clusters": [
+    {
+      "clusterId": "ca",
+      "clusterName": "Cluster A",
+      "rows": [
+        {
+          "rowId": "r15",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r14",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r13",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "_",
+          "stationsId": ["_"]
+        },
+        {
+          "rowId": "r12",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r11",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r10",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "_",
+          "stationsId": ["_"]
+        },
+        {
+          "rowId": "r9",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r8",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r7",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "_",
+          "stationsId": ["_"]
+        },
+        {
+          "rowId": "r6",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r5",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r4",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "_",
+          "stationsId": ["_"]
+        },
+        {
+          "rowId": "r3",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r2",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        },
+        {
+          "rowId": "r1",
+          "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
+        }
+      ]
+    },
+    {
+      "clusterId": "cb",
+      "clusterName": "Cluster B",
+      "rows": [
+        {
+          "rowId": "r1",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+        },
+        {
+          "rowId": "r2",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+        },
+        {
+          "rowId": "r3",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+        },
+        {
+          "rowId": "_",
+          "stationsId": ["_"]
+        },
+        {
+          "rowId": "r4",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+        },
+        {
+          "rowId": "r5",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+        },
+        {
+          "rowId": "r6",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+        },
+        {
+          "rowId": "_",
+          "stationsId": ["_"]
+        },
+        {
+          "rowId": "r7",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+        },
+        {
+          "rowId": "r8",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+        },
+        {
+          "rowId": "r9",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+        },
+        {
+          "rowId": "_",
+          "stationsId": ["_"]
+        },
+        {
+          "rowId": "r10",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+        },
+        {
+          "rowId": "r11",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+        },
+        {
+          "rowId": "r12",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+        },
+        {
+          "rowId": "_",
+          "stationsId": ["_"]
+        },
+        {
+          "rowId": "r13",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+        },
+        {
+          "rowId": "r14",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+        },
+        {
+          "rowId": "r15",
+          "stationsId": ["s6", "s5", "s4", "s3", "s2", "s1"]
+        }
+      ]
+    }
+  ]
+}
