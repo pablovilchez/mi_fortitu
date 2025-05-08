@@ -10,25 +10,24 @@ class SlotModel extends SlotEntity {
   });
 
   factory SlotModel.fromJson(Map<String, dynamic> json) {
+    final rawScaleTeam = json['scale_team'];
+
     return SlotModel(
       id: json['id'],
       beginAt: DateTime.parse(json['begin_at']),
       endAt: DateTime.parse(json['end_at']),
-      scaleTeam: json['scale_team'] != null
-          ? ScaleTeamModel.fromJson(json['scale_team'])
-          : null,
+      scaleTeam:
+          rawScaleTeam is Map<String, dynamic>
+              ? ScaleTeamModel.fromJson(json['scale_team'])
+              : rawScaleTeam == null
+              ? null
+              : ScaleTeamModel.empty(),
       user: SlotUserModel.fromJson(json['user']),
     );
   }
 
   SlotEntity toEntity() {
-    return SlotEntity(
-      id: id,
-      beginAt: beginAt,
-      endAt: endAt,
-      scaleTeam: scaleTeam,
-      user: user,
-    );
+    return SlotEntity(id: id, beginAt: beginAt, endAt: endAt, scaleTeam: scaleTeam, user: user);
   }
 }
 
@@ -44,9 +43,8 @@ class ScaleTeamModel extends ScaleTeam {
 
   factory ScaleTeamModel.fromJson(Map<String, dynamic> json) {
     final correcteds = json['correcteds'];
-    final correctedsLogins = correcteds is List
-        ? correcteds.map((e) => e['login']).toList().cast<String>()
-        : <String>[];
+    final correctedsLogins =
+        correcteds is List ? correcteds.map((e) => e['login']).toList().cast<String>() : <String>[];
 
     return ScaleTeamModel(
       id: json['id'],
@@ -55,6 +53,17 @@ class ScaleTeamModel extends ScaleTeam {
       feedback: json['feedback'] ?? '',
       finalMark: json['final_mark'] ?? 0,
       correctedsLogins: correctedsLogins,
+    );
+  }
+
+  factory ScaleTeamModel.empty() {
+    return const ScaleTeamModel(
+      id: 0,
+      scaleId: 0,
+      comment: '',
+      feedback: '',
+      finalMark: 0,
+      correctedsLogins: [],
     );
   }
 
@@ -88,11 +97,6 @@ class SlotUserModel extends SlotUser {
   }
 
   SlotUser toEntity() {
-    return SlotUser(
-      id: id,
-      name: name,
-      loginName: loginName,
-      photoUrl: photoUrl,
-    );
+    return SlotUser(id: id, name: name, loginName: loginName, photoUrl: photoUrl);
   }
 }

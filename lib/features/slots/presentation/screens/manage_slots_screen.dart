@@ -143,7 +143,11 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
   }
 
   Widget _buildSlotsList(List<SlotGroupVm> slots) {
-    final daySlots = slots.where((slot) => slot.beginAt.day == selectedDate.day).toList();
+    final daySlots = slots.where(
+          (slot) => slot.beginAt.toLocal().year == selectedDate.year &&
+          slot.beginAt.toLocal().month == selectedDate.month &&
+          slot.beginAt.toLocal().day == selectedDate.day,
+    ).toList();
 
     if (daySlots.isEmpty) {
       return Center(child: Text(tr('slots.message.no_slots')));

@@ -90,7 +90,7 @@ class SettingsScreen extends StatelessWidget {
             SizedBox(height: 20),
             ListTile(
               title: Text('Version'),
-              subtitle: Text('0.1.2'),
+              subtitle: Text('0.2.3'),
               trailing: IconButton(
                 icon: Icon(Icons.arrow_circle_down_rounded),
                 onPressed: null,
