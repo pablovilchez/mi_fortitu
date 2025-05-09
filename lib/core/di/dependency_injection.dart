@@ -24,96 +24,75 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final GetIt sl = GetIt.instance;
 final SupabaseClient supabaseClient = Supabase.instance.client;
 
-/// Initialize the dependency injection
+/// Initializes the application's dependency injection using GetIt.
+///
+/// Registers all external services, environment configurations, helpers, and
+/// feature-specific layers (data sources, repositories, use cases, and BLoCs).
+///
+/// This function should be called once during app startup,
+/// before using any of the registered services or features.
 void initDi() {
-  // Clients
+  // ─── External Dependencies ──────────────────────────────────────────────
   sl.registerLazySingleton<SupabaseClient>(() => supabaseClient);
-
-  // External dependencies
   sl.registerLazySingleton<http.Client>(() => http.Client());
   sl.registerLazySingleton<AppLinks>(() => AppLinks());
 
-  // Environment variables
+  // ─── Core Config & Services ─────────────────────────────────────────────
   sl.registerLazySingleton<EnvConfig>(() => EnvConfig.from(dotenv.env));
-
-  // Helpers and services
   sl.registerLazySingleton<SecureStorageHelper>(() => SecureStorageHelper(FlutterSecureStorage()));
   sl.registerLazySingleton<IntraApiClient>(() => IntraApiClient(sl(), sl(), sl(), sl(), sl()));
   sl.registerLazySingleton<UrlLauncherService>(() => UrlLauncherServiceImpl());
 
-  // Auth feature - Datasources
+  // ─── Auth Feature (Access) ──────────────────────────────────────────────
   sl.registerLazySingleton<AccessDatasource>(() => AccessDatasource(sl()));
-  // Auth feature - Repositories
   sl.registerLazySingleton<AccessRepository>(() => AccessRepositoryImpl(sl()));
-  // Auth feature - Usecases
   sl.registerLazySingleton<AuthUsecase>(() => AuthUsecase(sl()));
   sl.registerLazySingleton<GetRoleUsecase>(() => GetRoleUsecase(sl()));
   sl.registerLazySingleton<LogInUsecase>(() => LogInUsecase(sl()));
   sl.registerLazySingleton<RegisterUsecase>(() => RegisterUsecase(sl()));
-  // Auth feature - Blocs
   sl.registerLazySingleton<AccessBloc>(() => AccessBloc(sl(), sl(), sl(), sl()));
 
-  // Clusters feature - Datasources
+  // ─── Clusters Feature ───────────────────────────────────────────────────
   sl.registerLazySingleton<ClustersDatasource>(() => ClustersDatasource(sl(), sl()));
-  // Clusters feature - Repositories
   sl.registerLazySingleton<ClustersRepository>(() => ClustersRepositoryImpl(sl()));
-  // Clusters feature - Usecases
   sl.registerLazySingleton<GetClustersUsecase>(() => GetClustersUsecase(sl()));
-  // Clusters feature - Blocs
   sl.registerLazySingleton<ClustersBloc>(() => ClustersBloc(sl()));
 
-  // Coalitions Blocs feature - Datasources
+  // ─── Coalitions Blocs Feature ──────────────────────────────────────────
   sl.registerLazySingleton<CoalitionsBlocsDatasource>(() => CoalitionsBlocsDatasource(sl(), sl()));
-  // Coalitions Blocs feature - Repositories
   sl.registerLazySingleton<CoalitionsBlocsRepository>(() => CoalitionsBlocsRepositoryImpl(sl()));
-  // Coalitions Blocs feature - Usecases
   sl.registerLazySingleton<GetCoalitionsBlocsUsecase>(() => GetCoalitionsBlocsUsecase(sl()));
-  // Coalitions Blocs feature - Blocs
   sl.registerLazySingleton<CoalitionsBlocsBloc>(() => CoalitionsBlocsBloc(sl()));
 
-  // Home feature - Datasources
+  // ─── Home Feature ───────────────────────────────────────────────────────
   sl.registerLazySingleton<HomeDatasource>(() => HomeDatasource(sl(), sl()));
-  // Home feature - Repositories
   sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(sl()));
-  // Home feature - Use cases
   sl.registerLazySingleton<GetEventsUsecase>(() => GetEventsUsecase(sl()));
   sl.registerLazySingleton<SubscribeEventUsecase>(() => SubscribeEventUsecase(sl()));
   sl.registerLazySingleton<UnsubscribeEventUsecase>(() => UnsubscribeEventUsecase(sl()));
-  // Home feature - Blocs
   sl.registerLazySingleton<EventsBloc>(() => EventsBloc(sl(), sl(), sl()));
 
-  // Peers feature - Datasources
+  // ─── Peers Feature ──────────────────────────────────────────────────────
   sl.registerLazySingleton<PeersDatasource>(() => PeersDatasource(sl(), sl()));
-  // Peers feature - Repositories
   sl.registerLazySingleton<PeersRepository>(() => PeersRepositoryImpl(sl()));
-  // Peers feature - Use cases
   sl.registerLazySingleton<GetProjectsPeersUsecase>(() => GetProjectsPeersUsecase(sl()));
-  // Peers feature - Blocs
 
-  // Profile feature - Datasources
+  // ─── Profile Feature ────────────────────────────────────────────────────
   sl.registerLazySingleton<ProfilesDatasource>(() => ProfilesDatasource(sl(), sl()));
-  // Profile feature - Repositories
   sl.registerLazySingleton<ProfilesRepository>(() => ProfilesRepositoryImpl(sl()));
-  // Profile feature - Use cases
   sl.registerLazySingleton<GetProfileUsecase>(() => GetProfileUsecase(sl()));
-  // Profile feature - Blocs
   sl.registerLazySingleton<UserProfileBloc>(() => UserProfileBloc(sl()));
 
-  // Settings feature - Datasources
+  // ─── Settings Feature ───────────────────────────────────────────────────
   sl.registerLazySingleton<SettingsDatasource>(() => SettingsDatasource(sl()));
-  // Settings feature - Repositories
   sl.registerLazySingleton<SettingsRepository>(() => SettingsRepositoryImpl(sl()));
-  // Settings feature - Use cases
   sl.registerLazySingleton<LogoutUsecase>(() => LogoutUsecase(sl(), sl()));
 
-  // Slots feature - Datasources
+  // ─── Slots Feature ──────────────────────────────────────────────────────
   sl.registerLazySingleton<SlotsDatasource>(() => SlotsDatasource(sl(), sl()));
-  // Slots feature - Repositories
   sl.registerLazySingleton<SlotsRepository>(() => SlotsRepositoryImpl(sl()));
-  // Slots feature - Use cases
   sl.registerLazySingleton<GetUserOpenSlotsUsecase>(() => GetUserOpenSlotsUsecase(sl()));
   sl.registerLazySingleton<CreateNewSlotUsecase>(() => CreateNewSlotUsecase(sl()));
   sl.registerLazySingleton<DestroySlotsUsecase>(() => DestroySlotsUsecase(sl()));
-  // Slots feature - Blocs
   sl.registerLazySingleton<SlotsBloc>(() => SlotsBloc(sl(), sl(), sl()));
 }

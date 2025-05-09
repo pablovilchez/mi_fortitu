@@ -3,11 +3,19 @@ import 'package:mi_fortitu/features/access/data/access_exception.dart';
 import 'package:mi_fortitu/features/access/data/models/login_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+/// Datasource class for handling authentication and user profile operations
+/// using Supabase as the backend service.
+///
+/// This class provides methods for logging in, registering, recover password,
+/// checking authentication, retrieving user roles, and adding user profiles.
 class AccessDatasource {
   final SupabaseClient _supabase;
 
   AccessDatasource(this._supabase);
 
+  /// Logs in a user with the provided email and password.
+  ///
+  /// Returns a [Either] containing either an [AccessException] or a [LoginModel].
   Future<Either<AccessException, LoginModel>> login(
     String email,
     String password,
@@ -20,6 +28,9 @@ class AccessDatasource {
     }
   }
 
+  /// Registers a new user with the provided email and password.
+  ///
+  /// Returns a [Either] containing either an [AccessException] or a [LoginModel].
   Future<Either<AccessException, LoginModel>> register(
     String email,
     String password,
@@ -32,6 +43,21 @@ class AccessDatasource {
     }
   }
 
+  /// Recovers the password for the user with the provided email.
+  ///
+  /// Returns a [Either] containing either an [AccessException] or a [Unit].
+  Future<Either<AccessException, Unit>> recoverPassword(String email) async {
+    try {
+      await _supabase.auth.resetPasswordForEmail(email);
+      return Right(unit);
+    } catch (e) {
+      return Left(DbException(code: 'AD03', details: e.toString()));
+    }
+  }
+
+  /// Changes the password of the currently authenticated user.
+  ///
+  /// Returns a [Either] containing either an [AccessException] or a [Unit].
   Future<Either<AccessException, Unit>> checkAuth() async {
     try {
       final session = _supabase.auth.currentSession;
@@ -52,6 +78,9 @@ class AccessDatasource {
     }
   }
 
+  /// Retrieves the role of the currently authenticated user.
+  ///
+  /// Returns a [Either] containing either an [AccessException] or a [String].
   Future<Either<AccessException, String>> getRole() async {
     try {
       final response = await _supabase.from('profiles').select();
@@ -61,6 +90,9 @@ class AccessDatasource {
     }
   }
 
+  /// Adds a new profile for the currently authenticated user.
+  ///
+  /// Returns a [Either] containing either an [AccessException] or a [String].
   Future<Either<AccessException, String>> addProfile() async {
     final defaultRole = 'waitlist';
     try {

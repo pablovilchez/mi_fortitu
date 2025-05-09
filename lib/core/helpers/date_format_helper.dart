@@ -1,6 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 
+/// A helper class to format `DateTime` values into localized strings.
+///
+/// This utility adapts date and time formatting based on the current language,
+/// and provides readable representations for time differences and event start info.
 class DateFormatHelper {
+
+  /// Returns a localized long date string (e.g. "12/31/2025" or "31/12/2025").
   static String longDateStr(DateTime date) {
     final languageCode = Intl.getCurrentLocale();
     if (languageCode == 'en') {
@@ -10,6 +16,7 @@ class DateFormatHelper {
     }
   }
 
+  /// Returns a localized short date string (e.g. "12/31" or "31/12").
   static String shortDateStr(DateTime date) {
     final languageCode = tr('language');
     if (languageCode == 'en') {
@@ -19,6 +26,12 @@ class DateFormatHelper {
     }
   }
 
+  /// Returns a string describing the duration between [begin] and [end].
+  ///
+  /// Examples:
+  /// - "3d" (3 days)
+  /// - "5h 30m" (5 hours, 30 minutes)
+  /// - "45m" (only minutes)
   static String timeLapseStr(DateTime begin, DateTime end) {
     final days = end.difference(begin).inDays;
     final hours = (end.difference(begin).inMinutes / 60).truncate();
@@ -35,6 +48,12 @@ class DateFormatHelper {
     }
   }
 
+  /// Returns a localized string indicating how soon an event starts based on [beginAt].
+  ///
+  /// Examples:
+  /// - "Today"
+  /// - "Tomorrow"
+  /// - "In 3 days"
   static String timeToStartStr(DateTime beginAt) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
