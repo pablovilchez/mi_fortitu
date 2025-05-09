@@ -1,16 +1,16 @@
 {
-  "id": 0,
-    "name": "Default",
-    "country": "Default",
-    "city": "Default",
+  "campusId": 0,
+    "campusName": "42 Campus",
+    "country": "Country",
+    "city": "City",
     "cluster": [
       {
-        "name": "c1_default",
+        "clusterId": "1",
+        "clusterName": "Cluster 1",
         "rows": [
           {
-            "value": 0,
-            "stations": [0],
-            "starts": "down"
+            "rowId": "r1",
+            "stationsId": ["s1", "s2", "s3", "s4", "s5", "s6"]
           }
         ]
       }
