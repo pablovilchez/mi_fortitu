@@ -8,6 +8,8 @@ abstract class AccessRepository {
 
   Future<Either<AccessFailure, LoginEntity>> register(String email, String password);
 
+  Future <Either<AccessFailure, Unit>> recoverPassword(String email);
+
   Future<Either<AccessFailure, Unit>> getToken();
 
   Future<Either<AccessFailure, String>> getRole();

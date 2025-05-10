@@ -27,6 +27,12 @@ class AccessRepositoryImpl implements AccessRepository {
   }
 
   @override
+  Future<Either<AccessFailure, Unit>> recoverPassword(String email) async {
+    final response = await datasource.recoverPassword(email);
+    return response.leftMap((exception) => CredentialsFailure(exception.code));
+  }
+
+  @override
   Future<Either<AccessFailure, Unit>> getToken() async {
     final response = await datasource.checkAuth();
     return response.leftMap((exception) => CredentialsFailure(exception.code));

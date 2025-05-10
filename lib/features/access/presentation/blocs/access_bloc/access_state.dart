@@ -1,35 +1,40 @@
 part of 'access_bloc.dart';
 
+sealed class AccessState {
+  final String? message;
+  final bool isError;
 
-abstract class AccessState {}
-
-final class LandingState extends AccessState {}
-
-final class LoginFormState extends AccessState {}
-
-final class RegisterFormState extends AccessState {}
-
-final class LoadingState extends AccessState {}
-
-final class LoginSuccess extends AccessState {}
-
-final class LoginError extends AccessState {
-  final String message;
-
-  LoginError(this.message);
+  const AccessState({this.message, this.isError = false});
 }
 
-final class RegisterError extends AccessState {
-  final String message;
-
-  RegisterError(this.message);
+class AccessFeedbackState extends AccessState {
+  const AccessFeedbackState({required super.message, super.isError = false});
 }
 
-final class RegisterSuccess extends AccessState {}
+class AccessInitial extends AccessState {
+  const AccessInitial();
+}
 
-final class WaitlistState extends AccessState {}
+class AccessLoading extends AccessState {
+  const AccessLoading();
+}
 
-final class IntraAuthRequired extends AccessState {
-  final String message;
-  IntraAuthRequired(this.message);
+class LoginFormState extends AccessState {
+  const LoginFormState();
+}
+
+class RegisterFormState extends AccessState {
+  const RegisterFormState();
+}
+
+class ResetPasswordFormState extends AccessState {
+  const ResetPasswordFormState();
+}
+
+class Authenticated extends AccessState {
+  const Authenticated();
+}
+
+class WaitlistState extends AccessState {
+  const WaitlistState();
 }

@@ -1,6 +1,12 @@
 {
   "language": "en",
 
+  "access": {
+    "messages": {
+      "reg_success": "Registration successful! Check your email."
+    }
+  },
+
   "home": {
     "sections": {
       "events": "Events",

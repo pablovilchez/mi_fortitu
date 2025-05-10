@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mi_fortitu/features/access/domain/usecases/get_role_usecase.dart';
@@ -14,7 +15,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   final GetRoleUsecase getRoleUseCase;
 
   AccessBloc(this.authUsecase, this.dbLogInUsecase, this.dbRegisterUsecase, this.getRoleUseCase)
-    : super(LandingState()) {
+    : super(AccessInitial()) {
     on<LandingEvent>(_onLanding);
     on<RequestDbLoginEvent>(_onRequestDbLogin);
     on<RequestDbRegisterEvent>(_onRequestDbRegister);
@@ -23,7 +24,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   Future<void> _onLanding(LandingEvent event, Emitter<AccessState> emit) async {
-    emit(LoadingState());
+    emit(AccessLoading());
 
     final authenticate = await authUsecase.call();
     authenticate.fold((failure) {
@@ -32,29 +33,29 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   Future<void> _onRequestDbLogin(RequestDbLoginEvent event, Emitter<AccessState> emit) async {
-    emit(LoadingState());
+    emit(const AccessLoading());
     final result = await dbLogInUsecase(event.email, event.password);
     result.fold(
       (failure) {
-        emit(LoginError(failure.message));
+        emit(AccessFeedbackState(message: failure.message, isError: true));
         emit(LoginFormState());
       },
-      (supaLogin) {
+      (_) {
         add(CheckRolEvent());
       },
     );
   }
 
   Future<void> _onRequestDbRegister(RequestDbRegisterEvent event, Emitter<AccessState> emit) async {
-    emit(LoadingState());
+    emit(AccessLoading());
     final result = await dbRegisterUsecase(event.email, event.password);
     result.fold(
       (failure) {
-        emit(RegisterError(failure.message));
+        emit(AccessFeedbackState(message: failure.message, isError: true));
         emit(RegisterFormState());
       },
-      (supaLogin) {
-        emit(RegisterSuccess());
+      (_) {
+        emit(AccessFeedbackState(message: tr('access.messages.reg_success')));
         emit(LoginFormState());
       },
     );
@@ -69,20 +70,18 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   Future<void> _onCheckRol(CheckRolEvent event, Emitter<AccessState> emit) async {
-    emit(LoadingState());
+    emit(AccessLoading());
     final result = await getRoleUseCase.call();
     await result.fold(
       (failure) async {
-        emit(LoginError(failure.message));
+        emit(AccessFeedbackState(message: failure.message, isError: true));
         emit(WaitlistState());
       },
       (role) async {
         if (role == 'waitlist') {
           emit(WaitlistState());
-        } else if (role == 'npc') {
-          emit(LoginSuccess());
         } else {
-          emit(LoginSuccess());
+          emit(const Authenticated());
         }
       },
     );

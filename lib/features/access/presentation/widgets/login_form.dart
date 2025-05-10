@@ -82,7 +82,7 @@ class _SupaForm extends State<LoginForm> {
   Widget _buildSubmitButton() {
     return BlocBuilder<AccessBloc, AccessState>(
       builder: (context, state) {
-        final isLoading = state is LoadingState || state is LandingState;
+        final isLoading = state is AccessLoading || state is AccessInitial;
         final isRegister = state is RegisterFormState;
 
         return ElevatedButton(
@@ -121,7 +121,7 @@ class _SupaForm extends State<LoginForm> {
   Widget _buildToggleButton(AccessBloc bloc) {
     final state = bloc.state;
     return TextButton(
-      onPressed: state is LandingState || state is LoadingState
+      onPressed: state is AccessLoading || state is AccessInitial
           ? null
           : () => bloc.add(ToggleFormEvent()),
       child: Text(
