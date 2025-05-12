@@ -2,45 +2,30 @@
   "language": "en",
 
   "access": {
-    "messages": {
-      "reg_success": "Registration successful! Check your email."
+    "text_field": {
+      "new_password": "New password",
+      "confirm_password": "Confirm password",
+      "reset_password": "Reset password",
+      "error_length": "Must be at least 6 characters.",
+      "error_confirm_password": "Passwords do not match."
+    },
+    "message": {
+      "pass_not_equal": "Password is not equal.",
+      "reg_request_success": "Registration successful! Check your email.",
+      "pass_request_success": "Request successful. Check your email.",
+      "pass_change_success": "Your password has been changed successfully."
     }
   },
 
   "home": {
-    "sections": {
+    "section": {
       "events": "Events",
       "intra42": "Intra 42",
       "out_box": "Out of the Box"
     },
-
-
-    "messages": {
-      "loading_profile": "Loading profile data...",
-      "loading_error": "Error loading profile data.",
-      "coming_soon": "Coming soon..."
-    },
-    "events": {
-      "today": "Today",
-      "tomorrow": "Tomorrow",
-      "in": "in",
-      "days": "days",
-      "no_events": "No upcoming events.",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "waitlist": "Waitlist",
-      "messages": {
-        "subscribed": "You are subscribed to this event.",
-        "unsubscribed": "You have unsubscribed from this event.",
-        "waitlisted": "You are on the waitlist for this event.",
-        "unwaitlisted": "You have been removed from the waitlist.",
-        "failed" : "You do not have permission / full capacity."
-      }
-    },
-
-    "tiles": {
-      "me": "My Profile",
-      "search": "Search Students",
+    "tile": {
+      "my_profile": "My Profile",
+      "search_profile": "Search Students",
       "eval_slots": "Evaluation Slots",
       "shop": "Shop",
       "peer2peer": "Peer2Peer",
@@ -49,94 +34,92 @@
       "leagues": "Leagues",
       "games": "Games"
     },
-    "project_states": {
-      "not_started": "not started",
-      "creating_group": "creating group",
-      "finished": "finished",
-      "in_progress": "in progress",
-      "searching_a_group": "searching a group",
-      "waiting_to_start": "to start",
-      "waiting_for_correction": "for correction"
+    "button": {
+      "retry": "Retry"
+    },
+    "message": {
+      "loading_profile": "Loading profile data...",
+      "loading_error": "Error loading profile data."
     }
   },
-  "search": {
-    "hint": "Search student",
-    "no_results": "No results found"
-  },
-  "profile": {
-    "kind": "Kind",
-    "pool": "Pool",
-    "eval_p": "Eval.P.",
-    "wallet": "Wallet",
-    "grade": "Grade",
-    "level": "Level",
-    "experience": "Experience",
-    "skills": "Skills",
-    "projects": "Projects",
-    "attempts": "Attempts",
-    "opened": "Opened",
-    "closed": "Closed",
-    "ago": "upd.",
-    "years": "y",
-    "months": "m"
-  },
-  "settings": {
-    "title": "Settings",
-    "language": "Select language",
-    "change_avatar": "Change avatar",
-    "logout": "Logout",
+
+  "events": {
+    "button": {
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "waitlist": "Waitlist"
+    },
     "messages": {
-      "avatar_saved": "Profile picture saved"
+      "no_events": "No upcoming events.",
+      "subscribed": "You are subscribed to this event.",
+      "unsubscribed": "You have unsubscribed from this event.",
+      "waitlisted": "You are on the waitlist for this event.",
+      "unwaitlisted": "You have been removed from the waitlist.",
+      "failed": "Permission denied, or full capacity."
+    },
+    "time": {
+      "today": "Today",
+      "tomorrow": "Tomorrow",
+      "in": "in",
+      "days": "days"
     }
   },
-  "buttons": {
-    "cancel": "Cancel",
-    "save": "Save",
-    "delete": "Delete",
-    "edit": "Edit",
-    "add": "Add",
-    "close": "Close",
-    "confirm": "Confirm",
-    "submit": "Submit",
-    "retry": "Retry",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "yes": "Yes",
-    "no": "No",
-    "profile": "Profile"
+
+  "profile": {
+    "title": "Profile",
+    "search": {
+      "hint": "Search student",
+      "no_results": "No results found"
+    },
+    "user": {
+      "kind": "Kind",
+      "pool": "Pool",
+      "eval_p": "Eval.P.",
+      "wallet": "Wallet",
+      "grade": "Grade",
+      "level": "Level"
+    },
+    "section": {
+      "experience": "Experience",
+      "skills": "Skills",
+      "projects": "Projects"
+    },
+    "project": {
+      "attempts": "Attempts",
+      "marked": {
+        "opened": "Opened",
+        "closed": "Closed"
+      },
+      "state": {
+        "not_started": "not started",
+        "creating_group": "creating group",
+        "finished": "finished",
+        "in_progress": "in progress",
+        "searching_a_group": "searching a group",
+        "waiting_to_start": "to start",
+        "waiting_for_correction": "for correction"
+      },
+      "time": {
+        "updated": "upd.",
+        "years": "y",
+        "months": "m"
+      }
+    },
+    "message": {
+      "loading_error": "Error loading profile data."
+    }
   },
-  "lang": {
-    "months": {
-      "january": "Jan",
-      "february": "Feb",
-      "march": "Mar",
-      "april": "Apr",
-      "may": "May",
-      "june": "Jun",
-      "july": "Jul",
-      "august": "Aug",
-      "september": "Sep",
-      "october": "Oct",
-      "november": "Nov",
-      "december": "Dec"
-    },
-    "days": {
-      "monday": "Mon",
-      "tuesday": "Tue",
-      "wednesday": "Wed",
-      "thursday": "Thu",
-      "friday": "Fri",
-      "saturday": "Sat",
-      "sunday": "Sun"
-    },
-    "number_format": "#,###.##",
-    "separator": ","
+
+  "peer2peer": {
+    "title": "Peer2Peer",
+    "message": {
+      "no_projects": "No projects available.",
+      "loading_error": "Error loading Peer2Peer data."
+    }
   },
 
   "slots": {
     "title": "Evaluation Slots",
-
     "dialog": {
       "title": "New Slot",
       "start_time": "Start Time",
@@ -144,13 +127,48 @@
       "duration": "Duration",
       "create": "Create Slot"
     },
-
     "message": {
-      "no_slots": "No slots available for this day."
-    },
+      "no_slots": "No slots available for this day.",
+      "error_state": "Error. Unknown state."
+    }
+  },
 
-    "error": {
-      "state": "Error. Unknown state."
+  "clusters": {
+    "title": "Clusters",
+    "button": {
+      "profile": "Profile",
+      "close": "Close"
+    },
+    "message": {
+      "no_clusters": "No clusters available.",
+      "campus_load_error": "Error loading campus ID."
+    }
+  },
+
+  "coalitions": {
+    "title": "Coalitions"
+  },
+
+  "leagues": {
+    "title": "Leagues",
+    "message": {
+      "coming_soon": "Coming soon..."
+    }
+  },
+
+  "settings": {
+    "title": "Settings",
+    "tile": {
+      "language": "Select language",
+      "change_avatar": "Change avatar",
+      "logout": "Logout",
+      "version": "Version"
+    },
+    "message": {
+      "avatar_saved": "Profile picture saved"
+    },
+    "language": {
+      "thousand_separator": ","
     }
   }
 }

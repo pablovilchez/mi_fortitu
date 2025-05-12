@@ -1,0 +1,174 @@
+{
+  "language": "fr",
+
+  "access": {
+    "text_field": {
+      "new_password": "Nouvelle mot de passe",
+      "confirm_password": "Confirmer mot de passe",
+      "reset_password": "Réinitialiser mot de passe",
+      "error_length": "Doit contenir au moins 6 caractères.",
+      "error_confirm_password": "Les mots de passe ne correspondent pas."
+    },
+    "message": {
+      "pass_not_equal": "Le mot de passe ne correspond pas.",
+      "reg_request_success": "Inscription réussie! Vérifiez votre e-mail.",
+      "pass_request_success": "Demande réussie. Vérifiez votre e-mail.",
+      "pass_change_success": "Votre mot de passe a été changé avec succès."
+    }
+  },
+
+  "home": {
+    "section": {
+      "events": "Événements",
+      "intra42": "Intra 42",
+      "out_box": "Out of the Box"
+    },
+    "tile": {
+      "my_profile": "Mon Profil",
+      "search_profile": "Rechercher Étudiants",
+      "eval_slots": "Slots d'Évaluation",
+      "shop": "Boutique",
+      "peer2peer": "Peer2Peer",
+      "clusters": "Clusters",
+      "coalitions": "Coalitions",
+      "leagues": "Ligues",
+      "games": "Jeux"
+    },
+    "button": {
+      "retry": "Réessayer"
+    },
+    "message": {
+      "loading_profile": "Chargement des données de profil...",
+      "loading_error": "Erreur de chargement des données de profil."
+    }
+  },
+
+  "events": {
+    "button": {
+      "subscribe": "Suscrire",
+      "unsubscribe": "Se désabonner",
+      "waitlist": "Liste d'attente"
+    },
+    "messages": {
+      "no_events": "Aucun événement à venir.",
+      "subscribed": "Vous êtes abonné à cet événement.",
+      "unsubscribed": "Vous vous êtes désabonné de cet événement.",
+      "waitlisted": "Vous êtes sur la liste d'attente pour cet événement.",
+      "unwaitlisted": "Vous avez été retiré de la liste d'attente.",
+      "failed": "Permission refusée, ou capacité complète."
+    },
+    "time": {
+      "today": "Aujourd'hui",
+      "tomorrow": "Demain",
+      "in": "dans",
+      "days": "jours"
+    }
+  },
+
+  "profile": {
+    "title": "Profil",
+    "search": {
+      "hint": "Rechercher étudiant...",
+      "no_results": "Aucun résultat trouvé"
+    },
+    "user": {
+      "kind": "Type",
+      "pool": "Piscine",
+      "eval_p": "P.Eval.",
+      "wallet": "Bourse",
+      "grade": "Degré",
+      "level": "Niveau"
+    },
+    "section": {
+      "experience": "Expérience",
+      "skills": "Compétences",
+      "projects": "Projets"
+    },
+    "project": {
+      "attempts": "Essais",
+      "marked": {
+        "opened": "Ouvert",
+        "closed": "Fermé"
+      },
+      "state": {
+        "not_started": "non commencé",
+        "creating_group": "créant groupe",
+        "finished": "terminé",
+        "in_progress": "en cours",
+        "searching_a_group": "cherchant groupe",
+        "waiting_to_start": "à commencer",
+        "waiting_for_correction": "à corriger"
+      },
+      "time": {
+        "updated": "act.",
+        "years": "a",
+        "months": "m"
+      }
+    },
+    "message": {
+      "loading_error": "Erreur de chargement des données de profil."
+    }
+  },
+
+  "peer2peer": {
+    "title": "Peer2Peer",
+    "message": {
+      "no_projects": "Aucun projet disponible.",
+      "loading_error": "Erreur de chargement des données de Peer2Peer."
+    }
+  },
+
+  "slots": {
+    "title": "Slots d'Évaluation",
+    "dialog": {
+      "title": "Créer un Slot",
+      "start_time": "Heure Début",
+      "end_time": "Heure Fin",
+      "duration": "Durée",
+      "create": "Créer Slot"
+    },
+    "message": {
+      "no_slots": "Aucun slot disponible pour ce jour.",
+      "error_state": "Erreur. État inconnu."
+    }
+  },
+
+  "clusters": {
+    "title": "Clusters",
+    "button": {
+      "profile": "Profil",
+      "close": "Fermer"
+    },
+    "message": {
+      "no_clusters": "Aucun cluster disponible.",
+      "campus_load_error": "Erreur de chargement de l'ID du campus."
+    }
+  },
+
+  "coalitions": {
+    "title": "Coalitions"
+  },
+
+  "leagues": {
+    "title": "Ligues",
+    "message": {
+      "coming_soon": "Bientôt disponible..."
+    }
+  },
+
+  "settings": {
+    "title": "Paramètres",
+    "tile": {
+      "language": "Sélectionner la langue",
+      "change_avatar": "Changer avatar",
+      "logout": "Déconnexion",
+      "version": "Version"
+    },
+    "message": {
+      "avatar_saved": "Image de profil enregistrée"
+    },
+    "language": {
+      "thousand_separator": "."
+    }
+  }
+}

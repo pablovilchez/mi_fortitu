@@ -2,45 +2,30 @@
   "language": "es",
 
   "access": {
-    "messages": {
-      "reg_success": "¡Te has registrado! Revisa tu correo."
+    "text_field": {
+      "new_password": "Nueva contraseña",
+      "confirm_password": "Confirmar contraseña",
+      "reset_password": "Restablecer contraseña",
+      "error_length": "Debe tener al menos 6 caracteres.",
+      "error_confirm_password": "Las contraseñas no coinciden."
+    },
+    "message": {
+      "pass_not_equal": "Las contraseñas no coinciden.",
+      "reg_request_success": "¡Te has registrado! Revisa tu correo.",
+      "pass_request_success": "Petición aceptada. Revisa tu correo.",
+      "pass_change_success": "Tu contraseña ha sido cambiada con éxito."
     }
   },
 
   "home": {
-    "sections": {
+    "section": {
       "events": "Eventos",
       "intra42": "Intra 42",
       "out_box": "Out of the Box"
     },
-
-
-    "messages": {
-      "loading_profile": "Cargando datos de perfil...",
-      "loading_error": "Error al cargar datos de perfil.",
-      "coming_soon": "Muy pronto..."
-    },
-    "events": {
-      "today": "Hoy",
-      "tomorrow": "Mañana",
-      "in": "en",
-      "days": "días",
-      "no_events": "No hay eventos próximos.",
-      "subscribe": "Suscribirme",
-      "unsubscribe": "Borrarme",
-      "waitlist": "Esperar",
-      "messages": {
-        "subscribed": "Estás suscrito a este evento.",
-        "unsubscribed": "Te has borrado de este evento.",
-        "waitlisted": "Estás en la lista de espera para este evento.",
-        "unwaitlisted": "Has sido eliminado de la lista de espera.",
-        "failed": "No tienes permiso / aforo completo."
-        }
-    },
-
-    "tiles": {
-      "me": "Mi Perfil",
-      "search": "Buscar Estudiantes",
+    "tile": {
+      "my_profile": "Mi Perfil",
+      "search_profile": "Buscar Estudiantes",
       "eval_slots": "Slots de Evaluación",
       "shop": "Tienda",
       "peer2peer": "Peer2Peer",
@@ -49,94 +34,92 @@
       "leagues": "Ligas",
       "games": "Juegos"
     },
-    "project_states": {
-      "not_started": "no comenzado",
-      "creating_group": "creando grupo",
-      "finished": "terminado",
-      "in_progress": "en progreso",
-      "searching_a_group": "buscando grupo",
-      "waiting_to_start": "a comenzar",
-      "waiting_for_correction": "a corregir"
+    "button": {
+      "retry": "Reintentar"
+    },
+    "message": {
+      "loading_profile": "Cargando datos de perfil...",
+      "loading_error": "Error al cargar datos de perfil."
     }
   },
-  "search": {
-    "hint": "Buscar estudiante...",
-    "no_results": "No se encontraron resultados"
-  },
-  "profile": {
-    "kind": "Tipo",
-    "pool": "Piscina",
-    "eval_p": "P.Eval.",
-    "wallet": "Monedero",
-    "grade": "Grado",
-    "level": "Nivel",
-    "experience": "Experiencia",
-    "skills": "Habilidades",
-    "projects": "Proyectos",
-    "attempts": "Intentos",
-    "opened": "Abierto",
-    "closed": "Cerrado",
-    "ago": "act.",
-    "years": "a",
-    "months": "m"
-  },
-  "settings": {
-    "title": "Configuración",
-    "language": "Selecciona idioma",
-    "change_avatar": "Cambiar avatar",
-    "logout": "Cerrar sesión",
+
+  "events": {
+    "button": {
+      "subscribe": "Suscribirme",
+      "unsubscribe": "Borrarme",
+      "waitlist": "Esperar"
+    },
     "messages": {
-      "avatar_saved": "Imagen de perfil guardada"
+      "no_events": "No hay eventos próximos.",
+      "subscribed": "Estás suscrito a este evento.",
+      "unsubscribed": "Te has borrado de este evento.",
+      "waitlisted": "Estás en la lista de espera para este evento.",
+      "unwaitlisted": "Has sido eliminado de la lista de espera.",
+      "failed": "Petición denegada, o aforo completo."
+    },
+    "time": {
+      "today": "Hoy",
+      "tomorrow": "Mañana",
+      "in": "en",
+      "days": "días"
     }
   },
-  "buttons": {
-    "cancel": "Cancelar",
-    "save": "Guardar",
-    "delete": "Eliminar",
-    "edit": "Editar",
-    "add": "Añadir",
-    "close": "Cerrar",
-    "confirm": "Confirmar",
-    "submit": "Enviar",
-    "retry": "Reintentar",
-    "back": "Atrás",
-    "next": "Siguiente",
-    "finish": "Finalizar",
-    "yes": "Sí",
-    "no": "No",
-    "profile": "Perfil"
+
+  "profile": {
+    "title": "Perfil",
+    "search": {
+      "hint": "Buscar estudiante...",
+      "no_results": "No se encontraron resultados"
+    },
+    "user": {
+      "kind": "Tipo",
+      "pool": "Piscina",
+      "eval_p": "P.Eval.",
+      "wallet": "Monedero",
+      "grade": "Grado",
+      "level": "Nivel"
+    },
+    "section": {
+      "experience": "Experiencia",
+      "skills": "Habilidades",
+      "projects": "Proyectos"
+    },
+    "project": {
+      "attempts": "Intentos",
+      "marked": {
+        "opened": "Abierto",
+        "closed": "Cerrado"
+      },
+      "state": {
+        "not_started": "no comenzado",
+        "creating_group": "creando grupo",
+        "finished": "terminado",
+        "in_progress": "en progreso",
+        "searching_a_group": "buscando grupo",
+        "waiting_to_start": "a comenzar",
+        "waiting_for_correction": "a corregir"
+      },
+      "time": {
+        "updated": "act.",
+        "years": "a",
+        "months": "m"
+      }
+    },
+    "message": {
+      "loading_error": "Error al cargar datos del perfil."
+    }
   },
-  "lang": {
-    "months": {
-      "january": "Ene",
-      "february": "Feb",
-      "march": "Mar",
-      "april": "Abr",
-      "may": "May",
-      "june": "Jun",
-      "july": "Jul",
-      "august": "Ago",
-      "september": "Sep",
-      "october": "Oct",
-      "november": "Nov",
-      "december": "Dic"
-    },
-    "days": {
-      "monday": "Lun",
-      "tuesday": "Mar",
-      "wednesday": "Mié",
-      "thursday": "Jue",
-      "friday": "Vie",
-      "saturday": "Sáb",
-      "sunday": "Dom"
-    },
-    "number_format": "#.###,##",
-    "separator": "."
+
+  "peer2peer": {
+    "title": "Peer2Peer",
+    "message": {
+      "no_projects": "No hay proyectos disponibles.",
+      "loading_error": "Error al cargar datos de Peer2Peer."
+    }
   },
 
   "slots": {
     "title": "Slots de Evaluación",
-
     "dialog": {
       "title": "Nuevo Slot",
       "start_time": "Hora Inicio",
@@ -144,13 +127,48 @@
       "duration": "Duración",
       "create": "Crear Slot"
     },
-
     "message": {
-      "no_slots": "No hay slots para este día."
-    },
+      "no_slots": "No hay slots para este día.",
+      "error_state": "Error. Estado desconocido."
+    }
+  },
 
-    "error": {
-      "state": "Error. Estado desconocido."
+  "clusters": {
+    "title": "Clusters",
+    "button": {
+      "profile": "Perfil",
+      "close": "Cerrar"
+    },
+    "message": {
+      "no_clusters": "No hay clusters disponibles.",
+      "campus_load_error": "Error al cargar el ID del campus."
+    }
+  },
+
+  "coalitions": {
+    "title": "Coaliciones"
+  },
+
+  "leagues": {
+    "title": "Ligas",
+    "message": {
+      "coming_soon": "Próximamente..."
+    }
+  },
+
+  "settings": {
+    "title": "Configuración",
+    "tile": {
+      "language": "Selecciona idioma",
+      "change_avatar": "Cambiar avatar",
+      "logout": "Cerrar sesión",
+      "version": "Versión"
+    },
+    "message": {
+      "avatar_saved": "Imagen de perfil guardada"
+    },
+    "language": {
+      "thousand_separator": "."
     }
   }
 }
