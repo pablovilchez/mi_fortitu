@@ -25,6 +25,9 @@ class EnvConfig {
   /// The Supabase anonymous public key used for client-side access.
   final String supaAnonKey;
 
+  /// The version of the application.
+  final String appVersion;
+
   /// Constructs an [EnvConfig] instance from a [Map] of environment variables.
   ///
   /// All values are validated; an [Exception] is thrown if any required key is
@@ -36,7 +39,8 @@ class EnvConfig {
       refreshTokenFunctionUrl = _get(env, 'REFRESH_TOKEN_FUNCTION_URL'),
       intraTokenScope = 'public profile projects',
       supaUrl = _get(env, 'SUPA_URL'),
-      supaAnonKey = _get(env, 'SUPA_ANON_KEY');
+      supaAnonKey = _get(env, 'SUPA_ANON_KEY'),
+      appVersion = _get(env, 'APP_VERSION');
 
   /// Retrieves the value for the given [key] from the [env] map.
   ///

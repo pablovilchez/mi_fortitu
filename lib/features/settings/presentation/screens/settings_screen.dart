@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mi_fortitu/core/config/env_config.dart';
 import 'package:mi_fortitu/core/services/avatar_notifier.dart';
 import 'package:mi_fortitu/features/settings/domain/usecases/logout_usecase.dart';
 
@@ -22,6 +23,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Locale currentLocale = context.locale;
     final preferences = PreferencesHelper();
+    final EnvConfig envConfig = GetIt.I<EnvConfig>();
 
     return Scaffold(
       appBar: AppBar(title: Text(tr('settings.title')), actions: [
@@ -38,7 +40,7 @@ class SettingsScreen extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
-              title: Text(tr('settings.language')),
+              title: Text(tr('settings.tile.language')),
               trailing: DropdownButton<Locale>(
                 value: currentLocale,
                 onChanged: (Locale? newLocale) {
@@ -56,11 +58,15 @@ class SettingsScreen extends StatelessWidget {
                     value: Locale('es'),
                     child: Text('Español'),
                   ),
+                  DropdownMenuItem(
+                    value: Locale('fr'),
+                    child: Text('Français'),
+                  ),
                 ],
               ),
             ),
             ListTile(
-              title: Text(tr('settings.change_avatar')),
+              title: Text(tr('settings.tile.change_avatar')),
               trailing: Icon(Icons.photo_camera),
               onTap: () async {
                 final picker = ImagePicker();
@@ -70,12 +76,12 @@ class SettingsScreen extends StatelessWidget {
                   await AvatarStorageHelper.saveAvatar(file);
                   avatarNotifier.update(file);
                   if (!context.mounted) return;
-                  SnackbarHelper.showSnackbar(context, tr('settings.messages.avatar_saved'));}
+                  SnackbarHelper.showSnackbar(context, tr('settings.message.avatar_saved'));}
               },
             ),
             SizedBox(height: 40),
             ListTile(
-              title: Text(tr('settings.logout')),
+              title: Text(tr('settings.tile.logout')),
               trailing: IconButton(
                 icon: Icon(Icons.logout),
                 onPressed: () async {
@@ -89,8 +95,8 @@ class SettingsScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ListTile(
-              title: Text('Version'),
-              subtitle: Text('0.2.3'),
+              title: Text(tr('settings.tile.version')),
+              subtitle: Text(envConfig.appVersion),
               trailing: IconButton(
                 icon: Icon(Icons.arrow_circle_down_rounded),
                 onPressed: null,

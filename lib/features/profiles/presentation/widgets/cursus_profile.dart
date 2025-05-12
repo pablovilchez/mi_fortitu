@@ -78,11 +78,11 @@ class _CursusProfileState extends State<CursusProfile> {
                 child: Column(
                   children: [
                     ProfileUserCard(profile: widget.profile),
-                    buildTitle(tr('profile.experience')),
+                    buildTitle(tr('profile.section.experience')),
                     ProfileLevelUserProjects(cursus: _selectedCursus!),
-                    buildTitle(tr('profile.skills')),
+                    buildTitle(tr('profile.section.skills')),
                     ProfileUserSkills(cursus: _selectedCursus!),
-                    buildTitle(tr('profile.projects')),
+                    buildTitle(tr('profile.section.projects')),
                     ProfileUserProjects(projectList: cursusProjects),
                   ],
                 ),

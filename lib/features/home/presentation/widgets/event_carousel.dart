@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -19,7 +20,7 @@ class EventCarousel extends StatelessWidget {
           return _ShimmerCarousel(height: height);
         } else if (state is IntraEventsSuccess) {
           if (state.events.isEmpty) {
-            return Text('No events');
+            return Text(tr('events.message.no_events'));
           }
           return SizedBox(
             width: width,

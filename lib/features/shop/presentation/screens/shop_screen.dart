@@ -10,7 +10,7 @@ class ShopScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr('home.tiles.shop')),
+        title: Text(tr('home.tile.shop')),
         actions: [
           IconButton(
             onPressed: () {

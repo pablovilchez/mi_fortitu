@@ -16,10 +16,7 @@ class AccessDatasource {
   /// Logs in a user with the provided email and password.
   ///
   /// Returns a [Either] containing either an [AccessException] or a [LoginModel].
-  Future<Either<AccessException, LoginModel>> login(
-    String email,
-    String password,
-  ) async {
+  Future<Either<AccessException, LoginModel>> login(String email, String password) async {
     try {
       final response = await _supabase.auth.signInWithPassword(email: email, password: password);
       return Right(LoginModel.fromAuthResponse(response));
@@ -31,10 +28,7 @@ class AccessDatasource {
   /// Registers a new user with the provided email and password.
   ///
   /// Returns a [Either] containing either an [AccessException] or a [LoginModel].
-  Future<Either<AccessException, LoginModel>> register(
-    String email,
-    String password,
-  ) async {
+  Future<Either<AccessException, LoginModel>> register(String email, String password) async {
     try {
       final response = await _supabase.auth.signUp(email: email, password: password);
       return Right(LoginModel.fromAuthResponse(response));
@@ -46,9 +40,24 @@ class AccessDatasource {
   /// Recovers the password for the user with the provided email.
   ///
   /// Returns a [Either] containing either an [AccessException] or a [Unit].
-  Future<Either<AccessException, Unit>> recoverPassword(String email) async {
+  Future<Either<AccessException, Unit>> requestAccountRecoveryEmail(String email) async {
     try {
-      await _supabase.auth.resetPasswordForEmail(email);
+      await _supabase.auth.resetPasswordForEmail(
+        email,
+        redirectTo: 'io.supabase.flutterquickstart://reset-password/',
+      );
+      return Right(unit);
+    } catch (e) {
+      return Left(DbException(code: 'AD03', details: e.toString()));
+    }
+  }
+
+  /// Sets a new password for the user.
+  ///
+  /// Returns a [Either] containing either an [AccessException] or a [Unit].
+  Future<Either<AccessException, Unit>> setNewPassword(String newPassword) async {
+    try {
+      await _supabase.auth.updateUser(UserAttributes(password: newPassword));
       return Right(unit);
     } catch (e) {
       return Left(DbException(code: 'AD03', details: e.toString()));
@@ -65,8 +74,7 @@ class AccessDatasource {
         return Left(DbException(code: 'AD03'));
       }
       if (session.expiresAt != null &&
-          DateTime.fromMillisecondsSinceEpoch(session.expiresAt! * 1000)
-              .isBefore(DateTime.now())) {
+          DateTime.fromMillisecondsSinceEpoch(session.expiresAt! * 1000).isBefore(DateTime.now())) {
         final refreshResponse = await _supabase.auth.refreshSession();
         if (refreshResponse.session == null) {
           return Left(DbException(code: 'AD04', details: 'Session expired and refresh failed'));

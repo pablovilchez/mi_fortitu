@@ -19,6 +19,7 @@ final appRouter = GoRouter(
       path: '/login-callback',
       pageBuilder: (context, state) => const MaterialPage(child: SizedBox.shrink()),
     ),
+    GoRoute(path: '/reset-password', pageBuilder: (context, state) => MaterialPage(child: ResetPasswordScreen())),
     GoRoute(path: '/home', pageBuilder: (context, state) => MaterialPage(child: HomeScreen())),
     GoRoute(
       path: '/waitlist',
@@ -65,6 +66,8 @@ final appRouter = GoRouter(
   redirect: (BuildContext context, GoRouterState state) {
     if (state.uri.toString().contains('/login-callback')) {
       return '/auth';
+    } else if (state.uri.toString().contains('/reset-password')) {
+      return '/reset-password';
     } else {
       return null;
     }

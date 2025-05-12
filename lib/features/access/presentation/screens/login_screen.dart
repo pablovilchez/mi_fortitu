@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mi_fortitu/core/config/env_config.dart';
 import 'package:mi_fortitu/core/helpers/snackbar_helper.dart';
 import 'package:mi_fortitu/features/access/presentation/blocs/access_bloc/access_bloc.dart';
 import 'package:mi_fortitu/features/access/presentation/widgets/login_form.dart';
@@ -11,6 +13,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<AccessBloc>().add(LandingEvent());
+    final EnvConfig envConfig = GetIt.I<EnvConfig>();
 
     return BlocConsumer<AccessBloc, AccessState>(
       listener: (context, state) {
@@ -41,8 +44,9 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   const SizedBox(height: 90),
                   Image.asset('assets/images/logo_mi_fortitu.png', height: 200),
+                  Text('version ${envConfig.appVersion}', style: const TextStyle(color: Colors.deepPurple)),
                   const SizedBox(height: 50),
-                  const LoginForm(),
+                  const AccessForm(),
                   const SizedBox(height: 40),
                 ],
               ),

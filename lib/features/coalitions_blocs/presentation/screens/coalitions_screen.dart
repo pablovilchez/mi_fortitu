@@ -19,7 +19,7 @@ class CoalitionsScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text(tr('home.tiles.coalitions')),
+          title: Text(tr('coalitions.title')),
           actions: [
             IconButton(
               onPressed: () {

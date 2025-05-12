@@ -154,13 +154,13 @@ class _EventDetailButtonState extends State<EventDetailButton> {
 
           if (updatedEvent.details.id != 0) {
             if (updatedEvent.status == EventStatus.subscribed) {
-              showConfirmation(tr('home.events.messages.subscribed'));
+              showConfirmation(tr('events.messages.subscribed'));
             } else if (updatedEvent.status == EventStatus.notSubscribed) {
-              showConfirmation(tr('home.events.messages.unsubscribed'));
+              showConfirmation(tr('events.messages.unsubscribed'));
             } else if (updatedEvent.status == EventStatus.waitlisted) {
-              showConfirmation(tr('home.events.messages.waitlisted'));
+              showConfirmation(tr('events.messages.waitlisted'));
             } else if (updatedEvent.status == EventStatus.unwaitlisted) {
-              showConfirmation(tr('home.events.messages.unwaitlisted'));
+              showConfirmation(tr('events.messages.unwaitlisted'));
             }
           }
         }
@@ -207,7 +207,7 @@ class _EventDetailButtonState extends State<EventDetailButton> {
           return SizedBox(
             height: 40,
             child: Text(
-              tr('home.events.messages.failed'),
+              tr('events.messages.failed'),
               style: const TextStyle(fontSize: 16, color: Colors.orange, fontWeight: FontWeight.bold),
             ),
           );
@@ -239,7 +239,7 @@ class _EventDetailButtonState extends State<EventDetailButton> {
         onPressed();
       },
       child: Text(
-        tr('home.events.unsubscribe'),
+        tr('events.button.unsubscribe'),
         style: TextStyle(fontSize: 16, color: Colors.white),
       ),
     );
@@ -251,7 +251,7 @@ class _EventDetailButtonState extends State<EventDetailButton> {
       onPressed: () {
         onPressed();
       },
-      child: Text(tr('home.events.subscribe'), style: TextStyle(fontSize: 16, color: Colors.white)),
+      child: Text(tr('events.button.subscribe'), style: TextStyle(fontSize: 16, color: Colors.white)),
     );
   }
 }

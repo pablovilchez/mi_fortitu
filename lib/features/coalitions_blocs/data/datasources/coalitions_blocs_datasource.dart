@@ -5,12 +5,15 @@ import '../../../../core/services/intra_api_client.dart';
 import '../coalitions_bloc_exception.dart';
 import '../models/coalitions_blocs_model.dart';
 
+/// CoalitionsBlocsDatasource is responsible for fetching data related to coalitions blocs
+/// of a specific campus from the Intra API.
 class CoalitionsBlocsDatasource {
   final http.Client httpClient;
   final IntraApiClient intraApiClient;
 
   CoalitionsBlocsDatasource(this.httpClient, this.intraApiClient);
 
+  /// Fetches the list of coalitions blocs from the Intra API.
   Future<Either<Exception, List<CoalitionsBlocsModel>>> getCampusBlocs({
     required int campusId,
   }) async {

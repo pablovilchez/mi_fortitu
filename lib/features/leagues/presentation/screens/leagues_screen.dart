@@ -14,7 +14,7 @@ class LeaguesScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text(tr('home.tiles.leagues')),
+          title: Text(tr('leagues.title')),
           actions: [
             IconButton(
               onPressed: () {
@@ -53,7 +53,7 @@ class LeaguesScreen extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               Text(
-                tr('home.messages.coming_soon'),
+                tr('leagues.message.coming_soon'),
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
             ],

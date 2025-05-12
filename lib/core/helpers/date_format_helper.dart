@@ -62,11 +62,11 @@ class DateFormatHelper {
     final diffDays = eventDay.difference(today).inDays;
 
     if (diffDays == 0) {
-      return tr('home.events.today');
+      return tr('events.time.today');
     } else if (diffDays == 1) {
-      return tr('home.events.tomorrow');
+      return tr('events.time.tomorrow');
     } else {
-      return '${tr('home.events.in')} $diffDays ${tr('home.events.days')}';
+      return '${tr('events.time.in')} $diffDays ${tr('events.time.days')}';
     }
   }
 }

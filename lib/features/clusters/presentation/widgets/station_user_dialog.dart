@@ -10,20 +10,24 @@ class StationUserDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final u = user.user;
+    final userData = user.user;
+    final poolMonth = DateFormat.MMMM('en').parseLoose(userData.poolMonth).month;
+    final poolDate = DateTime(int.parse(userData.poolYear), poolMonth);
+    final date = DateFormat.MMM(tr('language')).format(poolDate).toLowerCase();
+
     return AlertDialog(
-      title: Text(u.firstName, textAlign: TextAlign.center),
+      title: Text(userData.firstName, textAlign: TextAlign.center),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           CircleAvatar(
             radius: 32,
-            backgroundImage: NetworkImage(u.imageUrl),
+            backgroundImage: NetworkImage(userData.imageUrl),
           ),
           const SizedBox(height: 12),
-          Text('Login: ${u.login}'),
-          Text('${tr('profile.kind')}: ${u.kind}'),
-          Text("${tr('profile.pool')}: ${tr('lang.months.${u.poolMonth}')} ${u.poolYear}"),
+          Text('Login: ${userData.login}'),
+          Text('${tr('profile.user.kind')}: ${userData.kind}'),
+          Text("${tr('profile.user.pool')}: $date ${userData.poolYear}"),
         ],
       ),
       actions: [
@@ -32,14 +36,14 @@ class StationUserDialog extends StatelessWidget {
             Navigator.pop(context);
             Future.delayed(Duration.zero, () {
               if (!context.mounted) return;
-              GoRouter.of(context).push('/search-students/${u.login}');
+              GoRouter.of(context).push('/search-students/${userData.login}');
             });
           },
-          child: Text(tr('buttons.profile')),
+          child: Text(tr('clusters.button.profile')),
         ),
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(tr('buttons.close')),
+          child: Text(tr('clusters.button.close')),
         ),
       ],
     );

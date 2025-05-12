@@ -18,7 +18,7 @@ class UserProfileScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Text(tr('home.tiles.me')),
+          title: Text(tr('profile.title')),
           actions: [
             IconButton(
               onPressed: () {
@@ -35,7 +35,7 @@ class UserProfileScreen extends StatelessWidget {
               final intraProfile = state.profile;
               return CursusProfile(profile: intraProfile);
             }
-            return Center(child: Text('Error: Cannot load profile'));
+            return Center(child: Text(tr('profile.message.loading_error')));
           },
         ),
       ),

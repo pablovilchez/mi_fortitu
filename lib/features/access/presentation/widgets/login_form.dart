@@ -3,66 +3,113 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mi_fortitu/features/access/presentation/blocs/access_bloc/access_bloc.dart';
 import 'package:mi_fortitu/features/access/presentation/widgets/validators.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+class AccessForm extends StatefulWidget {
+  const AccessForm({super.key});
 
   @override
-  State<LoginForm> createState() => _SupaForm();
+  State<AccessForm> createState() => _AccessFormState();
 }
 
-class _SupaForm extends State<LoginForm> {
+class _AccessFormState extends State<AccessForm> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPassController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    final loginBloc = context.read<AccessBloc>();
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPassController.dispose();
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return BlocBuilder<AccessBloc, AccessState>(
       builder: (context, state) {
-        final isRegister = state is RegisterFormState;
-
-        _confirmPassController.clear();
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40),
           child: Form(
             key: _formKey,
             child: Column(
               children: [
-                _customTextField(
-                  _emailController,
-                  'Email',
-                  Validators.validateEmail,
-                ),
-                _customTextField(
-                  _passwordController,
-                  'Password',
-                  Validators.validatePassword,
-                  obscureText: true,
-                ),
-                if (isRegister) ...[
-                  _customTextField(
-                    _confirmPassController,
-                    'Confirm Password',
-                    (value) => Validators.validateConfirmPassword(
-                      _passwordController.text,
-                      value,
-                    ),
-                    obscureText: true,
-                  ),
-                ],
-                SizedBox(height: 40),
-                _buildSubmitButton(),
-                SizedBox(height: 10),
-                _buildToggleButton(loginBloc),
+                if (state is RegisterFormState) ..._buildRegisterForm()
+                else if (state is RequestRecoveryEmailFormState) ..._buildRecoveryPasswordForm()
+                else ..._buildLoginForm(),
               ],
             ),
           ),
         );
       },
     );
+  }
+
+  List<Widget> _buildLoginForm() {
+    final bloc = context.read<AccessBloc>();
+    return [
+      _customTextField(_emailController, 'Email', Validators.validateEmail),
+      _customTextField(_passwordController, 'Password', Validators.validatePassword, obscureText: true),
+      const SizedBox(height: 40),
+      _buildSubmitButton(isRegister: false),
+      const SizedBox(height: 10),
+      TextButton(
+        onPressed: () {
+          _resetControllersForState(bloc.state);
+          bloc.add(ShowResetPasswordFormEvent());
+        },
+        child: const Text('Forgot password?'),
+      ),
+      TextButton(
+        onPressed: () => bloc.add(ToggleFormEvent()),
+        child: const Text("Don't have an account? Register"),
+      ),
+    ];
+  }
+
+  List<Widget> _buildRegisterForm() {
+    final bloc = context.read<AccessBloc>();
+    _confirmPassController.clear(); // prevent reuse
+    return [
+      _customTextField(_emailController, 'Email', Validators.validateEmail),
+      _customTextField(_passwordController, 'Password', Validators.validatePassword, obscureText: true),
+      _customTextField(
+        _confirmPassController,
+        'Confirm Password',
+            (value) => Validators.validateConfirmPassword(_passwordController.text, value),
+        obscureText: true,
+      ),
+      const SizedBox(height: 40),
+      _buildSubmitButton(isRegister: true),
+      const SizedBox(height: 10),
+      TextButton(
+        onPressed: () {
+          bloc.add(ToggleFormEvent());
+        },
+        child: const Text("Already have an account? Login"),
+      ),
+    ];
+  }
+
+  List<Widget> _buildRecoveryPasswordForm() {
+    final bloc = context.read<AccessBloc>();
+    return [
+      _customTextField(_emailController, 'Email', Validators.validateEmail),
+      const SizedBox(height: 40),
+      ElevatedButton(
+        onPressed: () {
+          if (_formKey.currentState!.validate()) {
+            bloc.add(RequestDbRecoveryEmailEvent(email: _emailController.text));
+          }
+        },
+        child: const Text("Send reset link"),
+      ),
+      const SizedBox(height: 10),
+      TextButton(
+        onPressed: () => bloc.add(ShowLoginFormEvent()),
+        child: const Text("Back to login"),
+      ),
+    ];
   }
 
   Widget _customTextField(
@@ -79,64 +126,46 @@ class _SupaForm extends State<LoginForm> {
     );
   }
 
-  Widget _buildSubmitButton() {
+  Widget _buildSubmitButton({required bool isRegister}) {
     return BlocBuilder<AccessBloc, AccessState>(
       builder: (context, state) {
         final isLoading = state is AccessLoading || state is AccessInitial;
-        final isRegister = state is RegisterFormState;
-
         return ElevatedButton(
-          onPressed: () {
+          onPressed: isLoading
+              ? null
+              : () {
             if (_formKey.currentState!.validate()) {
+              final bloc = context.read<AccessBloc>();
+              final email = _emailController.text;
+              final password = _passwordController.text;
+
               if (isRegister) {
-                context.read<AccessBloc>().add(
-                  RequestDbRegisterEvent(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                  ),
-                );
+                bloc.add(RequestDbRegisterEvent(email: email, password: password));
               } else {
-                context.read<AccessBloc>().add(
-                  RequestDbLoginEvent(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                  ),
-                );
+                bloc.add(RequestDbLoginEvent(email: email, password: password));
               }
             }
           },
-          child:
-              isLoading
-                  ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 3),
-                  )
-                  : Text(isRegister ? 'Register' : 'Login'),
+          child: isLoading
+              ? const SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(strokeWidth: 3),
+          )
+              : Text(isRegister ? 'Register' : 'Login'),
         );
       },
     );
   }
 
-  Widget _buildToggleButton(AccessBloc bloc) {
-    final state = bloc.state;
-    return TextButton(
-      onPressed: state is AccessLoading || state is AccessInitial
-          ? null
-          : () => bloc.add(ToggleFormEvent()),
-      child: Text(
-        state is RegisterFormState
-            ? 'Already have an account? Login'
-            : 'Don\'t have an account? Register',
-      ),
-    );
-  }
+  void _resetControllersForState(AccessState state) {
+    _emailController.clear();
+    _passwordController.clear();
+    _confirmPassController.clear();
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPassController.dispose();
-    super.dispose();
+    if (state is RequestRecoveryEmailFormState) {
+      _passwordController.text = '';
+      _confirmPassController.text = '';
+    }
   }
 }

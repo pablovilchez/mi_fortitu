@@ -18,7 +18,7 @@ class ClustersScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text(tr('home.tiles.clusters')),
+          title: Text(tr('clusters.title')),
           actions: [
             IconButton(
               onPressed: () {
@@ -43,7 +43,7 @@ class ClustersScreen extends StatelessWidget {
                 final campusId = profileState.profile.campus[0].id.toString();
                 context.read<ClustersBloc>().add(GetCampusClustersEvent(campusId: campusId));
               } else {
-                return const Center(child: Text('Error loading campus ID'));
+                return Center(child: Text(tr('clusters.message.campus_load_error')));
               }
               return const Center(child: CircularProgressIndicator());
             }

@@ -158,7 +158,7 @@ class _LoadingView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(tr('home.messages.loading_profile')),
+            Text(tr('home.message.loading_profile')),
             SizedBox(height: 20),
             CircularProgressIndicator(),
           ],
@@ -180,13 +180,13 @@ class _ErrorView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(tr('home.messages.loading_error')),
+            Text(tr('home.message.loading_error')),
             Text(message),
             ElevatedButton(
               onPressed: () {
                 context.read<UserProfileBloc>().add(GetUserProfileEvent());
               },
-              child: Text(tr('buttons.retry')),
+              child: Text(tr('home.button.retry')),
             ),
           ],
         ),

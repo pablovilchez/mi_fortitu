@@ -12,6 +12,11 @@ import '../helpers/secure_storage_helper.dart';
 
 enum RequestType { get, post, patch, delete }
 
+/// IntraApiClient is a class that handles the communication with the Intra API.
+/// It manages the OAuth2 authentication flow, token storage, and API requests.
+/// It uses the AppLinks package to handle deep links and the http package for network requests.
+/// It also uses the EnvConfig class to get the necessary environment variables for the API requests.
+/// It uses the SecureStorageHelper class to securely store and retrieve tokens.
 class IntraApiClient {
   final http.Client httpClient;
   final AppLinks appLinks;
@@ -21,12 +26,16 @@ class IntraApiClient {
 
   IntraApiClient(this.httpClient, this.appLinks, this.launcher, this.env, this.secureStorage);
 
+  /// Checks if the user is logged in by checking if the access token is valid.
   Future<Either<Exception, Unit>> isLoggedIn() async {
     return await _getGrantedToken().then((result) {
       return result.fold((error) => Left(error), (_) => Right(unit));
     });
   }
 
+  /// Gets the granted token for the user.
+  /// If the token is expired or not available, it starts the OAuth2 flow to get a new token.
+  /// Returns the access token if successful.
   Future<Either<Exception, String>> _getGrantedToken() async {
     final accessToken = await secureStorage.read('intra_access_token');
     final refreshToken = await secureStorage.read('intra_refresh_token');
@@ -52,6 +61,10 @@ class IntraApiClient {
     });
   }
 
+  /// Starts the OAuth2 flow to get a new access token.
+  /// It opens the authorization URL in the browser and listens for the redirect URI.
+  /// It exchanges the authorization code for an access token and saves it securely.
+  /// Returns the access token if successful.
   Future<Either<Exception, String>> _startOAuth2Flow() async {
     final response = await _requestNewTokens();
     return response.fold((e) => Left(Exception('OAuth2 authorization failed: $e')), (
@@ -62,6 +75,9 @@ class IntraApiClient {
     });
   }
 
+  /// Requests new tokens by getting the authorization URL, launching it in the browser,
+  /// listening for the redirect URI, and exchanging the authorization code for an access token.
+  /// Returns the new tokens if successful.
   Future<Either<Exception, Map<String, dynamic>>> _requestNewTokens() async {
     // Check if the environment variables are set.
     final redirectUri = env.redirectUri;
@@ -100,6 +116,8 @@ class IntraApiClient {
   }
 
   /// Gets the authorization URL for Intra authentication.
+  /// It sends a request to the serverless function to get the URL.
+  /// Returns the URL if successful.
   Future<Either<AccessException, String>> _getAuthorizationUrl() async {
     final tokenScope = env.intraTokenScope;
     final response = await supabaseClient.functions.invoke(
@@ -119,6 +137,8 @@ class IntraApiClient {
   }
 
   /// Listens for the redirect URL.
+  /// It uses the AppLinks package to listen for deep links.
+  /// Returns the redirect URL if successful.
   Future<Either<AccessException, Uri>> _listenForRedirect(Uri redirectUri) async {
     bool redirectProcessed = false;
     await for (final uri in appLinks.uriLinkStream) {
@@ -133,6 +153,9 @@ class IntraApiClient {
     return Left(IntraException(code: 'AI03'));
   }
 
+  /// Refreshes the access token using the refresh token.
+  /// It sends a request to the serverless function to refresh the token.
+  /// Returns the new tokens if successful.
   Future<Either<Exception, Map<String, dynamic>>> _refreshToken(String refreshToken) async {
     try {
       final response = await supabaseClient.functions.invoke(
@@ -148,6 +171,9 @@ class IntraApiClient {
     }
   }
 
+  /// Saves the access token, refresh token, and expiration time securely.
+  /// It uses the SecureStorageHelper class to store the tokens.
+  /// Returns a Unit if successful.
   Future<Either<Exception, Unit>> _saveTokens(Map<String, dynamic> data) async {
     final accessToken = data['access_token'];
     final refreshToken = data['refresh_token'];
@@ -167,6 +193,9 @@ class IntraApiClient {
     return Right(unit);
   }
 
+  /// Logs out the user by clearing the access token, refresh token, and expiration time.
+  /// It uses the SecureStorageHelper class to delete the tokens.
+  /// Returns a Unit if successful.
   Future<Either<Exception, Unit>> logoutIntra() async {
     try {
       await secureStorage.delete('intra_access_token');
@@ -178,6 +207,10 @@ class IntraApiClient {
     return Right(unit);
   }
 
+  /// Makes an API request to the Intra API.
+  /// It handles the request type (GET, POST, PATCH, DELETE) and retries if necessary.
+  /// It uses the http package to send the request and handles the response.
+  /// Returns the response data if successful.
   Future<Either<Exception, dynamic>> _makeApiRequest(RequestType type, String route) async {
     final tokenResult = await _getGrantedToken();
 
@@ -238,11 +271,15 @@ class IntraApiClient {
     });
   }
 
+  /// Makes a GET request to the Intra API to get the token information.
+  /// Returns the token information if successful.
   Future<Either<Exception, dynamic>> getTokenInfo() async {
     final url = 'https://api.intra.42.fr/oauth/token';
     return await _makeApiRequest(RequestType.get, url);
   }
 
+  /// Makes a GET request to the Intra API to get the user information.
+  /// Returns the user information if successful.
   Future<Either<Exception, Map<String, dynamic>>> getUser(String loginName) async {
     late final String url;
     loginName == 'me'
@@ -259,6 +296,8 @@ class IntraApiClient {
     });
   }
 
+  /// Makes a GET request to the Intra API to get the user events.
+  /// Returns the user events if successful.
   Future<Either<Exception, List<dynamic>>> getUserEvents(String loginName) async {
     late final String url;
     loginName == 'me'
@@ -276,6 +315,8 @@ class IntraApiClient {
     });
   }
 
+  /// Makes a GET request to the Intra API to get the campus events.
+  /// Returns a list of campus events if successful.
   Future<Either<Exception, List<dynamic>>> getCampusEvents(int campusId) async {
     final url = 'https://api.intra.42.fr/v2/campus/$campusId/events';
     final response = await _makeApiRequest(RequestType.get, url);
@@ -289,6 +330,9 @@ class IntraApiClient {
     });
   }
 
+  /// Makes a GET request to the Intra API to get the campus locations.
+  /// It handles pagination to get all locations.
+  /// Returns a list of campus locations if successful.
   Future<Either<Exception, List<Map<String, dynamic>>>> getCampusLocations(String campusId) async {
     final baseRoute = 'https://api.intra.42.fr/v2/campus/$campusId/locations';
     const int pageSize = 100;
@@ -314,6 +358,8 @@ class IntraApiClient {
     return Right(allUsers);
   }
 
+  /// Makes a GET request to the Intra API to get the campus coalitions.
+  /// Returns a list of cursus coalitions of the campus if successful.
   Future<Either<Exception, List<dynamic>>> getCampusBlocs(int campusId) async {
     final url = 'https://api.intra.42.fr/v2/blocs/';
     final filters = '?filter[campus_id]=$campusId';
@@ -327,6 +373,9 @@ class IntraApiClient {
     });
   }
 
+  /// Makes a GET request to the Intra API to get the project users.
+  /// It handles pagination to get all users.
+  /// Returns a list of project users if successful.
   Future<Either<Exception, List<Map<String, dynamic>>>> getProjectUsers(
     int projectId,
     int campusId,
@@ -368,6 +417,9 @@ class IntraApiClient {
     return Right(allUsers);
   }
 
+  /// Makes a GET request to the Intra API to get the user evaluations.
+  /// It handles pagination to get all evaluations.
+  /// Returns a list of user evaluations if successful.
   Future<Either<Exception, List<dynamic>>> getUserEvaluations(String loginName) async {
     final user = loginName == 'me' ? await getUser('me') : await getUser('users/$loginName');
     final url = 'https://api.intra.42.fr/v2/$user/slots';
@@ -384,6 +436,9 @@ class IntraApiClient {
     });
   }
 
+  /// Makes a GET request to the Intra API to get the user projects.
+  /// It handles pagination to get all projects.
+  /// Returns a list of user projects if successful.
   Future<Either<Exception, List<dynamic>>> getUserProjects(String loginName) async {
     final user = loginName == 'me' ? await getUser('me') : await getUser('users/$loginName');
     final url = 'https://api.intra.42.fr/v2/$user/projects_users';
@@ -401,6 +456,8 @@ class IntraApiClient {
     });
   }
 
+  /// Makes a POST request to the Intra API to subscribe to an event.
+  /// Returns the event data if successful.
   Future<Either<Exception, Map<String, int>>> subscribeToEvent({
     required int userId,
     required int eventId,
@@ -422,6 +479,8 @@ class IntraApiClient {
     });
   }
 
+  /// Makes a DELETE request to the Intra API to unsubscribe from an event.
+  /// Returns a Unit if successful.
   Future<Either<Exception, Unit>> unsubscribeFromEvent(int eventUserId) async {
     final url = 'https://api.intra.42.fr/v2/events_users/$eventUserId';
 
@@ -435,8 +494,9 @@ class IntraApiClient {
     });
   }
 
-  /// SLOTS requests
-
+  /// Makes a GET request to the Intra API to get the user slots.
+  /// It handles pagination to get all slots.
+  /// Returns a list of user slots if successful.
   Future<Either<Exception, List<dynamic>>> getUserSlots(String loginName) async {
     late String url;
     loginName == 'me' ? url = 'https://api.intra.42.fr/v2/$loginName/slots' : url = '';
@@ -462,6 +522,8 @@ class IntraApiClient {
     });
   }
 
+  /// Makes a POST request to the Intra API to create an evaluation slot.
+  /// Returns the created slot data if successful.
   Future<Either<Exception, List<dynamic>>> createEvaluationSlot({
     required int userId,
     required DateTime begin,
@@ -481,6 +543,8 @@ class IntraApiClient {
     });
   }
 
+  /// Makes a DELETE request to the Intra API to destroy an evaluation slot.
+  /// Returns a Unit if successful.
   Future<Either<Exception, Unit>> destroyEvaluationSlot(int slotId) async {
     final url = 'https://api.intra.42.fr/v2/slots/$slotId';
 
@@ -494,6 +558,9 @@ class IntraApiClient {
     });
   }
 
+  /// Makes a GET request to the Intra API to get the scale team slots.
+  /// Returns the slot evaluation data if successful.
+  /// For students, returns a string until there are 15 minutes left until the evaluation.
   Future<Either<Exception, List<dynamic>>> destroySlotsWithScaleTeam(int scaleTeamId) async {
     final url = 'https://api.intra.42.fr/v2/scale_teams/$scaleTeamId';
 

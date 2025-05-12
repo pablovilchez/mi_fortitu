@@ -126,7 +126,7 @@ class ProfileHeader extends StatelessWidget {
               'assets/images/profile_header/altarians_field.png',
               userData.wallet.toString().replaceAll(
                 RegExp(r'(?<=\d)(?=(\d{3})+(?!\d))'),
-                tr('lang.separator'),
+                tr('settings.language.thousand_separator'),
               ),
             ),
           ),

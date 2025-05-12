@@ -65,7 +65,7 @@ class _PeerToPeerScreenState extends State<PeerToPeerScreen> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text(tr('home.tiles.peer2peer')),
+          title: Text(tr('peer2peer.title')),
           actions: [
             IconButton(
               icon: const Icon(Icons.adb, color: Colors.red),
@@ -76,9 +76,9 @@ class _PeerToPeerScreenState extends State<PeerToPeerScreen> {
         body: _isLoading
             ? const Center(child: CircularProgressIndicator())
             : _hasError
-            ? const Center(child: Text('Error loading data'))
+            ? Center(child: Text(tr('peer2peer.loading_error')))
             : _projectsPeers.isEmpty
-            ? const Center(child: Text('No open projects found'))
+            ? Center(child: Text(tr('peer2peer.no_projects')))
             : ListView.builder(
           itemCount: _projectsPeers.length,
           itemBuilder: (context, index) {

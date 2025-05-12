@@ -63,13 +63,13 @@ class ProfileUserCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _customColumn(tr('profile.kind'), profile.kind),
-                _customColumn(tr('profile.pool'), pool),
+                _customColumn(tr('profile.user.kind'), profile.kind),
+                _customColumn(tr('profile.user.pool'), pool),
                 _customColumn(
-                  tr('profile.eval_p'),
+                  tr('profile.user.eval_p'),
                   profile.correctionPoint.toString(),
                 ),
-                _customColumn(tr('profile.wallet'), '$wallet ₳'),
+                _customColumn(tr('profile.user.wallet'), '$wallet ₳'),
               ],
             ),
           ],

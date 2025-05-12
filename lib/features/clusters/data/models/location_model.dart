@@ -1,5 +1,6 @@
 import '../../domain/entities/location_entity.dart';
 
+/// LocationModel is a data model that represents a location in the campus.
 class LocationModel extends LocationEntity {
   LocationModel({required super.host, required super.campusId, required super.user});
 
@@ -18,6 +19,7 @@ class LocationModel extends LocationEntity {
   }
 }
 
+/// LocationUserModel is a data model that represents a user in a campus location.
 class LocationUserModel extends LocationUserEntity {
   LocationUserModel({
     required super.id,

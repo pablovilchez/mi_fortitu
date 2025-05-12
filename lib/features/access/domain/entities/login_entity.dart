@@ -1,3 +1,4 @@
+/// LoginEntity class represents the user login information retrieved from the database.
 class LoginEntity {
   final String? id;
   final String? email;

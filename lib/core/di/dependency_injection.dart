@@ -50,7 +50,9 @@ void initDi() {
   sl.registerLazySingleton<GetRoleUsecase>(() => GetRoleUsecase(sl()));
   sl.registerLazySingleton<LogInUsecase>(() => LogInUsecase(sl()));
   sl.registerLazySingleton<RegisterUsecase>(() => RegisterUsecase(sl()));
-  sl.registerLazySingleton<AccessBloc>(() => AccessBloc(sl(), sl(), sl(), sl()));
+  sl.registerLazySingleton<RequestAccountRecoveryEmailUsecase>(() => RequestAccountRecoveryEmailUsecase(sl()));
+  sl.registerLazySingleton<SetNewPasswordUsecase>(() => SetNewPasswordUsecase(sl()));
+  sl.registerLazySingleton<AccessBloc>(() => AccessBloc(sl(), sl(), sl(), sl(), sl(), sl()));
 
   // ─── Clusters Feature ───────────────────────────────────────────────────
   sl.registerLazySingleton<ClustersDatasource>(() => ClustersDatasource(sl(), sl()));

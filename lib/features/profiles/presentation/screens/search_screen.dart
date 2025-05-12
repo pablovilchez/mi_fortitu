@@ -125,6 +125,6 @@ class _ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text(tr('search.no_results'))));
+    return Scaffold(body: Center(child: Text(tr('profile.search.no_results'))));
   }
 }

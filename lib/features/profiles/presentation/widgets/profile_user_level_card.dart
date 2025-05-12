@@ -24,7 +24,7 @@ class ProfileLevelUserProjects extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${tr('profile.grade')}:',
+                      '${tr('profile.user.grade')}:',
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -39,7 +39,7 @@ class ProfileLevelUserProjects extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    '${tr('profile.level')}:',
+                    '${tr('profile.user.level')}:',
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,

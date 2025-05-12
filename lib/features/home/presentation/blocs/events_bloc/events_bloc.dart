@@ -77,7 +77,7 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
           emit(
             currentState.copyWith(
               events: updatedEvents,
-              errorMessage: tr('home.events.messages.failed'),
+              errorMessage: tr('events.messages.failed'),
             ),
           );
         },

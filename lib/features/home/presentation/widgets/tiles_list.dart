@@ -13,7 +13,7 @@ class TilesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SectionHeader(title: tr('home.sections.events'),
+        SectionHeader(title: tr('home.section.events'),
           action: IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
@@ -24,51 +24,51 @@ class TilesList extends StatelessWidget {
         SizedBox(height: 12),
         EventCarousel(width: double.infinity,),
         SizedBox(height: 12),
-        SectionHeader(title: tr('home.sections.intra42')),
+        SectionHeader(title: tr('home.section.intra42')),
         _OptionTile(
-          title: tr('home.tiles.me'),
+          title: tr('home.tile.my_profile'),
           image: AssetImage('assets/images/home_tiles/profile.png'),
           route: '/profile',
         ),
         _OptionTile(
-          title: tr('home.tiles.search'),
+          title: tr('home.tile.search_profile'),
           image: AssetImage('assets/images/home_tiles/search.png'),
           route: '/search-students',
         ),
         _OptionTile(
-          title: tr('home.tiles.peer2peer'),
+          title: tr('home.tile.peer2peer'),
           image: AssetImage('assets/images/home_tiles/peer2peer.png'),
           route: '/finder',
         ),
         _OptionTile(
-          title: tr('home.tiles.eval_slots'),
+          title: tr('home.tile.eval_slots'),
           image: AssetImage('assets/images/home_tiles/slots.png'),
           route: '/slots',
         ),
         // _OptionTile(
-        //   title: tr('home.tiles.shop'),
+        //   title: tr('home.tile.shop'),
         //   icon: Icons.shopping_cart,
         //   route: '/shop',
         // ),
         SectionHeader(title: 'Campus'),
         _OptionTile(
-          title: tr('home.tiles.clusters'),
+          title: tr('home.tile.clusters'),
           image: AssetImage('assets/images/home_tiles/clusters.png'),
           route: '/clusters',
         ),
         _OptionTile(
-          title: tr('home.tiles.coalitions'),
+          title: tr('home.tile.coalitions'),
           image: AssetImage('assets/images/home_tiles/coalitions.png'),
           route: '/coalitions',
         ),
-        SectionHeader(title: tr('home.sections.out_box')),
+        SectionHeader(title: tr('home.section.out_box')),
         _OptionTile(
-          title: tr('home.tiles.leagues'),
+          title: tr('home.tile.leagues'),
           image: AssetImage('assets/images/home_tiles/leagues.png'),
           route: '/leagues',
         ),
         // _OptionTile(
-        //   title: tr('home.tiles.games'),
+        //   title: tr('home.tile.games'),
         //   image: AssetImage('assets/images/home_tiles/games.png'),
         //   route: '/games',
         // ),

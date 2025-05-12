@@ -25,7 +25,7 @@ void main() async {
 
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('es')],
+      supportedLocales: const [Locale('en'), Locale('es'), Locale('fr')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       startLocale: Locale(savedLanguage),
@@ -41,7 +41,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => AccessBloc(sl(), sl(), sl(), sl(),),),
+        BlocProvider(create: (_) => AccessBloc(sl(), sl(), sl(), sl(), sl(), sl())),
         BlocProvider(create: (_) => UserProfileBloc(sl())),
         BlocProvider(create: (_) => EventsBloc(sl(), sl(), sl())),
         BlocProvider(create: (_) => ClustersBloc(sl())),

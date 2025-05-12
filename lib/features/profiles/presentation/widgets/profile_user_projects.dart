@@ -87,17 +87,17 @@ class ProfileUserProjects extends StatelessWidget {
                           : project.project.name,
                       style: const TextStyle(fontSize: 13),
                     ),
-                    Text(tr('home.project_states.${project.status}'), style: const TextStyle(fontSize: 13)),
+                    Text(tr('profile.project.state.${project.status}'), style: const TextStyle(fontSize: 13)),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('${tr('profile.attempts')}: ${project.occurrence}'),
+                    Text('${tr('profile.project.attempts')}: ${project.occurrence}'),
                     Text(
                       project.marked
-                          ? tr('profile.closed')
-                          : tr('profile.opened'),
+                          ? tr('profile.project.marked.closed')
+                          : tr('profile.project.marked.opened'),
                       style: TextStyle(
                         color: project.marked ? Colors.red : Colors.green,
                       ),
@@ -107,9 +107,9 @@ class ProfileUserProjects extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text('${tr('profile.ago')} '),
-                          if (years > 0) Text('$years${tr('profile.years')} '),
-                          Text('$months${tr('profile.months')}'),
+                          Text('${tr('profile.project.time.updated')} '),
+                          if (years > 0) Text('$years${tr('profile.project.time.years')} '),
+                          Text('$months${tr('profile.project.time.months')}'),
                         ],
                       ),
                     ),

@@ -40,7 +40,7 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
         ),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text(tr('home.tiles.eval_slots')),
+          title: Text(tr('slots.title')),
           actions: [
             IconButton(
               onPressed: () {
@@ -81,7 +81,7 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
                     ],
                   );
                 }
-                return Center(child: Text(tr('slots.error.state')));
+                return Center(child: Text(tr('slots.message.error_state')));
               },
             ),
           ),

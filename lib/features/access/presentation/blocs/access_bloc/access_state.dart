@@ -27,8 +27,8 @@ class RegisterFormState extends AccessState {
   const RegisterFormState();
 }
 
-class ResetPasswordFormState extends AccessState {
-  const ResetPasswordFormState();
+class RequestRecoveryEmailFormState extends AccessState {
+  const RequestRecoveryEmailFormState();
 }
 
 class Authenticated extends AccessState {

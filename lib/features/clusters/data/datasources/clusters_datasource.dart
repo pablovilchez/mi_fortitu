@@ -5,12 +5,15 @@ import 'package:mi_fortitu/core/services/intra_api_client.dart';
 import '../clusters_exception.dart';
 import '../models/location_model.dart';
 
+/// ClustersDatasource is responsible for fetching data related to clusters
+/// from the Intra API.
 class ClustersDatasource {
   final http.Client httpClient;
   final IntraApiClient intraApiClient;
 
   ClustersDatasource(this.httpClient, this.intraApiClient);
 
+  /// Fetches the list of clusters from the Intra API.
   Future<Either<ClustersException, List<LocationModel>>> getCampusLocations({
     required String campusId,
   }) async {
