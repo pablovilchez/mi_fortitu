@@ -9,7 +9,7 @@ class SettingsDatasource {
   Future<Either<Exception, Unit>> logoutSupa() async {
     try {
       await _supabase.auth.signOut();
-      return Right(unit);
+      return const Right(unit);
     } catch (e) {
       return Left(Exception('Supabase logout failed: $e'));
     }

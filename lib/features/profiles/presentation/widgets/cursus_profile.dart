@@ -46,8 +46,8 @@ class _CursusProfileState extends State<CursusProfile> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text('Cursus:'),
-              SizedBox(width: 16),
+              const Text('Cursus:'),
+              const SizedBox(width: 16),
               DropdownButton<CursusUserEntity>(
                 elevation: 2,
                 borderRadius: BorderRadius.circular(8),
@@ -89,7 +89,7 @@ class _CursusProfileState extends State<CursusProfile> {
               ),
             ),
           ] else ...[
-            Center(child: Text('No cursus found.')),
+            const Center(child: Text('No cursus found.')),
           ],
         ],
       ),

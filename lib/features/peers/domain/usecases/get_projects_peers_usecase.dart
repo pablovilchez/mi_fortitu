@@ -28,10 +28,6 @@ class GetProjectsPeersUsecase {
 
         project.peers = filteredPeers;
       }
-      for (var project in projects) {
-        for (var peer in project.peers) {
-        }
-      }
 
       return Right(projects);
     });

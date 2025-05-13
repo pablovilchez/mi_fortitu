@@ -41,7 +41,7 @@ class AppBarSearch extends StatelessWidget implements PreferredSizeWidget {
         ),
         IconButton(onPressed: (){
           showDevInfoDialog(context, 'searchTestInfo');
-        }, icon: Icon(Icons.adb),
+        }, icon: const Icon(Icons.adb),
           color: Colors.red,)
       ],
     );

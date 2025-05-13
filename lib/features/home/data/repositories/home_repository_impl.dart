@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:mi_fortitu/features/profiles/presentation/blocs/user_profile_bloc/user_profile_bloc.dart';
 import '../../domain/entities/reg_event_data_entity.dart';
 import '../datasources/home_datasource.dart';
 import '../../domain/home_failure.dart';

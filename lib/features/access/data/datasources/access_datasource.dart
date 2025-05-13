@@ -46,7 +46,7 @@ class AccessDatasource {
         email,
         redirectTo: 'io.supabase.flutterquickstart://reset-password/',
       );
-      return Right(unit);
+      return const Right(unit);
     } catch (e) {
       return Left(DbException(code: 'AD03', details: e.toString()));
     }
@@ -58,7 +58,7 @@ class AccessDatasource {
   Future<Either<AccessException, Unit>> setNewPassword(String newPassword) async {
     try {
       await _supabase.auth.updateUser(UserAttributes(password: newPassword));
-      return Right(unit);
+      return const Right(unit);
     } catch (e) {
       return Left(DbException(code: 'AD03', details: e.toString()));
     }
@@ -80,7 +80,7 @@ class AccessDatasource {
           return Left(DbException(code: 'AD04', details: 'Session expired and refresh failed'));
         }
       }
-      return Right(unit);
+      return const Right(unit);
     } catch (e) {
       return Left(DbException(code: 'AD04', details: e.toString()));
     }

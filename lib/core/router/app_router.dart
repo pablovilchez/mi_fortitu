@@ -14,24 +14,24 @@ import 'package:mi_fortitu/features/slots/presentation/screens/screens.dart';
 final appRouter = GoRouter(
   initialLocation: '/auth',
   routes: [
-    GoRoute(path: '/auth', pageBuilder: (context, state) => MaterialPage(child: LoginScreen())),
+    GoRoute(path: '/auth', pageBuilder: (context, state) => const MaterialPage(child: LoginScreen())),
     GoRoute(
       path: '/login-callback',
       pageBuilder: (context, state) => const MaterialPage(child: SizedBox.shrink()),
     ),
-    GoRoute(path: '/reset-password', pageBuilder: (context, state) => MaterialPage(child: ResetPasswordScreen())),
-    GoRoute(path: '/home', pageBuilder: (context, state) => MaterialPage(child: HomeScreen())),
+    GoRoute(path: '/reset-password', pageBuilder: (context, state) => const MaterialPage(child: ResetPasswordScreen())),
+    GoRoute(path: '/home', pageBuilder: (context, state) => const MaterialPage(child: HomeScreen())),
     GoRoute(
       path: '/waitlist',
-      pageBuilder: (context, state) => MaterialPage(child: WaitlistScreen()),
+      pageBuilder: (context, state) => const MaterialPage(child: WaitlistScreen()),
     ),
     GoRoute(
       path: '/profile',
-      pageBuilder: (context, state) => MaterialPage(child: UserProfileScreen()),
+      pageBuilder: (context, state) => const MaterialPage(child: UserProfileScreen()),
     ),
     GoRoute(
       path: '/search-students',
-      pageBuilder: (context, state) => MaterialPage(child: SearchStudentsScreen()),
+      pageBuilder: (context, state) => const MaterialPage(child: SearchStudentsScreen()),
     ),
     GoRoute(
       path: '/search-students/:loginName',
@@ -40,27 +40,27 @@ final appRouter = GoRouter(
         return MaterialPage(child: SearchStudentsScreen(loginName: loginName));
       },
     ),
-    GoRoute(path: '/slots', pageBuilder: (context, state) => MaterialPage(child: ManageSlotsScreen())),
-    GoRoute(path: '/shop', pageBuilder: (context, state) => MaterialPage(child: ShopScreen())),
+    GoRoute(path: '/slots', pageBuilder: (context, state) => const MaterialPage(child: ManageSlotsScreen())),
+    GoRoute(path: '/shop', pageBuilder: (context, state) => const MaterialPage(child: ShopScreen())),
     GoRoute(
       path: '/settings',
       pageBuilder: (context, state) => MaterialPage(child: SettingsScreen()),
     ),
     GoRoute(
       path: '/finder',
-      pageBuilder: (context, state) => MaterialPage(child: PeerToPeerScreen()),
+      pageBuilder: (context, state) => const MaterialPage(child: PeerToPeerScreen()),
     ),
     GoRoute(
       path: '/clusters',
-      pageBuilder: (context, state) => MaterialPage(child: ClustersScreen()),
+      pageBuilder: (context, state) => const MaterialPage(child: ClustersScreen()),
     ),
     GoRoute(
       path: '/coalitions',
-      pageBuilder: (context, state) => MaterialPage(child: CoalitionsScreen()),
+      pageBuilder: (context, state) => const MaterialPage(child: CoalitionsScreen()),
     ),
     GoRoute(
       path: '/leagues',
-      pageBuilder: (context, state) => MaterialPage(child: LeaguesScreen()),
+      pageBuilder: (context, state) => const MaterialPage(child: LeaguesScreen()),
     ),
   ],
   redirect: (BuildContext context, GoRouterState state) {

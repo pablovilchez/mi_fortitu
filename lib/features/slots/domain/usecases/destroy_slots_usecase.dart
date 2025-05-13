@@ -16,6 +16,6 @@ class DestroySlotsUsecase {
         return result;
       }
     }
-    return Right(unit);
+    return const Right(unit);
   }
 }

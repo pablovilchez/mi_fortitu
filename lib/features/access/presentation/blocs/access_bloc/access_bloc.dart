@@ -25,11 +25,11 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     this.getRoleUseCase,
     this.recoveryEmailUsecase,
     this.setNewPasswordUsecase,
-  ) : super(AccessInitial()) {
+  ) : super(const AccessInitial()) {
     on<LandingEvent>(_onLanding);
-    on<ShowLoginFormEvent>((event, emit) => emit(LoginFormState()));
-    on<ShowRegisterFormEvent>((event, emit) => emit(RegisterFormState()));
-    on<ShowResetPasswordFormEvent>((event, emit) => emit(RequestRecoveryEmailFormState()));
+    on<ShowLoginFormEvent>((event, emit) => emit(const LoginFormState()));
+    on<ShowRegisterFormEvent>((event, emit) => emit(const RegisterFormState()));
+    on<ShowResetPasswordFormEvent>((event, emit) => emit(const RequestRecoveryEmailFormState()));
     on<RequestDbLoginEvent>(_onRequestDbLogin);
     on<RequestDbRegisterEvent>(_onRequestDbRegister);
     on<RequestDbRecoveryEmailEvent>(_onRequestDbRecoveryEmail);
@@ -41,11 +41,11 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   /// Handles the initial landing event.
   /// It checks if the user is authenticated and emits the appropriate state.
   Future<void> _onLanding(LandingEvent event, Emitter<AccessState> emit) async {
-    emit(AccessLoading());
+    emit(const AccessLoading());
 
     final authenticate = await authUsecase.call();
     authenticate.fold((failure) {
-      emit(LoginFormState());
+      emit(const LoginFormState());
     }, (authenticated) => add(CheckRolEvent()));
   }
 
@@ -56,7 +56,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     result.fold(
       (failure) {
         emit(AccessFeedbackState(message: failure.message, isError: true));
-        emit(LoginFormState());
+        emit(const LoginFormState());
       },
       (_) {
         add(CheckRolEvent());
@@ -66,16 +66,16 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
 
   /// Handles the registration form event of the database.
   Future<void> _onRequestDbRegister(RequestDbRegisterEvent event, Emitter<AccessState> emit) async {
-    emit(AccessLoading());
+    emit(const AccessLoading());
     final result = await registerUsecase(event.email, event.password);
     result.fold(
       (failure) {
         emit(AccessFeedbackState(message: failure.message, isError: true));
-        emit(RegisterFormState());
+        emit(const RegisterFormState());
       },
       (_) {
         emit(AccessFeedbackState(message: tr('access.message.reg_request_success')));
-        emit(LoginFormState());
+        emit(const LoginFormState());
       },
     );
   }
@@ -85,16 +85,16 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     RequestDbRecoveryEmailEvent event,
     Emitter<AccessState> emit,
   ) async {
-    emit(AccessLoading());
+    emit(const AccessLoading());
     final result = await recoveryEmailUsecase(event.email);
     result.fold(
       (failure) {
         emit(AccessFeedbackState(message: failure.message, isError: true));
-        emit(LoginFormState());
+        emit(const LoginFormState());
       },
       (_) {
         emit(AccessFeedbackState(message: tr('access.message.pass_request_success')));
-        emit(LoginFormState());
+        emit(const LoginFormState());
       },
     );
   }
@@ -104,12 +104,12 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     RequestSetNewPasswordEvent event,
     Emitter<AccessState> emit,
   ) async {
-    emit(AccessLoading());
+    emit(const AccessLoading());
     final result = await setNewPasswordUsecase(event.newPassword);
     result.fold(
       (failure) {
         emit(AccessFeedbackState(message: failure.message, isError: true));
-        emit(RequestRecoveryEmailFormState());
+        emit(const RequestRecoveryEmailFormState());
       },
       (_) {
         emit(AccessFeedbackState(message: tr('access.message.pass_change_success')));
@@ -121,24 +121,24 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   /// Toggles between the login and registration forms.
   Future<void> _onToggleForm(ToggleFormEvent event, Emitter<AccessState> emit) async {
     if (state is LoginFormState) {
-      emit(RegisterFormState());
+      emit(const RegisterFormState());
     } else {
-      emit(LoginFormState());
+      emit(const LoginFormState());
     }
   }
 
   /// Checks the role of the user and emits the appropriate state.
   Future<void> _onCheckRol(CheckRolEvent event, Emitter<AccessState> emit) async {
-    emit(AccessLoading());
+    emit(const AccessLoading());
     final result = await getRoleUseCase.call();
     await result.fold(
       (failure) async {
         emit(AccessFeedbackState(message: failure.message, isError: true));
-        emit(WaitlistState());
+        emit(const WaitlistState());
       },
       (role) async {
         if (role == 'waitlist') {
-          emit(WaitlistState());
+          emit(const WaitlistState());
         } else {
           emit(const Authenticated());
         }

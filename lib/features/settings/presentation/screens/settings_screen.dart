@@ -31,7 +31,7 @@ class SettingsScreen extends StatelessWidget {
           onPressed: () {
             showDevInfoDialog(context, 'settingsTestInfo');
           },
-          icon: Icon(Icons.adb),
+          icon: const Icon(Icons.adb),
           color: Colors.red,
         ),
       ],),
@@ -67,7 +67,7 @@ class SettingsScreen extends StatelessWidget {
             ),
             ListTile(
               title: Text(tr('settings.tile.change_avatar')),
-              trailing: Icon(Icons.photo_camera),
+              trailing: const Icon(Icons.photo_camera),
               onTap: () async {
                 final picker = ImagePicker();
                 final picked = await picker.pickImage(source: ImageSource.gallery);
@@ -79,11 +79,11 @@ class SettingsScreen extends StatelessWidget {
                   SnackbarHelper.showSnackbar(context, tr('settings.message.avatar_saved'));}
               },
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             ListTile(
               title: Text(tr('settings.tile.logout')),
               trailing: IconButton(
-                icon: Icon(Icons.logout),
+                icon: const Icon(Icons.logout),
                 onPressed: () async {
                   final result = await _logoutUsecase();
                   result.fold(
@@ -93,11 +93,11 @@ class SettingsScreen extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ListTile(
               title: Text(tr('settings.tile.version')),
               subtitle: Text(envConfig.appVersion),
-              trailing: IconButton(
+              trailing: const IconButton(
                 icon: Icon(Icons.arrow_circle_down_rounded),
                 onPressed: null,
               ),

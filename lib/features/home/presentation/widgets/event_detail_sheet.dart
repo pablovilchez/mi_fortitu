@@ -45,36 +45,36 @@ class _EventDetailSheetState extends State<EventDetailSheet> {
   @override
   Widget build(BuildContext context) {
     final details = widget.event.details;
-    final contentStyle = TextStyle(fontSize: 15);
+    final contentStyle = const TextStyle(fontSize: 15);
 
     return FractionallySizedBox(
       heightFactor: 0.7,
       child: Padding(
-        padding: EdgeInsets.only(left: 24, right: 24, top: 20, bottom: 30),
+        padding: const EdgeInsets.only(left: 24, right: 24, top: 20, bottom: 30),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               widget.event.details.name,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               children: [
                 EventDetailField(icon: Icons.calendar_today, text: details.beginDate),
-                SizedBox(width: 40),
+                const SizedBox(width: 40),
                 EventDetailField(icon: Icons.access_time, text: details.beginTime),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             EventDetailField(icon: Icons.pin_drop, text: widget.event.details.location),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: SingleChildScrollView(
                 controller: _scrollController,
                 child: Column(
-                  children: [Text(details.description, style: contentStyle), SizedBox(height: 40)],
+                  children: [Text(details.description, style: contentStyle), const SizedBox(height: 40)],
                 ),
               ),
             ),
@@ -82,7 +82,7 @@ class _EventDetailSheetState extends State<EventDetailSheet> {
               height: 30,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [if (_isScrollable && !_isAtBottom) Icon(Icons.keyboard_arrow_down)],
+                children: [if (_isScrollable && !_isAtBottom) const Icon(Icons.keyboard_arrow_down)],
               ),
             ),
             SafeArea(child: Row(
@@ -113,8 +113,8 @@ class EventDetailField extends StatelessWidget {
     return Row(
       children: [
         Icon(icon),
-        SizedBox(width: 10),
-        Text(text, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+        const SizedBox(width: 10),
+        Text(text, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
       ],
     );
   }
@@ -171,7 +171,7 @@ class _EventDetailButtonState extends State<EventDetailButton> {
             height: 40,
             child: Text(
               confirmationMessage!,
-              style: TextStyle(fontSize: 16, color: Colors.green, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 16, color: Colors.green, fontWeight: FontWeight.bold),
             ),
           );
         }
@@ -240,7 +240,7 @@ class _EventDetailButtonState extends State<EventDetailButton> {
       },
       child: Text(
         tr('events.button.unsubscribe'),
-        style: TextStyle(fontSize: 16, color: Colors.white),
+        style: const TextStyle(fontSize: 16, color: Colors.white),
       ),
     );
   }
@@ -251,7 +251,7 @@ class _EventDetailButtonState extends State<EventDetailButton> {
       onPressed: () {
         onPressed();
       },
-      child: Text(tr('events.button.subscribe'), style: TextStyle(fontSize: 16, color: Colors.white)),
+      child: Text(tr('events.button.subscribe'), style: const TextStyle(fontSize: 16, color: Colors.white)),
     );
   }
 }

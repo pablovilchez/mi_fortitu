@@ -16,7 +16,7 @@ class ShopScreen extends StatelessWidget {
             onPressed: () {
               showDevInfoDialog(context, 'shopTestInfo');
             },
-            icon: Icon(Icons.adb),
+            icon: const Icon(Icons.adb),
             color: Colors.red,
           ),
         ],

@@ -17,7 +17,7 @@ class LogoutUsecase {
     final intraLogoutResult = await _intraApiClient.logoutIntra();
     return intraLogoutResult.fold(
           (exception) => Left(LogoutFailure(exception.toString())),
-          (_) => Right(unit),
+          (_) => const Right(unit),
     );
   }
 }

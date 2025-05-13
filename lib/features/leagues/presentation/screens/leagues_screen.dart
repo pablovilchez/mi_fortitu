@@ -20,7 +20,7 @@ class LeaguesScreen extends StatelessWidget {
               onPressed: () {
                 showDevInfoDialog(context, 'leaguesTestInfo');
               },
-              icon: Icon(Icons.adb),
+              icon: const Icon(Icons.adb),
               color: Colors.red,
             ),
           ],
@@ -33,7 +33,7 @@ class LeaguesScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Colors.grey[400],
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black,
                       blurRadius: 15,

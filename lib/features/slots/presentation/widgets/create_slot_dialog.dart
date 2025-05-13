@@ -19,7 +19,6 @@ class _CreateSlotDialogState extends State<CreateSlotDialog> {
 
   late List<DateTime> availableTimes;
   int selectedStartIndex = 0;
-  int selectedEndIndex = 0;
 
   int selectedDurationHours = 0;
   int selectedDurationMinutes = 30;
@@ -28,8 +27,6 @@ class _CreateSlotDialogState extends State<CreateSlotDialog> {
   void initState() {
     super.initState();
     _generateAvailableTimes();
-
-    selectedEndIndex = (selectedStartIndex + 2).clamp(0, availableTimes.length - 1);
   }
 
   void _generateAvailableTimes() {
@@ -99,14 +96,12 @@ class _CreateSlotDialogState extends State<CreateSlotDialog> {
           onPressed: () {
             final startTime = availableTimes[selectedStartIndex];
 
-            DateTime endTime;
+            final DateTime endTime = choosingEndTime
+              ? startTime.add(Duration(minutes: selectedDurationMinutes))
+              : startTime.add(Duration(minutes: selectedDurationHours * 60 + selectedDurationMinutes));
 
-            if (choosingEndTime) {
-              endTime = startTime.add(Duration(minutes: (selectedEndIndex - selectedStartIndex) * 15));
-            } else {
-              final totalMinutes = selectedDurationHours * 60 + selectedDurationMinutes;
-              endTime = startTime.add(Duration(minutes: totalMinutes));
-            }
+            // Show start and end in a legible clock format
+            print('DEBUG       start: ${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} end: ${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}');
 
             // Call the create slot event here
             context.read<SlotsBloc>().add(AddSlotEvent(userId, startTime.toUtc(), endTime.toUtc()));
@@ -178,11 +173,11 @@ class _CreateSlotDialogState extends State<CreateSlotDialog> {
         children: [
           ShaderMask(
             shaderCallback:
-                (rect) => LinearGradient(
+                (rect) => const LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [Colors.black, Colors.transparent, Colors.transparent, Colors.black],
-                  stops: const [0.0, 0.4, 0.6, 1.0],
+                  stops: [0.0, 0.4, 0.6, 1.0],
                 ).createShader(rect),
             blendMode: BlendMode.dstOut,
             child: child,
@@ -209,7 +204,7 @@ class _CreateSlotDialogState extends State<CreateSlotDialog> {
         setState(() {
           selectedStartIndex = index;
           if (choosingEndTime) {
-            selectedEndIndex = (index + 1).clamp(0, availableTimes.length - 1);
+            selectedDurationMinutes = 30;
           }
         });
       },
@@ -232,7 +227,7 @@ class _CreateSlotDialogState extends State<CreateSlotDialog> {
     final baseTimes = availableTimes[selectedStartIndex];
 
     final availableEndTimes = List<DateTime>.generate(
-      32,
+      48,
       (index) => baseTimes.add(Duration(minutes: 15 * (index + 1))),
     );
 
@@ -242,7 +237,7 @@ class _CreateSlotDialogState extends State<CreateSlotDialog> {
       controller: FixedExtentScrollController(initialItem: 1),
       onSelectedItemChanged: (index) {
         setState(() {
-          selectedEndIndex = selectedStartIndex + 1 + index;
+          selectedDurationMinutes = (index + 1) * 15;
         });
       },
       childDelegate: ListWheelChildBuilderDelegate(
@@ -277,7 +272,7 @@ class _CreateSlotDialogState extends State<CreateSlotDialog> {
               });
             },
             childDelegate: ListWheelChildBuilderDelegate(
-              childCount: 9,
+              childCount: 13,
               builder: (context, index) {
                 return Center(child: Text('$index h', style: const TextStyle(fontSize: 18)));
               },

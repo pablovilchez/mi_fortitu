@@ -21,28 +21,28 @@ class TilesList extends StatelessWidget {
             },
           ),
         ),
-        SizedBox(height: 12),
-        EventCarousel(width: double.infinity,),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
+        const EventCarousel(width: double.infinity,),
+        const SizedBox(height: 12),
         SectionHeader(title: tr('home.section.intra42')),
         _OptionTile(
           title: tr('home.tile.my_profile'),
-          image: AssetImage('assets/images/home_tiles/profile.png'),
+          image: const AssetImage('assets/images/home_tiles/profile.png'),
           route: '/profile',
         ),
         _OptionTile(
           title: tr('home.tile.search_profile'),
-          image: AssetImage('assets/images/home_tiles/search.png'),
+          image: const AssetImage('assets/images/home_tiles/search.png'),
           route: '/search-students',
         ),
         _OptionTile(
           title: tr('home.tile.peer2peer'),
-          image: AssetImage('assets/images/home_tiles/peer2peer.png'),
+          image: const AssetImage('assets/images/home_tiles/peer2peer.png'),
           route: '/finder',
         ),
         _OptionTile(
           title: tr('home.tile.eval_slots'),
-          image: AssetImage('assets/images/home_tiles/slots.png'),
+          image: const AssetImage('assets/images/home_tiles/slots.png'),
           route: '/slots',
         ),
         // _OptionTile(
@@ -50,21 +50,21 @@ class TilesList extends StatelessWidget {
         //   icon: Icons.shopping_cart,
         //   route: '/shop',
         // ),
-        SectionHeader(title: 'Campus'),
+        const SectionHeader(title: 'Campus'),
         _OptionTile(
           title: tr('home.tile.clusters'),
-          image: AssetImage('assets/images/home_tiles/clusters.png'),
+          image: const AssetImage('assets/images/home_tiles/clusters.png'),
           route: '/clusters',
         ),
         _OptionTile(
           title: tr('home.tile.coalitions'),
-          image: AssetImage('assets/images/home_tiles/coalitions.png'),
+          image: const AssetImage('assets/images/home_tiles/coalitions.png'),
           route: '/coalitions',
         ),
         SectionHeader(title: tr('home.section.out_box')),
         _OptionTile(
           title: tr('home.tile.leagues'),
-          image: AssetImage('assets/images/home_tiles/leagues.png'),
+          image: const AssetImage('assets/images/home_tiles/leagues.png'),
           route: '/leagues',
         ),
         // _OptionTile(
@@ -72,7 +72,7 @@ class TilesList extends StatelessWidget {
         //   image: AssetImage('assets/images/home_tiles/games.png'),
         //   route: '/games',
         // ),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
       ],
     );
   }
@@ -108,7 +108,6 @@ class _OptionTile extends StatelessWidget {
   final String route;
 
   const _OptionTile({
-    super.key,
     required this.title,
     required this.image,
     required this.route,

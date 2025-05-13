@@ -24,13 +24,13 @@ class ClustersScreen extends StatelessWidget {
               onPressed: () {
                 context.read<ClustersBloc>().add(RefreshClustersEvent());
               },
-              icon: Icon(Icons.refresh),
+              icon: const Icon(Icons.refresh),
             ),
             IconButton(
               onPressed: () {
                 showDevInfoDialog(context, 'clustersTestInfo');
               },
-              icon: Icon(Icons.adb),
+              icon: const Icon(Icons.adb),
               color: Colors.red,
             ),
           ],

@@ -29,7 +29,7 @@ class IntraApiClient {
   /// Checks if the user is logged in by checking if the access token is valid.
   Future<Either<Exception, Unit>> isLoggedIn() async {
     return await _getGrantedToken().then((result) {
-      return result.fold((error) => Left(error), (_) => Right(unit));
+      return result.fold((error) => Left(error), (_) => const Right(unit));
     });
   }
 
@@ -190,7 +190,7 @@ class IntraApiClient {
       return Left(Exception('Failed to save tokens: $e'));
     }
 
-    return Right(unit);
+    return const Right(unit);
   }
 
   /// Logs out the user by clearing the access token, refresh token, and expiration time.
@@ -204,7 +204,7 @@ class IntraApiClient {
     } catch (e) {
       return Left(Exception('Failed to clear tokens: $e'));
     }
-    return Right(unit);
+    return const Right(unit);
   }
 
   /// Makes an API request to the Intra API.
@@ -256,7 +256,7 @@ class IntraApiClient {
           }
 
           if (code == 204) {
-            return Right({});
+            return const Right({});
           }
 
           if (code != 200 && code != 201) {
@@ -487,7 +487,7 @@ class IntraApiClient {
     final response = await _makeApiRequest(RequestType.delete, url);
     return response.fold((exception) => Left(exception), (data) {
       try {
-        return Right(unit);
+        return const Right(unit);
       } catch (e) {
         return Left(Exception('Exception unsubscribing from Event: ${e.toString()}'));
       }
@@ -551,7 +551,7 @@ class IntraApiClient {
     final response = await _makeApiRequest(RequestType.delete, url);
     return response.fold((exception) => Left(exception), (data) {
       try {
-        return Right(unit);
+        return const Right(unit);
       } catch (e) {
         return Left(Exception('Exception destroying Evaluation Slot: ${e.toString()}'));
       }

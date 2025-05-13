@@ -14,7 +14,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     final result = await datasource.logoutSupa();
     return result.fold(
           (exception) => Left(LogoutFailure(exception.toString())),
-          (success) => Right(unit),
+          (success) => const Right(unit),
     );
   }
 }

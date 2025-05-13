@@ -114,7 +114,7 @@ class _SearchView extends StatelessWidget {
 class _LoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: const Center(child: CircularProgressIndicator()));
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }
 

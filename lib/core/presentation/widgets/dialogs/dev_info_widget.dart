@@ -99,7 +99,7 @@ Future<void> showDevInfoDialog(BuildContext context, String section) async {
               ),
             ),
             actions: [
-              TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cerrar')),
+              TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close')),
             ],
           );
         },

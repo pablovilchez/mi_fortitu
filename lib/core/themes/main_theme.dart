@@ -26,11 +26,11 @@ class MainTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(Colors.blue),
-          textStyle: WidgetStateProperty.all(TextStyle(
+          textStyle: WidgetStateProperty.all(const TextStyle(
             color: Colors.white,
             fontSize: 20,
           )),
-          padding: WidgetStateProperty.all(EdgeInsets.symmetric(
+          padding: WidgetStateProperty.all(const EdgeInsets.symmetric(
             vertical: 10,
             horizontal: 20,
           )),

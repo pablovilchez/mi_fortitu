@@ -12,7 +12,7 @@ class SnackbarHelper {
   /// [isError] determines the color of the snackbar: `true`->red, `false`->green.
   static void showSnackbar(BuildContext context, String message, {bool isError = false}) {
     final snackBar = SnackBar(
-      content: Text(message, style: TextStyle(color: Colors.white)),
+      content: Text(message, style: const TextStyle(color: Colors.white)),
       backgroundColor: isError ? Colors.red : Colors.green,
       behavior: SnackBarBehavior.floating,
     );

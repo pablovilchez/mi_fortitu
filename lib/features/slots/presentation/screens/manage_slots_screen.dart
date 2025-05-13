@@ -34,7 +34,7 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
         floatingActionButton: Padding(
           padding: const EdgeInsets.all(20.0),
           child: FloatingActionButton(
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
             onPressed: () => _openCreateSlotDialog(context),
           ),
         ),
@@ -46,13 +46,13 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
               onPressed: () {
                 context.read<SlotsBloc>().add(GetSlotsEvent());
               },
-              icon: Icon(Icons.refresh),
+              icon: const Icon(Icons.refresh),
             ),
             IconButton(
               onPressed: () {
                 showDevInfoDialog(context, 'slotsTestInfo');
               },
-              icon: Icon(Icons.adb),
+              icon: const Icon(Icons.adb),
               color: Colors.red,
             ),
           ],
@@ -64,10 +64,10 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
               builder: (context, state) {
                 if (state is SlotsInitial) {
                   context.read<SlotsBloc>().add(GetSlotsEvent());
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
                 if (state is SlotsLoading) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
                 if (state is SlotsError) {
                   return Center(child: Text(state.error));

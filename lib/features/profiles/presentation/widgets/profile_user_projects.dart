@@ -35,7 +35,7 @@ class ProfileUserProjects extends StatelessWidget {
     final months = ((ago % 365) / 30).truncate();
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
+      padding: const EdgeInsets.only(bottom: 20.0),
       child: Row(
         children: [
           Column(
@@ -53,7 +53,7 @@ class ProfileUserProjects extends StatelessWidget {
                   if (project.finalMark > 100)
                     CircularProgressIndicator(
                       value: excess,
-                      valueColor: AlwaysStoppedAnimation(Colors.amber),
+                      valueColor: const AlwaysStoppedAnimation(Colors.amber),
                       strokeWidth: 3,
                     ),
                   if (project.status != 'in_progress')
@@ -74,7 +74,7 @@ class ProfileUserProjects extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(width: 12),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               children: [
@@ -82,18 +82,17 @@ class ProfileUserProjects extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      project.project.name.length > 30
-                          ? '${project.project.name.substring(0, 27)}...'
+                      project.project.name.length > 28
+                          ? '${project.project.name.substring(0, 25)}...'
                           : project.project.name,
-                      style: const TextStyle(fontSize: 13),
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    Text(tr('profile.project.state.${project.status}'), style: const TextStyle(fontSize: 13)),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('${tr('profile.project.attempts')}: ${project.occurrence}'),
+                    Text('${tr('profile.project.attempts')}: ${project.occurrence + 1}'),
                     Text(
                       project.marked
                           ? tr('profile.project.marked.closed')
@@ -118,7 +117,7 @@ class ProfileUserProjects extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
         ],
       ),
     );

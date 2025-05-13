@@ -10,12 +10,15 @@ class ProfileUserCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final shortYear = profile.poolYear.toString().substring(2);
+    final poolMonth = DateFormat.MMMM('en').parseLoose(profile.poolMonth).month;
+    final poolDate = DateTime(int.parse(profile.poolYear), poolMonth);
+    final date = DateFormat.MMM(tr('language')).format(poolDate).toLowerCase();
     final wallet = NumberFormat.decimalPattern(
       tr('language'),
     ).format(profile.wallet);
     final String pool =
         profile.poolMonth != 'None'
-            ? '${tr('lang.months.${profile.poolMonth}')}.$shortYear'
+            ? '$date $shortYear'
             : 'No pool';
     return Card(
       child: Padding(

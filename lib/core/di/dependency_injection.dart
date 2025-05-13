@@ -39,7 +39,7 @@ void initDi() {
 
   // ─── Core Config & Services ─────────────────────────────────────────────
   sl.registerLazySingleton<EnvConfig>(() => EnvConfig.from(dotenv.env));
-  sl.registerLazySingleton<SecureStorageHelper>(() => SecureStorageHelper(FlutterSecureStorage()));
+  sl.registerLazySingleton<SecureStorageHelper>(() => SecureStorageHelper(const FlutterSecureStorage()));
   sl.registerLazySingleton<IntraApiClient>(() => IntraApiClient(sl(), sl(), sl(), sl(), sl()));
   sl.registerLazySingleton<UrlLauncherService>(() => UrlLauncherServiceImpl());
 

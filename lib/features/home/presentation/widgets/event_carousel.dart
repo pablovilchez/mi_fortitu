@@ -27,7 +27,7 @@ class EventCarousel extends StatelessWidget {
             height: height + 24,
             child: ShaderMask(
               shaderCallback: (bounds) {
-                return LinearGradient(
+                return const LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                   colors: [Colors.black, Colors.transparent, Colors.transparent, Colors.black],
@@ -70,7 +70,7 @@ class EventCarousel extends StatelessWidget {
         } else if (state is IntraEventsError) {
           return Text(state.message);
         } else {
-          return Text('Unknown state');
+          return const Text('Unknown state');
         }
       },
     );

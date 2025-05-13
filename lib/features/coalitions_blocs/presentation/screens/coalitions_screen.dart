@@ -25,7 +25,7 @@ class CoalitionsScreen extends StatelessWidget {
               onPressed: () {
                 showDevInfoDialog(context, 'coalitionsTestInfo');
               },
-              icon: Icon(Icons.adb),
+              icon: const Icon(Icons.adb),
               color: Colors.red,
             ),
           ],

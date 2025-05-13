@@ -32,13 +32,13 @@ class CoalitionsLayout extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      SizedBox(width: 20,),
+                      const SizedBox(width: 20,),
                       SvgPicture.network(coalition.imageUrl, width: 40, height: 40),
                       const SizedBox(width: 20),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Score:', style: const TextStyle(fontSize: 16)),
+                          const Text('Score:', style: TextStyle(fontSize: 16)),
                           Text(formattedScore, style: const TextStyle(fontSize: 24)),
                         ],
                       ),

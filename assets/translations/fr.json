@@ -3,9 +3,9 @@
 
   "access": {
     "text_field": {
-      "new_password": "Nouvelle mot de passe",
-      "confirm_password": "Confirmer mot de passe",
-      "reset_password": "Réinitialiser mot de passe",
+      "new_password": "Nouveau mot de passe",
+      "confirm_password": "Confirmer votre mot de passe",
+      "reset_password": "Réinitialiser votre mot de passe",
       "error_length": "Doit contenir au moins 6 caractères.",
       "error_confirm_password": "Les mots de passe ne correspondent pas."
     },
@@ -45,13 +45,13 @@
 
   "events": {
     "button": {
-      "subscribe": "Suscrire",
+      "subscribe": "S'abonner",
       "unsubscribe": "Se désabonner",
       "waitlist": "Liste d'attente"
     },
     "messages": {
       "no_events": "Aucun événement à venir.",
-      "subscribed": "Vous êtes abonné à cet événement.",
+      "subscribed": "Vous êtes inscrit à cet événement.",
       "unsubscribed": "Vous vous êtes désabonné de cet événement.",
       "waitlisted": "Vous êtes sur la liste d'attente pour cet événement.",
       "unwaitlisted": "Vous avez été retiré de la liste d'attente.",

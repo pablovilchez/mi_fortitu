@@ -69,7 +69,7 @@ class SlotsBloc extends Bloc<SlotsEvent, SlotsState> {
     for (final slot in slotsToDelete) {
       final result = await destroySlotsUsecase.repository.destroySlot(slot.id);
       if (result.isLeft()) {
-        emit(SlotsError(result.swap().getOrElse(() => SlotsFailure('Unknown error')).toString()));
+        emit(SlotsError(result.swap().getOrElse(() => const SlotsFailure('Unknown error')).toString()));
         return;
       }
     }

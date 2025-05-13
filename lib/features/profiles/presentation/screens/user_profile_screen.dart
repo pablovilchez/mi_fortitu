@@ -24,7 +24,7 @@ class UserProfileScreen extends StatelessWidget {
               onPressed: () {
                 showDevInfoDialog(context, 'profileTestInfo');
               },
-              icon: Icon(Icons.adb),
+              icon: const Icon(Icons.adb),
               color: Colors.red,
             ),
           ],

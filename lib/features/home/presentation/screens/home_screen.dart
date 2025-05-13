@@ -41,9 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, state) {
         if (state is UserProfileInitial) {
           context.read<UserProfileBloc>().add(GetUserProfileEvent());
-          return _LoadingView();
+          return const _LoadingView();
         } else if (state is UserProfileLoading) {
-          return _LoadingView();
+          return const _LoadingView();
         } else if (state is UserProfileError) {
           return _ErrorView(message: state.message);
         } else if (state is UserProfileSuccess) {
@@ -113,17 +113,17 @@ class _HomeView extends StatelessWidget {
                       onPressed: () {
                         showDevInfoDialog(context, 'homeTestInfo');
                       },
-                      icon: Icon(Icons.adb),
+                      icon: const Icon(Icons.adb),
                       color: Colors.red,
                     ),
                   ],
                 ),
                 // HomeUserCards(profile: profile),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Expanded(
                   child: ShaderMask(
                     shaderCallback: (bounds) {
-                      return LinearGradient(
+                      return const LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
@@ -136,7 +136,7 @@ class _HomeView extends StatelessWidget {
                       ).createShader(bounds);
                     },
                     blendMode: BlendMode.dstOut,
-                    child: SingleChildScrollView(child: TilesList()),
+                    child: const SingleChildScrollView(child: TilesList()),
                   ),
                 ),
               ],
@@ -149,7 +149,7 @@ class _HomeView extends StatelessWidget {
 }
 
 class _LoadingView extends StatelessWidget {
-  const _LoadingView({super.key});
+  const _LoadingView();
 
   @override
   Widget build(BuildContext context) {
@@ -159,8 +159,8 @@ class _LoadingView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(tr('home.message.loading_profile')),
-            SizedBox(height: 20),
-            CircularProgressIndicator(),
+            const SizedBox(height: 20),
+            const CircularProgressIndicator(),
           ],
         ),
       ),
@@ -171,7 +171,7 @@ class _LoadingView extends StatelessWidget {
 class _ErrorView extends StatelessWidget {
   final String message;
 
-  const _ErrorView({super.key, required this.message});
+  const _ErrorView({required this.message});
 
   @override
   Widget build(BuildContext context) {

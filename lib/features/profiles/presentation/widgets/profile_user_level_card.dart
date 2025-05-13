@@ -15,61 +15,49 @@ class ProfileLevelUserProjects extends StatelessWidget {
       child: Card(
         child: Padding(
           padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 4),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
             children: [
-              SizedBox(
-                width: 80,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${tr('profile.user.grade')}:',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(cursus.grade, style: const TextStyle(fontSize: 13)),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 16),
-              Column(
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '${tr('profile.user.level')}:',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Column(
+                    children: [
+                      Text(
+                        '${tr('profile.user.level')}:',
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        cursus.level.truncate().toString(),
+                        style: const TextStyle(fontSize: 24),
+                      ),
+                    ],
                   ),
-                  Text(
-                    cursus.level.truncate().toString(),
-                    style: const TextStyle(fontSize: 20),
+                  const SizedBox(width: 5),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        const SizedBox(height: 8),
+                        Text('${percentage.toString()}%', style: const TextStyle(fontSize: 16)),
+                        LinearProgressIndicator(
+                          minHeight: 10,
+                          value: percentage / 100,
+                          backgroundColor: Colors.grey[800],
+                          valueColor: const AlwaysStoppedAnimation(Colors.cyan),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(width: 5),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(height: 8),
-                    Text(
-                      '${percentage.toString()}%',
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                    LinearProgressIndicator(
-                      minHeight: 10,
-                      value: percentage / 100,
-                      backgroundColor: Colors.grey[800],
-                      valueColor: const AlwaysStoppedAnimation(Colors.cyan),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('${tr('profile.user.grade')}:', style: const TextStyle(fontSize: 16)),
+                  const SizedBox(width: 4),
+                  Text(cursus.grade, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold,)),
+                ],
               ),
             ],
           ),

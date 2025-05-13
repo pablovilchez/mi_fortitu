@@ -11,11 +11,11 @@ class PeerModel extends PeerEntity {
   factory PeerModel.fromJson(Map<String, dynamic> user) {
     final image = user['image'] as Map<String, dynamic>?;
     if (image == null) {
-      throw FormatException('Missing "image" field in JSON');
+      throw const FormatException('Missing "image" field in JSON');
     }
     final versions = image['versions'] as Map<String, dynamic>?;
     if (versions == null) {
-      throw FormatException('Missing "versions" field in JSON');
+      throw const FormatException('Missing "versions" field in JSON');
     }
     return PeerModel(
       loginName: user['login'] ?? 'unknown',

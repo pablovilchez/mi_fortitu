@@ -48,7 +48,7 @@ class ProfileUserSkills extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 6),
+        const SizedBox(height: 6),
       ],
     );
   }
